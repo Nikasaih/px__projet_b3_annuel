@@ -1,4 +1,4 @@
-package b3.projetpro.backend.entity;
+package btree.projetpro.backend.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

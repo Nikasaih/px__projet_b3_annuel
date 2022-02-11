@@ -1,4 +1,4 @@
-package b3.projetpro.backend.entity;
+package btree.projetpro.backend.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +13,9 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommentEntity {
+public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private Float grade;
-    private String text;
-
+    private String room;
 }
