@@ -1,13 +1,14 @@
-package btree.projetpro.backend.controller;
+package btree.projetpro.backend.article.controller;
 
-import btree.projetpro.backend.entity.ArticleEntity;
-import btree.projetpro.backend.repository.ArticleRepository;
+import btree.projetpro.backend.article.ArticleEntity;
+import btree.projetpro.backend.article.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -17,9 +18,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
-@RequestMapping("/articles")
+@RequestMapping("/public/articles")
 @RestController
-public class ArticleController {
+public class ArticleControllerPublic {
     @Autowired
     ArticleRepository articleRepository;
 
@@ -28,21 +29,21 @@ public class ArticleController {
         List<EntityModel<ArticleEntity>> articlesWithHateoas = articleRepository.findAll()
                 .stream()
                 .map(article -> EntityModel.of(article,
-                        linkTo(methodOn(ArticleController.class)
+                        linkTo(methodOn(ArticleControllerPublic.class)
                                 .getArticleById(article.getId()))
                                 .withRel("getSelf"),
 
-                        linkTo(methodOn(ArticleController.class)
+                        linkTo(methodOn(ArticleControllerPublic.class)
                                 .getAllArticles())
                                 .withRel("getAll"),
 
-                        linkTo(methodOn(ArticleController.class)
+                        linkTo(methodOn(ArticleControllerAdmin.class)
                                 .deleteArticle(article.getId()))
                                 .withRel("DeleteArticle")))
                 .collect(Collectors.toList());
 
         return CollectionModel.of(articlesWithHateoas,
-                linkTo(methodOn(ArticleController.class).getAllArticles()).withSelfRel());
+                linkTo(methodOn(ArticleControllerPublic.class).getAllArticles()).withSelfRel());
     }
 
     @GetMapping("/{articleId}")
@@ -50,31 +51,16 @@ public class ArticleController {
         final ArticleEntity article = articleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("article not found"));
 
         return EntityModel.of(article,
-                linkTo(methodOn(ArticleController.class)
+                linkTo(methodOn(ArticleControllerPublic.class)
                         .getArticleById(id))
                         .withSelfRel(),
 
-                linkTo(methodOn(ArticleController.class)
+                linkTo(methodOn(ArticleControllerPublic.class)
                         .getAllArticles())
                         .withRel("listAll"),
 
-                linkTo(methodOn(ArticleController.class)
+                linkTo(methodOn(ArticleControllerAdmin.class)
                         .deleteArticle(id))
                         .withRel("deleteSelf"));
     }
-
-    @PostMapping
-    public ResponseEntity<ArticleEntity> createArticle(@RequestBody ArticleEntity article) {
-        articleRepository.save(article);
-
-        return new ResponseEntity<>(article, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/{articleId}")
-    public ResponseEntity<ArticleEntity> deleteArticle(@PathVariable("articleId") Long articleId) {
-        articleRepository.deleteById(articleId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
 }

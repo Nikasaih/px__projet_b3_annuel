@@ -1,4 +1,4 @@
-package btree.projetpro.backend.entity;
+package btree.projetpro.backend.categorie;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +13,9 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MaterialEntity {
+public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String name;
-    private String type;
+    private String room;
 }

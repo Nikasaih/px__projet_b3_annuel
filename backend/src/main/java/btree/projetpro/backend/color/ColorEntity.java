@@ -1,4 +1,4 @@
-package btree.projetpro.backend.entity;
+package btree.projetpro.backend.color;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +13,10 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CommentEntity {
+public class ColorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private Float grade;
-    private String text;
-
+    private String name;
+    private String hexacode;
 }

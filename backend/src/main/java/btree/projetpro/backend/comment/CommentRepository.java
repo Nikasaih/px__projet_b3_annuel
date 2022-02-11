@@ -1,6 +1,5 @@
-package btree.projetpro.backend.repository;
+package btree.projetpro.backend.comment;
 
-import btree.projetpro.backend.entity.CommentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

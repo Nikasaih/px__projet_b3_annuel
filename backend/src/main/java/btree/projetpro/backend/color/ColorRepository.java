@@ -1,6 +1,5 @@
-package btree.projetpro.backend.repository;
+package btree.projetpro.backend.color;
 
-import btree.projetpro.backend.entity.ColorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

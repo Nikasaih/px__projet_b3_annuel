@@ -1,5 +1,9 @@
-package btree.projetpro.backend.entity;
+package btree.projetpro.backend.article;
 
+import btree.projetpro.backend.categorie.CategoryEntity;
+import btree.projetpro.backend.color.ColorEntity;
+import btree.projetpro.backend.comment.CommentEntity;
+import btree.projetpro.backend.material.MaterialEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

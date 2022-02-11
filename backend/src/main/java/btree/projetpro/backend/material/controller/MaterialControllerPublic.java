@@ -1,13 +1,14 @@
-package btree.projetpro.backend.controller;
+package btree.projetpro.backend.material.controller;
 
-import btree.projetpro.backend.entity.MaterialEntity;
-import btree.projetpro.backend.repository.MaterialRepository;
+import btree.projetpro.backend.material.MaterialEntity;
+import btree.projetpro.backend.material.MaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -17,33 +18,32 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
-@RequestMapping("/materials")
+@RequestMapping("/public/materials")
 @RestController
-public class MaterialController {
+public class MaterialControllerPublic {
     @Autowired
     MaterialRepository materialRepository;
-
 
     @GetMapping
     public CollectionModel<EntityModel<MaterialEntity>> getAllMaterials() {
         List<EntityModel<MaterialEntity>> materialsWithHateoas = materialRepository.findAll()
                 .stream()
                 .map(material -> EntityModel.of(material,
-                        linkTo(methodOn(MaterialController.class)
+                        linkTo(methodOn(MaterialControllerPublic.class)
                                 .getMaterialById(material.getId()))
                                 .withRel("getSelf"),
 
-                        linkTo(methodOn(MaterialController.class)
+                        linkTo(methodOn(MaterialControllerPublic.class)
                                 .getAllMaterials())
                                 .withRel("getAll"),
 
-                        linkTo(methodOn(MaterialController.class)
+                        linkTo(methodOn(MaterialControllerAdmin.class)
                                 .deleteMaterial(material.getId()))
                                 .withRel("DeleteMaterial")))
                 .collect(Collectors.toList());
 
         return CollectionModel.of(materialsWithHateoas,
-                linkTo(methodOn(MaterialController.class).getAllMaterials()).withSelfRel());
+                linkTo(methodOn(MaterialControllerPublic.class).getAllMaterials()).withSelfRel());
     }
 
     @GetMapping("/{materialId}")
@@ -51,30 +51,16 @@ public class MaterialController {
         final MaterialEntity material = materialRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("material not found"));
 
         return EntityModel.of(material,
-                linkTo(methodOn(MaterialController.class)
+                linkTo(methodOn(MaterialControllerPublic.class)
                         .getMaterialById(id))
                         .withSelfRel(),
 
-                linkTo(methodOn(MaterialController.class)
+                linkTo(methodOn(MaterialControllerPublic.class)
                         .getAllMaterials())
                         .withRel("listAll"),
 
-                linkTo(methodOn(MaterialController.class)
+                linkTo(methodOn(MaterialControllerAdmin.class)
                         .deleteMaterial(id))
                         .withRel("deleteSelf"));
-    }
-
-    @PostMapping
-    public ResponseEntity<MaterialEntity> createMaterial(@RequestBody MaterialEntity material) {
-        materialRepository.save(material);
-
-        return new ResponseEntity<>(material, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/{materialId}")
-    public ResponseEntity<MaterialEntity> deleteMaterial(@PathVariable("materialId") Long materialId) {
-        materialRepository.deleteById(materialId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

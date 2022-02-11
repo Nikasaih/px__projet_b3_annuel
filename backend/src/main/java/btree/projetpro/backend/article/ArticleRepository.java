@@ -1,6 +1,5 @@
-package btree.projetpro.backend.repository;
+package btree.projetpro.backend.article;
 
-import btree.projetpro.backend.entity.ArticleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
