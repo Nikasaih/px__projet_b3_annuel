@@ -6,8 +6,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.PathVariable;
 
 public interface ReqControllerPublic {
-    public EntityModel<ArticleEntity> getById(@PathVariable("id") Long id);
+    EntityModel<ArticleEntity> getById(@PathVariable("id") Long id);
 
-    public CollectionModel<EntityModel<ArticleEntity>> getAll();
+    CollectionModel<EntityModel<ArticleEntity>> getAll();
 
 }

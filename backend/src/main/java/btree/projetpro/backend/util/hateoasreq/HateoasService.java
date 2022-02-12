@@ -1,10 +1,7 @@
 package btree.projetpro.backend.util.hateoasreq;
 
-import btree.projetpro.backend.article.controller.ArticleControllerAdmin;
-import btree.projetpro.backend.article.controller.ArticleControllerPublic;
 import btree.projetpro.backend.util.dto.Entities;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
