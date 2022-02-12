@@ -1,5 +1,6 @@
 package btree.projetpro.backend.color;
 
+import btree.projetpro.backend.util.Entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ColorEntity {
+public class ColorEntity implements Entities {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;

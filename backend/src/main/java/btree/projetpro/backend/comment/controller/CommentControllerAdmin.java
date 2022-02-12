@@ -1,7 +1,9 @@
 package btree.projetpro.backend.comment.controller;
 
+import btree.projetpro.backend.comment.CommentDto;
 import btree.projetpro.backend.comment.CommentEntity;
 import btree.projetpro.backend.comment.CommentRepository;
+import btree.projetpro.backend.util.DtoEntityConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +14,16 @@ import org.springframework.web.bind.annotation.*;
 public class CommentControllerAdmin {
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    DtoEntityConverter dtoEntityConverter;
 
     @PostMapping
-    public ResponseEntity<CommentEntity> createComment(@RequestBody CommentEntity comment) {
-        commentRepository.save(comment);
+    public ResponseEntity<CommentEntity> createComment(@RequestBody CommentDto commentDto) {
+        CommentEntity entityToSave = (CommentEntity) dtoEntityConverter.dtoToEntity(commentDto, new CommentEntity());
 
-        return new ResponseEntity<>(comment, HttpStatus.CREATED);
+        commentRepository.save(entityToSave);
+
+        return new ResponseEntity<>(entityToSave, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{commentId}")

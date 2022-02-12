@@ -1,7 +1,9 @@
 package btree.projetpro.backend.categorie.controller;
 
+import btree.projetpro.backend.categorie.CategoryDto;
 import btree.projetpro.backend.categorie.CategoryEntity;
 import btree.projetpro.backend.categorie.CategoryRepository;
+import btree.projetpro.backend.util.DtoEntityConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +14,16 @@ import org.springframework.web.bind.annotation.*;
 public class CategoriesControllerAdmin {
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    DtoEntityConverter dtoEntityConverter;
 
     @PostMapping
-    public ResponseEntity<CategoryEntity> createCategorie(@RequestBody CategoryEntity categorie) {
-        categoryRepository.save(categorie);
+    public ResponseEntity<CategoryEntity> createCategorie(@RequestBody CategoryDto categorieDto) {
+        CategoryEntity entityToSave = (CategoryEntity) dtoEntityConverter.dtoToEntity(categorieDto, new CategoryEntity());
 
-        return new ResponseEntity<>(categorie, HttpStatus.CREATED);
+        categoryRepository.save(entityToSave);
+
+        return new ResponseEntity<>(entityToSave, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{categorieId}")

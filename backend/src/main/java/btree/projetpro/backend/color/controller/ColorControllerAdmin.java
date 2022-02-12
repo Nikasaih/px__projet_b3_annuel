@@ -1,7 +1,9 @@
 package btree.projetpro.backend.color.controller;
 
+import btree.projetpro.backend.color.ColorDto;
 import btree.projetpro.backend.color.ColorEntity;
 import btree.projetpro.backend.color.ColorRepository;
+import btree.projetpro.backend.util.DtoEntityConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class ColorControllerAdmin {
     @Autowired
     ColorRepository colorRepository;
+    @Autowired
+    DtoEntityConverter dtoEntityConverter;
 
     @PostMapping
-    public ResponseEntity<ColorEntity> createColor(@RequestBody ColorEntity color) {
-        colorRepository.save(color);
+    public ResponseEntity<ColorEntity> createColor(@RequestBody ColorDto colorDto) {
+        ColorEntity entityToSave = (ColorEntity) dtoEntityConverter.dtoToEntity(colorDto, new ColorEntity());
 
-        return new ResponseEntity<>(color, HttpStatus.CREATED);
+        colorRepository.save(entityToSave);
+
+        return new ResponseEntity<>(entityToSave, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{colorId}")
