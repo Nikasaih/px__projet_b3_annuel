@@ -2,6 +2,8 @@ package btree.projetpro.backend.color.controller;
 
 import btree.projetpro.backend.color.ColorEntity;
 import btree.projetpro.backend.color.ColorRepository;
+import btree.projetpro.backend.util.hateoas.HateoasService;
+import btree.projetpro.backend.util.hateoas.ReqControllerPublic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -20,49 +21,31 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequestMapping("/public/colors")
 @RestController
-public class ColorControllerPublic {
+public class ColorControllerPublic implements ReqControllerPublic<ColorEntity> {
     @Autowired
     ColorRepository colorRepository;
+    @Autowired
+    HateoasService hateoasService;
+    @Autowired
+    ColorControllerAdmin colorControllerAdmin;
 
+    @Override
+    @GetMapping("/{id}")
+    public EntityModel<ColorEntity> getById(@PathVariable("id") Long id) {
+        final ColorEntity colorFound = colorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("color not found"));
+
+        return hateoasService.getOne(colorFound, this, colorControllerAdmin);
+    }
+
+    @Override
     @GetMapping
-    public CollectionModel<EntityModel<ColorEntity>> getAllColors() {
-        List<EntityModel<ColorEntity>> colorsWithHateoas = colorRepository.findAll()
-                .stream()
-                .map(color -> EntityModel.of(color,
-                        linkTo(methodOn(ColorControllerPublic.class)
-                                .getColorById(color.getId()))
-                                .withRel("getSelf"),
+    public CollectionModel<EntityModel<ColorEntity>> getAll() {
 
-                        linkTo(methodOn(ColorControllerPublic.class)
-                                .getAllColors())
-                                .withRel("getAll"),
-
-                        linkTo(methodOn(ColorControllerAdmin.class)
-                                .deleteColor(color.getId()))
-                                .withRel("DeleteColor")))
-                .collect(Collectors.toList());
+        List<EntityModel<ColorEntity>> colorsWithHateoas = hateoasService.getAll(colorRepository.findAll(),
+                this,
+                colorControllerAdmin);
 
         return CollectionModel.of(colorsWithHateoas,
-                linkTo(methodOn(ColorControllerPublic.class).getAllColors()).withSelfRel());
+                linkTo(methodOn(ColorControllerPublic.class).getAll()).withSelfRel());
     }
-
-    @GetMapping("/{colorId}")
-    public EntityModel<ColorEntity> getColorById(@PathVariable("colorId") Long id) {
-        final ColorEntity color = colorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("color not found"));
-
-        return EntityModel.of(color,
-                linkTo(methodOn(ColorControllerPublic.class)
-                        .getColorById(id))
-                        .withSelfRel(),
-
-                linkTo(methodOn(ColorControllerPublic.class)
-                        .getAllColors())
-                        .withRel("listAll"),
-
-                linkTo(methodOn(ColorControllerAdmin.class)
-                        .deleteColor(id))
-                        .withRel("deleteSelf"));
-    }
-
-
 }

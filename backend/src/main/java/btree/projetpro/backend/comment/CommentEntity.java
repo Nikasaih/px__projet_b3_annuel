@@ -1,6 +1,6 @@
 package btree.projetpro.backend.comment;
 
-import btree.projetpro.backend.util.dto.Entities;
+import btree.projetpro.backend.util.persistenceservice.Entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

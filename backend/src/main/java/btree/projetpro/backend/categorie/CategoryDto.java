@@ -1,6 +1,6 @@
 package btree.projetpro.backend.categorie;
 
-import btree.projetpro.backend.util.dto.Dto;
+import btree.projetpro.backend.util.persistenceservice.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

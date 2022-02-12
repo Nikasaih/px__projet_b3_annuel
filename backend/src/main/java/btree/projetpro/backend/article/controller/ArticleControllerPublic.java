@@ -2,8 +2,8 @@ package btree.projetpro.backend.article.controller;
 
 import btree.projetpro.backend.article.ArticleEntity;
 import btree.projetpro.backend.article.ArticleRepository;
-import btree.projetpro.backend.util.hateoasreq.HateoasService;
-import btree.projetpro.backend.util.hateoasreq.ReqControllerPublic;
+import btree.projetpro.backend.util.hateoas.HateoasService;
+import btree.projetpro.backend.util.hateoas.ReqControllerPublic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -21,7 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequestMapping("/public/articles")
 @RestController
-public class ArticleControllerPublic implements ReqControllerPublic {
+public class ArticleControllerPublic implements ReqControllerPublic<ArticleEntity> {
     @Autowired
     ArticleRepository articleRepository;
     @Autowired
@@ -37,8 +37,6 @@ public class ArticleControllerPublic implements ReqControllerPublic {
         return hateoasService.getOne(articleFound,
                 this,
                 articleControllerAdmin);
-
-
     }
 
     @Override
@@ -48,7 +46,6 @@ public class ArticleControllerPublic implements ReqControllerPublic {
         List<EntityModel<ArticleEntity>> articlesWithHateoas = hateoasService.getAll(articleRepository.findAll(),
                 this,
                 articleControllerAdmin);
-
 
         return CollectionModel.of(articlesWithHateoas,
                 linkTo(methodOn(ArticleControllerPublic.class).getAll()).withSelfRel());

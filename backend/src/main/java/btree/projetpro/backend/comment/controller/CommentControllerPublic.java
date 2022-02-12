@@ -2,6 +2,8 @@ package btree.projetpro.backend.comment.controller;
 
 import btree.projetpro.backend.comment.CommentEntity;
 import btree.projetpro.backend.comment.CommentRepository;
+import btree.projetpro.backend.util.hateoas.HateoasService;
+import btree.projetpro.backend.util.hateoas.ReqControllerPublic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -12,54 +14,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequestMapping("/public/comments")
 @RestController
-public class CommentControllerPublic {
+public class CommentControllerPublic implements ReqControllerPublic<CommentEntity> {
     @Autowired
     CommentRepository commentRepository;
+    @Autowired
+    HateoasService hateoasService;
+    @Autowired
+    CommentControllerAdmin commentControllerAdmin;
 
-    @GetMapping
-    public CollectionModel<EntityModel<CommentEntity>> getAllComments() {
-        List<EntityModel<CommentEntity>> commentsWithHateoas = commentRepository.findAll()
-                .stream()
-                .map(comment -> EntityModel.of(comment,
-                        linkTo(methodOn(CommentControllerPublic.class)
-                                .getCommentById(comment.getId()))
-                                .withRel("getSelf"),
+    @Override
+    @GetMapping("/{id}")
+    public EntityModel<CommentEntity> getById(@PathVariable("id") Long id) {
+        final CommentEntity commentFound = commentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Comment not found"));
 
-                        linkTo(methodOn(CommentControllerPublic.class)
-                                .getAllComments())
-                                .withRel("getAll"),
-
-                        linkTo(methodOn(CommentControllerAdmin.class)
-                                .deleteComment(comment.getId()))
-                                .withRel("DeleteComment")))
-                .collect(Collectors.toList());
-
-        return CollectionModel.of(commentsWithHateoas,
-                linkTo(methodOn(CommentControllerPublic.class).getAllComments()).withSelfRel());
+        return hateoasService.getOne(commentFound,
+                this,
+                commentControllerAdmin);
     }
 
-    @GetMapping("/{commentId}")
-    public EntityModel<CommentEntity> getCommentById(@PathVariable("commentId") Long id) {
-        final CommentEntity comment = commentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("comment not found"));
+    @Override
+    public CollectionModel<EntityModel<CommentEntity>> getAll() {
+        List<EntityModel<CommentEntity>> articlesWithHateoas = hateoasService.getAll(commentRepository.findAll(),
+                this,
+                commentControllerAdmin);
 
-        return EntityModel.of(comment,
-                linkTo(methodOn(CommentControllerPublic.class)
-                        .getCommentById(id))
-                        .withSelfRel(),
-
-                linkTo(methodOn(CommentControllerPublic.class)
-                        .getAllComments())
-                        .withRel("listAll"),
-
-                linkTo(methodOn(CommentControllerAdmin.class)
-                        .deleteComment(id))
-                        .withRel("deleteSelf"));
+        return CollectionModel.of(articlesWithHateoas,
+                linkTo(methodOn(CommentControllerPublic.class).getAll()).withSelfRel());
     }
 }

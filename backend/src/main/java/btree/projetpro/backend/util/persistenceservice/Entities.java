@@ -1,4 +1,4 @@
-package btree.projetpro.backend.util.dto;
+package btree.projetpro.backend.util.persistenceservice;
 
 import lombok.Getter;
 

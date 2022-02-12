@@ -3,8 +3,8 @@ package btree.projetpro.backend.article.controller;
 import btree.projetpro.backend.article.ArticleDto;
 import btree.projetpro.backend.article.ArticleEntity;
 import btree.projetpro.backend.article.ArticleRepository;
-import btree.projetpro.backend.util.dto.DtoEntityConverterService;
-import btree.projetpro.backend.util.hateoasreq.ReqControllerAdmin;
+import btree.projetpro.backend.util.persistenceservice.DtoEntityConverterService;
+import btree.projetpro.backend.util.hateoas.ReqControllerAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/admin/articles")
 @RestController
-public class ArticleControllerAdmin implements ReqControllerAdmin {
+public class ArticleControllerAdmin implements ReqControllerAdmin<ArticleEntity> {
     @Autowired
     ArticleRepository articleRepository;
     @Autowired

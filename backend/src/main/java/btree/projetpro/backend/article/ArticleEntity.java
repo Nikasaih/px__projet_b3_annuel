@@ -4,7 +4,7 @@ import btree.projetpro.backend.categorie.CategoryEntity;
 import btree.projetpro.backend.color.ColorEntity;
 import btree.projetpro.backend.comment.CommentEntity;
 import btree.projetpro.backend.material.MaterialEntity;
-import btree.projetpro.backend.util.dto.Entities;
+import btree.projetpro.backend.util.persistenceservice.Entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
