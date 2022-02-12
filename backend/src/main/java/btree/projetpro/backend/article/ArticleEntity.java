@@ -11,9 +11,10 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,21 +29,17 @@ public class ArticleEntity extends Entities {
     private Long customerNumber;
     private String imagePath;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "categories_id")
-    private List<CategoryEntity> categories;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<CategoryEntity> categories = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<MaterialEntity> materials = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<ColorEntity> colors = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "materials_id")
-    private List<MaterialEntity> materials;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "colors_id")
-    private List<ColorEntity> colors;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id")
-    private List<CommentEntity> comment;
+    private Set<CommentEntity> comment = new HashSet<>();
 
 
 }
