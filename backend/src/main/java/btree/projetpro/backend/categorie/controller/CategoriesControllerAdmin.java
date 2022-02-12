@@ -16,10 +16,11 @@ public class CategoriesControllerAdmin {
     CategoryRepository categoryRepository;
     @Autowired
     DtoEntityConverter dtoEntityConverter;
+    CategoryEntity uselessEntityForDtoConversion = new CategoryEntity();
 
     @PostMapping
     public ResponseEntity<CategoryEntity> createCategorie(@RequestBody CategoryDto categorieDto) {
-        CategoryEntity entityToSave = (CategoryEntity) dtoEntityConverter.dtoToEntity(categorieDto, new CategoryEntity());
+        CategoryEntity entityToSave = (CategoryEntity) dtoEntityConverter.dtoToEntity(categorieDto, uselessEntityForDtoConversion);
 
         categoryRepository.save(entityToSave);
 

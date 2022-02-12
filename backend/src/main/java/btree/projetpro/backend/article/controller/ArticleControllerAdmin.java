@@ -17,11 +17,12 @@ public class ArticleControllerAdmin {
     ArticleRepository articleRepository;
     @Autowired
     DtoEntityConverter dtoEntityConverter;
+    ArticleEntity uselessEntityForDtoConversion = new ArticleEntity();
 
     @PostMapping
     public ResponseEntity<ArticleEntity> createArticle(@RequestBody ArticleDto articleDto) {
 
-        ArticleEntity entityToSave = (ArticleEntity) dtoEntityConverter.dtoToEntity(articleDto, new ArticleEntity());
+        ArticleEntity entityToSave = (ArticleEntity) dtoEntityConverter.dtoToEntity(articleDto, uselessEntityForDtoConversion);
 
         articleRepository.save(entityToSave);
 

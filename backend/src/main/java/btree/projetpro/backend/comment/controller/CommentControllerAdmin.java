@@ -1,5 +1,6 @@
 package btree.projetpro.backend.comment.controller;
 
+import btree.projetpro.backend.article.ArticleEntity;
 import btree.projetpro.backend.comment.CommentDto;
 import btree.projetpro.backend.comment.CommentEntity;
 import btree.projetpro.backend.comment.CommentRepository;
@@ -16,10 +17,11 @@ public class CommentControllerAdmin {
     CommentRepository commentRepository;
     @Autowired
     DtoEntityConverter dtoEntityConverter;
+    CommentEntity uselessEntityForDtoConvertion = new CommentEntity();
 
     @PostMapping
     public ResponseEntity<CommentEntity> createComment(@RequestBody CommentDto commentDto) {
-        CommentEntity entityToSave = (CommentEntity) dtoEntityConverter.dtoToEntity(commentDto, new CommentEntity());
+        CommentEntity entityToSave = (CommentEntity) dtoEntityConverter.dtoToEntity(commentDto, uselessEntityForDtoConvertion);
 
         commentRepository.save(entityToSave);
 

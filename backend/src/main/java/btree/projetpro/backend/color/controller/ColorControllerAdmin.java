@@ -17,10 +17,11 @@ public class ColorControllerAdmin {
     ColorRepository colorRepository;
     @Autowired
     DtoEntityConverter dtoEntityConverter;
+    ColorEntity uselessEntityForDtoConversion = new ColorEntity();
 
     @PostMapping
     public ResponseEntity<ColorEntity> createColor(@RequestBody ColorDto colorDto) {
-        ColorEntity entityToSave = (ColorEntity) dtoEntityConverter.dtoToEntity(colorDto, new ColorEntity());
+        ColorEntity entityToSave = (ColorEntity) dtoEntityConverter.dtoToEntity(colorDto, uselessEntityForDtoConversion);
 
         colorRepository.save(entityToSave);
 

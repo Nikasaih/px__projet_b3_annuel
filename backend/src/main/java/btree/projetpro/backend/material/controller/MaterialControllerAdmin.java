@@ -16,10 +16,11 @@ public class MaterialControllerAdmin {
     MaterialRepository materialRepository;
     @Autowired
     DtoEntityConverter dtoEntityConverter;
+    MaterialEntity uselessEntityForDtoConversion = new MaterialEntity();
 
     @PostMapping
     public ResponseEntity<MaterialEntity> createMaterial(@RequestBody MaterialDto materialDto) {
-        MaterialEntity entityToSave = (MaterialEntity) dtoEntityConverter.dtoToEntity(materialDto, new MaterialEntity());
+        MaterialEntity entityToSave = (MaterialEntity) dtoEntityConverter.dtoToEntity(materialDto, uselessEntityForDtoConversion);
 
         materialRepository.save(entityToSave);
 
