@@ -1,6 +1,6 @@
 package btree.projetpro.backend.categorie;
 
-import btree.projetpro.backend.util.Dto;
+import btree.projetpro.backend.util.dto.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CategoryDto implements Dto {
+public class CategoryDto extends Dto {
 
 
 }

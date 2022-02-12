@@ -4,7 +4,7 @@ import btree.projetpro.backend.categorie.CategoryEntity;
 import btree.projetpro.backend.color.ColorEntity;
 import btree.projetpro.backend.comment.CommentEntity;
 import btree.projetpro.backend.material.MaterialEntity;
-import btree.projetpro.backend.util.Entities;
+import btree.projetpro.backend.util.dto.Entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,11 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ArticleEntity implements Entities {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+public class ArticleEntity extends Entities {
     private String name;
     private Long price;
     private String description;

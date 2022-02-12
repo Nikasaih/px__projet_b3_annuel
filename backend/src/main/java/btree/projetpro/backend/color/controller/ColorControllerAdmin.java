@@ -3,7 +3,7 @@ package btree.projetpro.backend.color.controller;
 import btree.projetpro.backend.color.ColorDto;
 import btree.projetpro.backend.color.ColorEntity;
 import btree.projetpro.backend.color.ColorRepository;
-import btree.projetpro.backend.util.DtoEntityConverter;
+import btree.projetpro.backend.util.dto.DtoEntityConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class ColorControllerAdmin {
     @Autowired
     ColorRepository colorRepository;
     @Autowired
-    DtoEntityConverter dtoEntityConverter;
+    DtoEntityConverterService dtoEntityConverter;
     ColorEntity uselessEntityForDtoConversion = new ColorEntity();
 
     @PostMapping

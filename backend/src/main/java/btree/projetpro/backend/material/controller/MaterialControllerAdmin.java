@@ -3,7 +3,7 @@ package btree.projetpro.backend.material.controller;
 import btree.projetpro.backend.material.MaterialDto;
 import btree.projetpro.backend.material.MaterialEntity;
 import btree.projetpro.backend.material.MaterialRepository;
-import btree.projetpro.backend.util.DtoEntityConverter;
+import btree.projetpro.backend.util.dto.DtoEntityConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ public class MaterialControllerAdmin {
     @Autowired
     MaterialRepository materialRepository;
     @Autowired
-    DtoEntityConverter dtoEntityConverter;
+    DtoEntityConverterService dtoEntityConverter;
     MaterialEntity uselessEntityForDtoConversion = new MaterialEntity();
 
     @PostMapping

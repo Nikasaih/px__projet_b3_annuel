@@ -1,6 +1,6 @@
 package btree.projetpro.backend.material;
 
-import btree.projetpro.backend.util.Entities;
+import btree.projetpro.backend.util.dto.Entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,10 +14,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MaterialEntity implements Entities {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+public class MaterialEntity extends Entities {
     private String name;
     private String type;
 }

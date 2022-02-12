@@ -48,6 +48,8 @@
             <artifactId>spring-hateoas</artifactId>
             <version>1.4.1</version>
         </dependency>
+
+        
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>

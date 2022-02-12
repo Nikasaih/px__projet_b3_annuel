@@ -1,10 +1,9 @@
 package btree.projetpro.backend.comment.controller;
 
-import btree.projetpro.backend.article.ArticleEntity;
 import btree.projetpro.backend.comment.CommentDto;
 import btree.projetpro.backend.comment.CommentEntity;
 import btree.projetpro.backend.comment.CommentRepository;
-import btree.projetpro.backend.util.DtoEntityConverter;
+import btree.projetpro.backend.util.dto.DtoEntityConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ public class CommentControllerAdmin {
     @Autowired
     CommentRepository commentRepository;
     @Autowired
-    DtoEntityConverter dtoEntityConverter;
+    DtoEntityConverterService dtoEntityConverter;
     CommentEntity uselessEntityForDtoConvertion = new CommentEntity();
 
     @PostMapping

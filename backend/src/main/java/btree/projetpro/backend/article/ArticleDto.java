@@ -4,7 +4,7 @@ import btree.projetpro.backend.categorie.CategoryEntity;
 import btree.projetpro.backend.color.ColorEntity;
 import btree.projetpro.backend.comment.CommentEntity;
 import btree.projetpro.backend.material.MaterialEntity;
-import btree.projetpro.backend.util.Dto;
+import btree.projetpro.backend.util.dto.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ArticleDto implements Dto {
+public class ArticleDto extends Dto {
     private Long id;
     private String name;
     private Long price;

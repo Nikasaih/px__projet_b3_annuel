@@ -2,6 +2,8 @@ package btree.projetpro.backend.article.controller;
 
 import btree.projetpro.backend.article.ArticleEntity;
 import btree.projetpro.backend.article.ArticleRepository;
+import btree.projetpro.backend.util.hateoasreq.HateoasService;
+import btree.projetpro.backend.util.hateoasreq.ReqControllerPublic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -20,47 +21,36 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequestMapping("/public/articles")
 @RestController
-public class ArticleControllerPublic {
+public class ArticleControllerPublic implements ReqControllerPublic {
     @Autowired
     ArticleRepository articleRepository;
+    @Autowired
+    HateoasService hateoasService;
+    @Autowired
+    ArticleControllerAdmin articleControllerAdmin;
 
-    @GetMapping
-    public CollectionModel<EntityModel<ArticleEntity>> getAllArticles() {
-        List<EntityModel<ArticleEntity>> articlesWithHateoas = articleRepository.findAll()
-                .stream()
-                .map(article -> EntityModel.of(article,
-                        linkTo(methodOn(ArticleControllerPublic.class)
-                                .getArticleById(article.getId()))
-                                .withRel("getSelf"),
+    @Override
+    @GetMapping("/{id}")
+    public EntityModel<ArticleEntity> getById(@PathVariable("id") Long id) {
+        final ArticleEntity articleFound = articleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("article not found"));
 
-                        linkTo(methodOn(ArticleControllerPublic.class)
-                                .getAllArticles())
-                                .withRel("getAll"),
+        return hateoasService.getOne(articleFound,
+                this,
+                articleControllerAdmin);
 
-                        linkTo(methodOn(ArticleControllerAdmin.class)
-                                .deleteArticle(article.getId()))
-                                .withRel("DeleteArticle")))
-                .collect(Collectors.toList());
 
-        return CollectionModel.of(articlesWithHateoas,
-                linkTo(methodOn(ArticleControllerPublic.class).getAllArticles()).withSelfRel());
     }
 
-    @GetMapping("/{articleId}")
-    public EntityModel<ArticleEntity> getArticleById(@PathVariable("articleId") Long id) {
-        final ArticleEntity article = articleRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("article not found"));
+    @Override
+    @GetMapping
+    public CollectionModel<EntityModel<ArticleEntity>> getAll() {
 
-        return EntityModel.of(article,
-                linkTo(methodOn(ArticleControllerPublic.class)
-                        .getArticleById(id))
-                        .withSelfRel(),
+        List<EntityModel<ArticleEntity>> articlesWithHateoas = hateoasService.getAll(articleRepository.findAll(),
+                this,
+                articleControllerAdmin);
 
-                linkTo(methodOn(ArticleControllerPublic.class)
-                        .getAllArticles())
-                        .withRel("listAll"),
 
-                linkTo(methodOn(ArticleControllerAdmin.class)
-                        .deleteArticle(id))
-                        .withRel("deleteSelf"));
+        return CollectionModel.of(articlesWithHateoas,
+                linkTo(methodOn(ArticleControllerPublic.class).getAll()).withSelfRel());
     }
 }

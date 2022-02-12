@@ -3,7 +3,8 @@ package btree.projetpro.backend.article.controller;
 import btree.projetpro.backend.article.ArticleDto;
 import btree.projetpro.backend.article.ArticleEntity;
 import btree.projetpro.backend.article.ArticleRepository;
-import btree.projetpro.backend.util.DtoEntityConverter;
+import btree.projetpro.backend.util.dto.DtoEntityConverterService;
+import btree.projetpro.backend.util.hateoasreq.ReqControllerAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,26 +13,26 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/admin/articles")
 @RestController
-public class ArticleControllerAdmin {
+public class ArticleControllerAdmin implements ReqControllerAdmin {
     @Autowired
     ArticleRepository articleRepository;
     @Autowired
-    DtoEntityConverter dtoEntityConverter;
+    DtoEntityConverterService dtoEntityConverter;
     ArticleEntity uselessEntityForDtoConversion = new ArticleEntity();
 
     @PostMapping
     public ResponseEntity<ArticleEntity> createArticle(@RequestBody ArticleDto articleDto) {
 
         ArticleEntity entityToSave = (ArticleEntity) dtoEntityConverter.dtoToEntity(articleDto, uselessEntityForDtoConversion);
-
         articleRepository.save(entityToSave);
 
         return new ResponseEntity<>(entityToSave, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{articleId}")
-    public ResponseEntity<ArticleEntity> deleteArticle(@PathVariable("articleId") Long articleId) {
-        articleRepository.deleteById(articleId);
+    @Override
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ArticleEntity> deleteOne(@PathVariable("id") Long id) {
+        articleRepository.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

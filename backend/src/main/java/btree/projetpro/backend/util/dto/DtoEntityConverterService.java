@@ -1,13 +1,13 @@
-package btree.projetpro.backend.util;
+package btree.projetpro.backend.util.dto;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-public class DtoEntityConverter {
+@Service
+public class DtoEntityConverterService {
     final ModelMapper mapper = new ModelMapper();
 
     public Dto entityToDto(Entities entity, Dto dto) {
@@ -18,11 +18,11 @@ public class DtoEntityConverter {
         return entities.stream().map(entity -> entityToDto(entity, dto)).collect(Collectors.toList());
     }
 
-    public Entities dtoToEntity(Dto dto, Entities ent) {
-        return mapper.map(dto, ent.getClass());
+    public Entities dtoToEntity(Dto dto, Entities entity) {
+        return mapper.map(dto, entity.getClass());
     }
 
-    public List<Entities> dtosToEntities(List<Dto> dtos, Entities ent) {
-        return dtos.stream().map(dto -> dtoToEntity(dto, ent)).collect(Collectors.toList());
+    public List<Entities> dtosToEntities(List<Dto> dtos, Entities entity) {
+        return dtos.stream().map(dto -> dtoToEntity(dto, entity)).collect(Collectors.toList());
     }
 }
