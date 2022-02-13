@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 
 @Service
 public class FileSystemStorageService implements StorageService {
-
     private final Path rootLocation;
 
     @Autowired
