@@ -1,4 +1,4 @@
-package btree.projetpro.backend.dao.util.persistenceservice;
+package btree.projetpro.backend.dao.services.persistenceservice;
 
 import lombok.Getter;
 import lombok.Setter;

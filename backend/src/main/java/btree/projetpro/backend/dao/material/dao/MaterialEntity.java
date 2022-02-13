@@ -1,7 +1,7 @@
-package btree.projetpro.backend.dao.color;
+package btree.projetpro.backend.dao.material.dao;
 
-import btree.projetpro.backend.dao.article.ArticleEntity;
-import btree.projetpro.backend.dao.util.persistenceservice.Entities;
+import btree.projetpro.backend.dao.article.dao.ArticleEntity;
+import btree.projetpro.backend.dao.services.persistenceservice.Entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,10 +14,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ColorEntity extends Entities {
+public class MaterialEntity extends Entities {
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "category_id")
     private Set<ArticleEntity> article = new HashSet<>();
     private String name;
-    private String hexacode;
+    private String type;
 }

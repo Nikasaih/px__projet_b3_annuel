@@ -1,7 +1,7 @@
-package btree.projetpro.backend.dao.categorie;
+package btree.projetpro.backend.dao.categorie.dao;
 
-import btree.projetpro.backend.dao.article.ArticleEntity;
-import btree.projetpro.backend.dao.util.persistenceservice.Entities;
+import btree.projetpro.backend.dao.article.dao.ArticleEntity;
+import btree.projetpro.backend.dao.services.persistenceservice.Entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

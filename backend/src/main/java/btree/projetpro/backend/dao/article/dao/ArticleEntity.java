@@ -1,10 +1,10 @@
-package btree.projetpro.backend.dao.article;
+package btree.projetpro.backend.dao.article.dao;
 
-import btree.projetpro.backend.dao.categorie.CategoryEntity;
-import btree.projetpro.backend.dao.color.ColorEntity;
-import btree.projetpro.backend.dao.comment.CommentEntity;
-import btree.projetpro.backend.dao.material.MaterialEntity;
-import btree.projetpro.backend.dao.util.persistenceservice.Entities;
+import btree.projetpro.backend.dao.categorie.dao.CategoryEntity;
+import btree.projetpro.backend.dao.color.dao.ColorEntity;
+import btree.projetpro.backend.dao.comment.dao.CommentEntity;
+import btree.projetpro.backend.dao.material.dao.MaterialEntity;
+import btree.projetpro.backend.dao.services.persistenceservice.Entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

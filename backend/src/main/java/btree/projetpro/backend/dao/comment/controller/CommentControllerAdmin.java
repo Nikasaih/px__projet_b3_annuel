@@ -1,10 +1,10 @@
 package btree.projetpro.backend.dao.comment.controller;
 
-import btree.projetpro.backend.dao.comment.CommentDto;
-import btree.projetpro.backend.dao.comment.CommentEntity;
-import btree.projetpro.backend.dao.comment.CommentRepository;
-import btree.projetpro.backend.dao.util.hateoas.ReqControllerAdmin;
-import btree.projetpro.backend.dao.util.persistenceservice.DtoEntityConverterService;
+import btree.projetpro.backend.dao.comment.dao.CommentDto;
+import btree.projetpro.backend.dao.comment.dao.CommentEntity;
+import btree.projetpro.backend.dao.comment.dao.CommentRepository;
+import btree.projetpro.backend.dao.services.hateoas.ReqControllerAdmin;
+import btree.projetpro.backend.dao.services.persistenceservice.DtoEntityConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

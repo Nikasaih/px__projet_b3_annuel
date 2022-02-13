@@ -1,7 +1,7 @@
-package btree.projetpro.backend.dao.material;
+package btree.projetpro.backend.dao.color.dao;
 
-import btree.projetpro.backend.dao.article.ArticleEntity;
-import btree.projetpro.backend.dao.util.persistenceservice.Dto;
+import btree.projetpro.backend.dao.article.dao.ArticleEntity;
+import btree.projetpro.backend.dao.services.persistenceservice.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MaterialDto extends Dto {
+public class ColorDto extends Dto {
     private Set<ArticleEntity> article = new HashSet<>();
     private String name;
-    private String type;
+    private String hexacode;
 }

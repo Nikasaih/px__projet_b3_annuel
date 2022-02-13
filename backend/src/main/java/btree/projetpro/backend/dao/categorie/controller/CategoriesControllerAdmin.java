@@ -1,10 +1,10 @@
 package btree.projetpro.backend.dao.categorie.controller;
 
-import btree.projetpro.backend.dao.categorie.CategoryDto;
-import btree.projetpro.backend.dao.categorie.CategoryEntity;
-import btree.projetpro.backend.dao.categorie.CategoryRepository;
-import btree.projetpro.backend.dao.util.hateoas.ReqControllerAdmin;
-import btree.projetpro.backend.dao.util.persistenceservice.DtoEntityConverterService;
+import btree.projetpro.backend.dao.categorie.dao.CategoryDto;
+import btree.projetpro.backend.dao.categorie.dao.CategoryEntity;
+import btree.projetpro.backend.dao.categorie.dao.CategoryRepository;
+import btree.projetpro.backend.dao.services.hateoas.ReqControllerAdmin;
+import btree.projetpro.backend.dao.services.persistenceservice.DtoEntityConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

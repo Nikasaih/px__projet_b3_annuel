@@ -1,9 +1,9 @@
 package btree.projetpro.backend.dao.categorie.controller;
 
-import btree.projetpro.backend.dao.categorie.CategoryEntity;
-import btree.projetpro.backend.dao.categorie.CategoryRepository;
-import btree.projetpro.backend.dao.util.hateoas.HateoasService;
-import btree.projetpro.backend.dao.util.hateoas.ReqControllerPublic;
+import btree.projetpro.backend.dao.categorie.dao.CategoryEntity;
+import btree.projetpro.backend.dao.categorie.dao.CategoryRepository;
+import btree.projetpro.backend.dao.services.hateoas.HateoasService;
+import btree.projetpro.backend.dao.services.hateoas.ReqControllerPublic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

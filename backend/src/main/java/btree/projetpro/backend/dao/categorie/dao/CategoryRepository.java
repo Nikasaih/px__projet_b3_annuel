@@ -1,4 +1,4 @@
-package btree.projetpro.backend.dao.categorie;
+package btree.projetpro.backend.dao.categorie.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

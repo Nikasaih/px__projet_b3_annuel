@@ -1,10 +1,10 @@
 package btree.projetpro.backend.dao.color.controller;
 
-import btree.projetpro.backend.dao.color.ColorDto;
-import btree.projetpro.backend.dao.color.ColorEntity;
-import btree.projetpro.backend.dao.color.ColorRepository;
-import btree.projetpro.backend.dao.util.hateoas.ReqControllerAdmin;
-import btree.projetpro.backend.dao.util.persistenceservice.DtoEntityConverterService;
+import btree.projetpro.backend.dao.color.dao.ColorDto;
+import btree.projetpro.backend.dao.color.dao.ColorEntity;
+import btree.projetpro.backend.dao.color.dao.ColorRepository;
+import btree.projetpro.backend.dao.services.hateoas.ReqControllerAdmin;
+import btree.projetpro.backend.dao.services.persistenceservice.DtoEntityConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

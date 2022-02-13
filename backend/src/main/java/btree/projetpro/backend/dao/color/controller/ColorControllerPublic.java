@@ -1,9 +1,9 @@
 package btree.projetpro.backend.dao.color.controller;
 
-import btree.projetpro.backend.dao.color.ColorEntity;
-import btree.projetpro.backend.dao.color.ColorRepository;
-import btree.projetpro.backend.dao.util.hateoas.HateoasService;
-import btree.projetpro.backend.dao.util.hateoas.ReqControllerPublic;
+import btree.projetpro.backend.dao.color.dao.ColorEntity;
+import btree.projetpro.backend.dao.color.dao.ColorRepository;
+import btree.projetpro.backend.dao.services.hateoas.HateoasService;
+import btree.projetpro.backend.dao.services.hateoas.ReqControllerPublic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

@@ -1,10 +1,10 @@
 package btree.projetpro.backend.dao.material.controller;
 
-import btree.projetpro.backend.dao.material.MaterialDto;
-import btree.projetpro.backend.dao.material.MaterialEntity;
-import btree.projetpro.backend.dao.material.MaterialRepository;
-import btree.projetpro.backend.dao.util.hateoas.ReqControllerAdmin;
-import btree.projetpro.backend.dao.util.persistenceservice.DtoEntityConverterService;
+import btree.projetpro.backend.dao.material.dao.MaterialDto;
+import btree.projetpro.backend.dao.material.dao.MaterialEntity;
+import btree.projetpro.backend.dao.material.dao.MaterialRepository;
+import btree.projetpro.backend.dao.services.hateoas.ReqControllerAdmin;
+import btree.projetpro.backend.dao.services.persistenceservice.DtoEntityConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

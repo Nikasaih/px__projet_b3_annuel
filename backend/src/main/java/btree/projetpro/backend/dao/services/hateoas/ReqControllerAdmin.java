@@ -1,6 +1,6 @@
-package btree.projetpro.backend.dao.util.hateoas;
+package btree.projetpro.backend.dao.services.hateoas;
 
-import btree.projetpro.backend.dao.util.persistenceservice.Entities;
+import btree.projetpro.backend.dao.services.persistenceservice.Entities;
 import org.springframework.http.ResponseEntity;
 
 public interface ReqControllerAdmin<T extends Entities> {

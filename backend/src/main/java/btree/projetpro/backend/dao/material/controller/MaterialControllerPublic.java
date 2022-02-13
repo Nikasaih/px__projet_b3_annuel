@@ -1,9 +1,9 @@
 package btree.projetpro.backend.dao.material.controller;
 
-import btree.projetpro.backend.dao.material.MaterialEntity;
-import btree.projetpro.backend.dao.material.MaterialRepository;
-import btree.projetpro.backend.dao.util.hateoas.HateoasService;
-import btree.projetpro.backend.dao.util.hateoas.ReqControllerPublic;
+import btree.projetpro.backend.dao.material.dao.MaterialEntity;
+import btree.projetpro.backend.dao.material.dao.MaterialRepository;
+import btree.projetpro.backend.dao.services.hateoas.HateoasService;
+import btree.projetpro.backend.dao.services.hateoas.ReqControllerPublic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

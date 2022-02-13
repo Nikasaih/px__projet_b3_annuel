@@ -1,9 +1,9 @@
 package btree.projetpro.backend.dao.comment.controller;
 
-import btree.projetpro.backend.dao.comment.CommentEntity;
-import btree.projetpro.backend.dao.comment.CommentRepository;
-import btree.projetpro.backend.dao.util.hateoas.HateoasService;
-import btree.projetpro.backend.dao.util.hateoas.ReqControllerPublic;
+import btree.projetpro.backend.dao.comment.dao.CommentEntity;
+import btree.projetpro.backend.dao.comment.dao.CommentRepository;
+import btree.projetpro.backend.dao.services.hateoas.HateoasService;
+import btree.projetpro.backend.dao.services.hateoas.ReqControllerPublic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

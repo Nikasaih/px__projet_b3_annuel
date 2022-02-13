@@ -1,4 +1,4 @@
-package btree.projetpro.backend.dao.comment;
+package btree.projetpro.backend.dao.comment.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,6 @@
 package btree.projetpro.backend.security.dao;
 
-import btree.projetpro.backend.dao.util.persistenceservice.Entities;
+import btree.projetpro.backend.dao.services.persistenceservice.Entities;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

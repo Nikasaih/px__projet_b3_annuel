@@ -15,14 +15,10 @@ public class StorageControllerAdmin {
     @Autowired
     StorageService storageService;
 
-    @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
-
+    @PostMapping
+    public String handleFileUpload(@RequestParam("file") MultipartFile file) {
         storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
+        return file.getResource().getFilename();
     }
 }

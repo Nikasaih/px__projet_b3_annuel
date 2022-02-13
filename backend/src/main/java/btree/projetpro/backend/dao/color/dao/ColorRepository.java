@@ -1,4 +1,4 @@
-package btree.projetpro.backend.dao.color;
+package btree.projetpro.backend.dao.color.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

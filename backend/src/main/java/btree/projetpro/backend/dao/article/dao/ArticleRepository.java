@@ -1,4 +1,4 @@
-package btree.projetpro.backend.dao.article;
+package btree.projetpro.backend.dao.article.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
