@@ -1,6 +1,5 @@
 package btree.projetpro.backend;
 
-import btree.projetpro.backend.security.dao.UserRole;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     @GetMapping("/public/test")
     public String publicTest() {
-        return "test Get public" + UserRole.ADMIN_ROLE.toString();
+        return "test Get public";
     }
 
     @GetMapping("/auth/test")
