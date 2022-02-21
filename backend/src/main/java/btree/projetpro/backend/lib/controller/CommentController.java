@@ -1,6 +1,6 @@
 package btree.projetpro.backend.lib.controller;
 
-import btree.projetpro.backend.lib.dataobject.dto.ArticleDto;
+import btree.projetpro.backend.lib.dataobject.dto.store.ArticleDto;
 import btree.projetpro.backend.lib.dataobject.entity.CommentEntity;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;

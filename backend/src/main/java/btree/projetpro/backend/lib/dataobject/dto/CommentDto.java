@@ -1,6 +1,6 @@
 package btree.projetpro.backend.lib.dataobject.dto;
 
-import btree.projetpro.backend.lib.dataobject.entity.ArticleEntity;
+import btree.projetpro.backend.lib.dataobject.entity.store.ArticleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
