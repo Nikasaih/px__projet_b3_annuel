@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 public class CommentEntity extends AbstractEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id")
+    @JoinColumn(name = "article_id", referencedColumnName = "id")
     private ArticleEntity articles;
     private Float grade;
     private String text;

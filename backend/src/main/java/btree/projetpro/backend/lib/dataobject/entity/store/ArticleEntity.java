@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
@@ -25,16 +25,19 @@ public class ArticleEntity extends AbstractEntity {
     private Long customerNumber;
     private String imagePath;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Set<CategoryEntity> categories = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinColumn(name = "material_id", referencedColumnName = "id")
     private Set<MaterialEntity> materials = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinColumn(name = "color_id", referencedColumnName = "id")
     private Set<ColorEntity> colors = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "articles")
     private Set<CommentEntity> comment = new HashSet<>();
 
 

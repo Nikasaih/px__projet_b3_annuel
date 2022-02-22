@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,8 +14,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class MaterialEntity extends AbstractEntity {
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @ManyToMany(mappedBy = "materials")
     private Set<ArticleEntity> article = new HashSet<>();
     private String name;
     private String type;
