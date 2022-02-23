@@ -25,10 +25,10 @@ public class ConfirmationToken extends AbstractEntity {
     private LocalDateTime expiredAt;
     @ManyToOne
     @JoinColumn(nullable = false, name = "app_user_id")
-    private User user;
+    private UserEntity user;
     private LocalDateTime confirmedAt;
 
-    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiredAt, User user) {
+    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiredAt, UserEntity user) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiredAt = expiredAt;

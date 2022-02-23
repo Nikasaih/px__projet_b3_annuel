@@ -1,6 +1,6 @@
 package btree.projetpro.backend.lib.controller.security;
 
-import btree.projetpro.backend.lib.dataobject.entity.security.User;
+import btree.projetpro.backend.lib.dataobject.entity.security.UserEntity;
 import btree.projetpro.backend.lib.dataobject.request.ChangeEmailRequest;
 import btree.projetpro.backend.lib.dataobject.request.ChangePasswordRequest;
 import btree.projetpro.backend.lib.security.jwt.JwtRequest;
@@ -42,7 +42,7 @@ public class LogController {
             throw new IllegalStateException("Invalid credential :", e);
         }
 
-        final User userDetails = (User) customUserDetailsService.loadUserByUsername(jwtRequest.getUsername());
+        final UserEntity userDetails = (UserEntity) customUserDetailsService.loadUserByUsername(jwtRequest.getUsername());
 
         final String token = jwtService.generateToken(userDetails);
 

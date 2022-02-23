@@ -1,7 +1,7 @@
 package btree.projetpro.backend.lib.service.security;
 
 import btree.projetpro.backend.lib.dataobject.entity.security.ConfirmationToken;
-import btree.projetpro.backend.lib.dataobject.entity.security.User;
+import btree.projetpro.backend.lib.dataobject.entity.security.UserEntity;
 import btree.projetpro.backend.lib.dataobject.repository.security.ConfirmationTokenRepository;
 import btree.projetpro.backend.lib.dataobject.request.RegistrationRequest;
 import btree.projetpro.backend.lib.service.EmailSenderService;
@@ -32,7 +32,7 @@ public class RegistrationService {
         }
 
         String token = customUserDetailsService.signUpUser(
-                mapper.map(request, User.class)
+                mapper.map(request, UserEntity.class)
         );
 
         String link = String.format("http://localhost:8081/api/v1/registration/%s%s", "confirm?token=", token);

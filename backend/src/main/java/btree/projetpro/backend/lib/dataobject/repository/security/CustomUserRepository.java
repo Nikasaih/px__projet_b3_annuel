@@ -1,6 +1,6 @@
 package btree.projetpro.backend.lib.dataobject.repository.security;
 
-import btree.projetpro.backend.lib.dataobject.entity.security.User;
+import btree.projetpro.backend.lib.dataobject.entity.security.UserEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -11,12 +11,12 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public interface CustomUserRepository extends CrudRepository<User, Long> {
-    Optional<User> findByEmail(String email);
+public interface CustomUserRepository extends CrudRepository<UserEntity, Long> {
+    Optional<UserEntity> findByEmail(String email);
 
     @Transactional
     @Modifying
-    @Query("UPDATE User a " +
+    @Query("UPDATE UserEntity a " +
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableAppUser(String email);
 }

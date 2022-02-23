@@ -2,6 +2,7 @@ package btree.projetpro.backend.lib.dataobject.entity.security;
 
 import btree.projetpro.backend.lib.common.enumerator.UserRole;
 import btree.projetpro.backend.lib.dataobject.entity.AbstractEntity;
+import btree.projetpro.backend.lib.dataobject.entity.CommentEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -11,24 +12,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @javax.persistence.Entity
 @ToString
 @Getter
 @Setter
-public class User extends AbstractEntity implements UserDetails {
+public class UserEntity extends AbstractEntity implements UserDetails {
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole appUserRole = UserRole.USER_ROLE;
+    @OneToMany(mappedBy = "user")
+    private Set<CommentEntity> comments;
     private Boolean locked = false;
     private Boolean enabled = false;
 
-    public User(String firstName, String lastName, String email, String password) {
+    public UserEntity(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
