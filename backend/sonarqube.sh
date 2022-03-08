@@ -1,1 +1,0 @@
-mvn clean verify sonar:sonar   -Dsonar.projectKey=Spring-px-project   -Dsonar.host.url=http://localhost:9000   -Dsonar.login=65afb16d6a4849dbf2614afd2626811bded32c9a

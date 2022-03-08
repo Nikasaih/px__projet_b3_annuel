@@ -1,9 +1,0 @@
-package btree.projetpro.backend.lib.dataobject.repository.store;
-
-import btree.projetpro.backend.lib.dataobject.entity.store.ArticleEntity;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface ArticleRepository extends CrudRepository<ArticleEntity, Long> {
-}
