@@ -1,7 +1,5 @@
 package spd.backend.config;
 
-import spd.backend.dataobject.jwt.JwtFilter;
-import spd.backend.service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import spd.backend.dataobject.jwt.JwtFilter;
+import spd.backend.service.AppUserService;
 
 @EnableWebSecurity
 @Configuration
@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/logoutSuccessfull").permitAll()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessfull")
                 .and()
