@@ -1,5 +1,7 @@
 package spd.backend.controller;
 
+import lombok.AllArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import spd.backend.dataobject.dto.ArticleDto;
 import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
 import spd.backend.dataobject.sqlrepository.ArticleSqlRepository;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/articles")
 @Slf4j
+@AllArgsConstructor
 public class ArticleController {
 
     ArticlePersistenceService articlePersistenceService;
@@ -36,7 +39,9 @@ public class ArticleController {
         return entityFound.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
     @PostMapping
+    @Secured("ADMIN_ROLE")
     public ResponseEntity<?> createOne(@RequestBody @Valid final ArticleDto articleToPersist, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
@@ -45,15 +50,15 @@ public class ArticleController {
 
         try {
             if (articleToPersist.getId() == null) {
-                return ResponseEntity.ok(articlePersistenceService.createOne(articleToPersist));
+                return ResponseEntity.status(201).body(articlePersistenceService.createOne(articleToPersist));
             }
-            return ResponseEntity.ok(articlePersistenceService.updateOne(articleToPersist));
-
+            return ResponseEntity.status(202).body(articlePersistenceService.updateOne(articleToPersist));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e);
         }
     }
 
+    @Secured("ADMIN_ROLE")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOneById(@PathVariable("id") Long id) {
 

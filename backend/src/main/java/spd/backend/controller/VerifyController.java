@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/verify")
 @Slf4j
-public class TestController {
+public class VerifyController {
     @GetMapping
     ResponseEntity<String> VerifyRoutes() {
         return ResponseEntity.status(200).body("verify routes");

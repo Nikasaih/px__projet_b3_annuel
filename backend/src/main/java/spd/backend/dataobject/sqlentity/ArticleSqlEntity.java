@@ -1,5 +1,7 @@
 package spd.backend.dataobject.sqlentity;
 
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import spd.backend.dataobject.aentity.AArticle;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -46,7 +48,7 @@ public class ArticleSqlEntity extends AArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime createdAt;
+/*    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @PrePersist
@@ -57,7 +59,7 @@ public class ArticleSqlEntity extends AArticle {
     @PreUpdate
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
-    }
+    }/*/
 
 
     //specific

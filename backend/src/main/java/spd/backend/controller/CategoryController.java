@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.MappedSuperclass;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/categories")
 @Slf4j
+@MappedSuperclass
 public class CategoryController {
     CategorySqlRepository categorySqlRepository;
     CategoryPersistenceService categoryPersistenceService;
