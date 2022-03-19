@@ -1,12 +1,12 @@
 package spd.backend.dataobject.dto;
 
-import spd.backend.dataobject.aentity.AColor;
 import lombok.Getter;
 import lombok.Setter;
+import spd.backend.dataobject.aentity.ColorAbs;
 
 @Getter
 @Setter
-public class ColorDto extends AColor {
+public class ColorDto extends ColorAbs {
     private Long id;
     private Iterable<Long> articlesId;
 }

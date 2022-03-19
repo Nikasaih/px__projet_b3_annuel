@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class AMaterial {
+public abstract class ColorAbs {
     private String name;
-    private String type;
+    private String hexacode;
 }

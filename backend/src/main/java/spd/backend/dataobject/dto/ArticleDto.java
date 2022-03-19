@@ -1,18 +1,23 @@
 package spd.backend.dataobject.dto;
 
-import spd.backend.dataobject.aentity.AArticle;
 import lombok.Getter;
 import lombok.Setter;
+import spd.backend.dataobject.aentity.ArticleAbs;
 
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
 @Setter
-public class ArticleDto extends AArticle {
+public class ArticleDto extends ArticleAbs {
+
     private Long id;
-    private Set<Long> categoriesId;
-    private Set<Long> colorsId;
-    private Set<Long> materialsId;
+    @NotNull
     private Set<Long> commentsId;
+    @NotNull
+    private Set<Long> categoriesId;
+    @NotNull
+    private Set<Long> colorsId;
+    @NotNull
+    private Set<Long> materialsId;
 }

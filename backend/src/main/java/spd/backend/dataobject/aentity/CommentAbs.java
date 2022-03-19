@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class AComment {
+public abstract class CommentAbs {
     private Float grade;
     private String text;
 

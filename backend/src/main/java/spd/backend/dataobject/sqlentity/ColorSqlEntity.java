@@ -1,6 +1,5 @@
 package spd.backend.dataobject.sqlentity;
 
-import spd.backend.dataobject.aentity.AColor;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -8,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.joda.time.LocalDateTime;
+import spd.backend.dataobject.aentity.ColorAbs;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -16,7 +16,7 @@ import java.util.Set;
 @Setter
 @Getter
 @Entity
-public class ColorSqlEntity extends AColor {
+public class ColorSqlEntity extends ColorAbs {
     @JsonIdentityReference(alwaysAsId = true)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @Cascade(value = org.hibernate.annotations.CascadeType.REFRESH)

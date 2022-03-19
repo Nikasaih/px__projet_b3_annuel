@@ -1,12 +1,12 @@
 package spd.backend.dataobject.dto;
 
-import spd.backend.dataobject.aentity.AComment;
 import lombok.Getter;
 import lombok.Setter;
+import spd.backend.dataobject.aentity.CommentAbs;
 
 @Getter
 @Setter
-public class CommentDto extends AComment {
+public class CommentDto extends CommentAbs {
     private Long id;
     private Long articlesId;
 }

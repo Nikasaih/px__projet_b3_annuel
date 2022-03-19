@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import spd.backend.common.enumerator.AppUserRole;
 import spd.backend.common.exception.EmailAlreadyTaken;
 import spd.backend.common.exception.EmailNotValid;
 import spd.backend.dataobject.accountrequest.ChangeEmailRequest;
@@ -50,6 +51,15 @@ public class AppUserService implements UserDetailsService {
         appUserRepository.save(appUser);
 
         return generateToken(appUser);
+    }
+
+    public void grantAdminRole(String email) {
+        if (!isUserExists(email)) {
+            return;
+        }
+        AppUser futureAdmin = appUserRepository.findByEmail(email).get();
+        futureAdmin.setAppUserRole(AppUserRole.ROLE_ADMIN);
+        appUserRepository.save(futureAdmin);
     }
 
     private boolean isUserExists(String email) {

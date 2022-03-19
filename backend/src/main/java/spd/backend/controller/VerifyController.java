@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class VerifyController {
     @GetMapping
-    ResponseEntity<String> VerifyRoutes() {
+    ResponseEntity<String> verifyRoutes() {
         return ResponseEntity.status(200).body("verify routes");
     }
 }

@@ -1,16 +1,16 @@
 package spd.backend.service.persistence;
 
+import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.common.util.set.Sets;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import spd.backend.common.exception.EntityWithIdNotFound;
 import spd.backend.common.exception.IncorrectDtoForCreation;
 import spd.backend.common.exception.IncorrectDtoForUpdate;
 import spd.backend.dataobject.dto.ArticleDto;
 import spd.backend.dataobject.sqlentity.*;
 import spd.backend.dataobject.sqlrepository.*;
-import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.common.util.set.Sets;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,9 +61,9 @@ public class ArticlePersistenceService {
         Iterable<MaterialSqlEntity> materials = materialSqlRepository.findAllById(articleToPersistInDb.getMaterialsId());
         Iterable<CommentSqlEntity> comments = commentSqlRepository.findAllById(articleToPersistInDb.getCommentsId());
 
-
+        ArticleSqlEntity entity = saveInSql(articleToSaveInSql, colors, categories, materials, comments);
         Map<String, Object> map = new HashMap<>();
-        map.put("Sql", saveInSql(articleToSaveInSql, colors, categories, materials, comments));
+        map.put("Sql", entity);
         return map;
     }
 

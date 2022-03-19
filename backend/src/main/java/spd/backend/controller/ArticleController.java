@@ -1,16 +1,17 @@
 package spd.backend.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import spd.backend.common.exception.EntityWithIdNotFound;
 import spd.backend.dataobject.dto.ArticleDto;
 import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
 import spd.backend.dataobject.sqlrepository.ArticleSqlRepository;
 import spd.backend.service.delete.ArticleDeleteService;
 import spd.backend.service.persistence.ArticlePersistenceService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -41,7 +42,7 @@ public class ArticleController {
 
 
     @PostMapping
-    @Secured("ADMIN_ROLE")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> createOne(@RequestBody @Valid final ArticleDto articleToPersist, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
@@ -54,22 +55,20 @@ public class ArticleController {
             }
             return ResponseEntity.status(202).body(articlePersistenceService.updateOne(articleToPersist));
         } catch (Exception e) {
-            return ResponseEntity.status(400).body(e);
+            return ResponseEntity.status(406).body(e);
         }
     }
 
-    @Secured("ADMIN_ROLE")
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteOneById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteOneById(@PathVariable("id") Long id) {
 
         try {
             articleDeleteService.deleteById(id);
             return ResponseEntity.ok("delete success");
 
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(e);
-
+        } catch (EntityWithIdNotFound e) {
+            return ResponseEntity.status(404).body(e.toString());
         }
-
     }
 }

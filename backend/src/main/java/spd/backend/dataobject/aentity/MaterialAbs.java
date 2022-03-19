@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class ACategory {
-    private String room;
+public abstract class MaterialAbs {
+    private String name;
+    private String type;
 }

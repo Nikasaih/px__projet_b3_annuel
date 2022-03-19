@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 @Setter
 @ToString
 @MappedSuperclass
-public abstract class AArticle {
+public abstract class ArticleAbs {
     private String name;
     private Long price;
     private String description;
