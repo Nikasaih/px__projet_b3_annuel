@@ -18,6 +18,7 @@ import spd.backend.dataobject.sqlrepository.AppUserRepository;
 import spd.backend.dataobject.sqlrepository.ConfirmationTokenRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -54,12 +55,13 @@ public class AppUserService implements UserDetailsService {
     }
 
     public void grantAdminRole(String email) {
-        if (!isUserExists(email)) {
-            return;
+        Optional<AppUser> futureAdmin = appUserRepository.findByEmail(email);
+        if (futureAdmin.isPresent()) {
+            AppUser futureAdminExisting = futureAdmin.get();
+            futureAdminExisting.setAppUserRole(AppUserRole.ROLE_ADMIN);
+
+            appUserRepository.save(futureAdminExisting);
         }
-        AppUser futureAdmin = appUserRepository.findByEmail(email).get();
-        futureAdmin.setAppUserRole(AppUserRole.ROLE_ADMIN);
-        appUserRepository.save(futureAdmin);
     }
 
     private boolean isUserExists(String email) {

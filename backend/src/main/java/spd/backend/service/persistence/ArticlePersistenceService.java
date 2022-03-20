@@ -64,7 +64,6 @@ public class ArticlePersistenceService {
         ArticleSqlEntity entity = saveInSql(articleToSaveInSql, colors, categories, materials, comments);
         Map<String, Object> map = new HashMap<>();
         map.put("Sql", entity);
-        log.info("entity Saved : " + entity);
         return map;
     }
 

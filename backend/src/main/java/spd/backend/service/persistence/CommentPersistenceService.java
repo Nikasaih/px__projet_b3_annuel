@@ -1,5 +1,6 @@
 package spd.backend.service.persistence;
 
+import spd.backend.common.exception.EntityRelatedNotFoundExc;
 import spd.backend.common.exception.EntityWithIdNotFoundExc;
 import spd.backend.common.exception.IncorrectDtoForCreationExc;
 import spd.backend.common.exception.IncorrectDtoForUpdateExc;
@@ -25,14 +26,14 @@ public class CommentPersistenceService {
     @Autowired
     ArticleSqlRepository articleSqlRepository;
 
-    public Map<String, Object> createOne(final CommentDto commentToCreateInDb) throws IncorrectDtoForCreationExc, EntityWithIdNotFoundExc {
+    public Map<String, Object> createOne(final CommentDto commentToCreateInDb) throws IncorrectDtoForCreationExc, EntityRelatedNotFoundExc {
         if (commentToCreateInDb.getId() != null) {
             throw new IncorrectDtoForCreationExc();
         }
         return persistEntity(commentToCreateInDb);
     }
 
-    public Map<String, Object> updateOne(final CommentDto commentToUpdateInDb) throws IncorrectDtoForUpdateExc, EntityWithIdNotFoundExc {
+    public Map<String, Object> updateOne(final CommentDto commentToUpdateInDb) throws IncorrectDtoForUpdateExc, EntityWithIdNotFoundExc, EntityRelatedNotFoundExc {
         if (commentToUpdateInDb.getId() == null) {
             throw new IncorrectDtoForUpdateExc();
         }
@@ -45,13 +46,13 @@ public class CommentPersistenceService {
         return persistEntity(commentToUpdateInDb);
     }
 
-    private Map<String, Object> persistEntity(CommentDto commentToPersistInDb) throws EntityWithIdNotFoundExc {
+    private Map<String, Object> persistEntity(CommentDto commentToPersistInDb) throws EntityRelatedNotFoundExc {
         CommentSqlEntity commentToSaveInSql;
         commentToSaveInSql = mapper.map(commentToPersistInDb, CommentSqlEntity.class);
 
         Optional<ArticleSqlEntity> articleRelated = articleSqlRepository.findById(commentToPersistInDb.getArticlesId());
         if (articleRelated.isEmpty()) {
-            throw new EntityWithIdNotFoundExc(commentToPersistInDb.getArticlesId(), "Article");
+            throw new EntityRelatedNotFoundExc(commentToPersistInDb.getArticlesId(), "Article");
         }
         Map<String, Object> map = new HashMap<>();
         map.put("Sql", saveInSql(commentToSaveInSql, articleRelated.get()));

@@ -67,13 +67,16 @@ public class ArticlePersistenceDeleteServiceTests {
     public void test_updateOne_dtoMatchEntity() throws IncorrectDtoForUpdateExc, EntityWithIdNotFoundExc {
         Optional<ArticleSqlEntity> optArticle = articleSqlRepository.findById(1L);
         if (optArticle.isPresent()) {
-            ArticleSqlEntity article = optArticle.get();
-            ArticleDto dtoModification = PersistentUtility.defaultArticleDto();
-            dtoModification.setId(article.getId());
-            dtoModification.setName("ifjfij");
-            Map<String, Object> updateResponse = articlePersistenceService.updateOne(dtoModification);
+            ArticleSqlEntity originalEntity = optArticle.get();
 
-            Assertions.assertNotEquals(article, dtoModification);
+            ArticleDto dtoModification = PersistentUtility.defaultArticleDto();
+            dtoModification.setId(originalEntity.getId());
+            dtoModification.setName("entity name");
+
+            ArticleSqlEntity entityUpdated = (ArticleSqlEntity) articlePersistenceService.updateOne(dtoModification).get("Sql");
+            if (originalEntity != entityUpdated) {
+                Assertions.assertTrue(true);
+            }
 
         }
         Assertions.assertTrue(optArticle.isPresent());
