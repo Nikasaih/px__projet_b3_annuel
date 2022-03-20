@@ -5,9 +5,9 @@ import org.elasticsearch.common.util.set.Sets;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import spd.backend.common.exception.EntityWithIdNotFound;
-import spd.backend.common.exception.IncorrectDtoForCreation;
-import spd.backend.common.exception.IncorrectDtoForUpdate;
+import spd.backend.common.exception.EntityWithIdNotFoundExc;
+import spd.backend.common.exception.IncorrectDtoForCreationExc;
+import spd.backend.common.exception.IncorrectDtoForUpdateExc;
 import spd.backend.dataobject.dto.ArticleDto;
 import spd.backend.dataobject.sqlentity.*;
 import spd.backend.dataobject.sqlrepository.*;
@@ -32,20 +32,20 @@ public class ArticlePersistenceService {
     @Autowired
     CommentSqlRepository commentSqlRepository;
 
-    public Map<String, Object> createOne(final ArticleDto articleToCreateInDb) throws IncorrectDtoForCreation {
+    public Map<String, Object> createOne(final ArticleDto articleToCreateInDb) throws IncorrectDtoForCreationExc {
         if (articleToCreateInDb.getId() != null) {
-            throw new IncorrectDtoForCreation();
+            throw new IncorrectDtoForCreationExc();
         }
         return persistEntity(articleToCreateInDb);
     }
 
-    public Map<String, Object> updateOne(final ArticleDto articleToUpdateInDb) throws IncorrectDtoForUpdate, EntityWithIdNotFound {
+    public Map<String, Object> updateOne(final ArticleDto articleToUpdateInDb) throws IncorrectDtoForUpdateExc, EntityWithIdNotFoundExc {
         if (articleToUpdateInDb.getId() == null) {
-            throw new IncorrectDtoForUpdate();
+            throw new IncorrectDtoForUpdateExc();
         }
         Optional<ArticleSqlEntity> articleSaved = articleSqlRepository.findById(articleToUpdateInDb.getId());
         if (articleSaved.isEmpty()) {
-            throw new EntityWithIdNotFound(articleToUpdateInDb.getId(), "Article");
+            throw new EntityWithIdNotFoundExc(articleToUpdateInDb.getId(), "Article");
         }
 
         return persistEntity(articleToUpdateInDb);
@@ -64,6 +64,7 @@ public class ArticlePersistenceService {
         ArticleSqlEntity entity = saveInSql(articleToSaveInSql, colors, categories, materials, comments);
         Map<String, Object> map = new HashMap<>();
         map.put("Sql", entity);
+        log.info("entity Saved : " + entity);
         return map;
     }
 
@@ -78,7 +79,7 @@ public class ArticlePersistenceService {
         articleToSave.setCategories(Sets.newHashSet(categorySqlEntityIterable));
         articleToSave.setMaterials(Sets.newHashSet(materialSqlEntityIterable));
         articleToSave.setComments(Sets.newHashSet(commentSqlEntityIterable));
-
+        log.info("in saveInSql");
         return articleSqlRepository.save(articleToSave);
     }
 }

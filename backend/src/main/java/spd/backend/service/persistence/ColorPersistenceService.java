@@ -1,8 +1,8 @@
 package spd.backend.service.persistence;
 
-import spd.backend.common.exception.EntityWithIdNotFound;
-import spd.backend.common.exception.IncorrectDtoForCreation;
-import spd.backend.common.exception.IncorrectDtoForUpdate;
+import spd.backend.common.exception.EntityWithIdNotFoundExc;
+import spd.backend.common.exception.IncorrectDtoForCreationExc;
+import spd.backend.common.exception.IncorrectDtoForUpdateExc;
 import spd.backend.dataobject.dto.ColorDto;
 import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
 import spd.backend.dataobject.sqlentity.ColorSqlEntity;
@@ -23,21 +23,21 @@ public class ColorPersistenceService {
     @Autowired
     ArticleSqlRepository articleSqlRepository;
 
-    public Map<String, Object> createOne(final ColorDto colorToCreateInDb) throws IncorrectDtoForCreation {
+    public Map<String, Object> createOne(final ColorDto colorToCreateInDb) throws IncorrectDtoForCreationExc {
         if (colorToCreateInDb.getId() != null) {
-            throw new IncorrectDtoForCreation();
+            throw new IncorrectDtoForCreationExc();
         }
         return persistEntity(colorToCreateInDb);
     }
 
-    public Map<String, Object> updateOne(final ColorDto colorToUpdateInDb) throws IncorrectDtoForUpdate, EntityWithIdNotFound {
+    public Map<String, Object> updateOne(final ColorDto colorToUpdateInDb) throws IncorrectDtoForUpdateExc, EntityWithIdNotFoundExc {
         if (colorToUpdateInDb.getId() == null) {
-            throw new IncorrectDtoForUpdate();
+            throw new IncorrectDtoForUpdateExc();
         }
         Optional<ColorSqlEntity> colorSaved = colorSqlRepository.findById(colorToUpdateInDb.getId());
         if (colorSaved.isEmpty()) {
 
-            throw new EntityWithIdNotFound(colorToUpdateInDb.getId(), "Color");
+            throw new EntityWithIdNotFoundExc(colorToUpdateInDb.getId(), "Color");
         }
 
         return persistEntity(colorToUpdateInDb);

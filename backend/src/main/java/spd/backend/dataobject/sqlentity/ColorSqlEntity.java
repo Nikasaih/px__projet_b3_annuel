@@ -6,10 +6,12 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
-import org.joda.time.LocalDateTime;
 import spd.backend.dataobject.aentity.ColorAbs;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,18 +29,6 @@ public class ColorSqlEntity extends ColorAbs {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
     //Specific
     public ColorSqlEntity removeArticle(ArticleSqlEntity article) {

@@ -1,10 +1,10 @@
 package spd.backend.service;
 
 
-import spd.backend.common.exception.EmailAlreadyTaken;
-import spd.backend.common.exception.EmailNotValid;
-import spd.backend.common.exception.TokenExpired;
-import spd.backend.common.exception.TokenNotFound;
+import spd.backend.common.exception.EmailAlreadyTakenExc;
+import spd.backend.common.exception.EmailNotValidExc;
+import spd.backend.common.exception.TokenExpiredExc;
+import spd.backend.common.exception.TokenNotFoundExc;
 import spd.backend.dataobject.accountrequest.RegistrationRequest;
 import spd.backend.dataobject.sqlentity.AppUser;
 import spd.backend.dataobject.sqlentity.ConfirmationToken;
@@ -28,11 +28,11 @@ public class RegistrationService {
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
 
-    public String register(RegistrationRequest request) throws EmailAlreadyTaken, EmailNotValid {
+    public String register(RegistrationRequest request) throws EmailAlreadyTakenExc, EmailNotValidExc {
         boolean isValidEmail = emailValidator.test(request.getEmail());
 
         if (!isValidEmail) {
-            throw new EmailNotValid();
+            throw new EmailNotValidExc();
         }
 
         String token = appUserService.signUpUser(
@@ -47,17 +47,17 @@ public class RegistrationService {
     }
 
     @Transactional
-    public String confirmToken(String token) throws EmailAlreadyTaken, TokenExpired, TokenNotFound {
-        ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token).orElseThrow(() -> new TokenNotFound());
+    public String confirmToken(String token) throws EmailAlreadyTakenExc, TokenExpiredExc, TokenNotFoundExc {
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token).orElseThrow(() -> new TokenNotFoundExc());
 
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new EmailAlreadyTaken();
+            throw new EmailAlreadyTakenExc();
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiredAt();
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new TokenExpired();
+            throw new TokenExpiredExc();
         }
 
 

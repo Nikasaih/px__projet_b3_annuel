@@ -1,6 +1,6 @@
 package spd.backend.service.delete;
 
-import spd.backend.common.exception.EntityWithIdNotFound;
+import spd.backend.common.exception.EntityWithIdNotFoundExc;
 import spd.backend.dataobject.elkrepository.ArticleElkRepository;
 import spd.backend.dataobject.sqlentity.*;
 import spd.backend.dataobject.sqlrepository.*;
@@ -25,10 +25,10 @@ public class ArticleDeleteService {
     @Autowired
     ArticleElkRepository articleElkRepository;
 
-    public void deleteById(Long id) throws EntityWithIdNotFound {
+    public void deleteById(Long id) throws EntityWithIdNotFoundExc {
         Optional<ArticleSqlEntity> articleSql = articleSqlRepository.findById(id);
         if (articleSql.isEmpty()) {
-            throw new EntityWithIdNotFound(id, "Category");
+            throw new EntityWithIdNotFoundExc(id, "Article");
         }
 
         delete(articleSql.get());

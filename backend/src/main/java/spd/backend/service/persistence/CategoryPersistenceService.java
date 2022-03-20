@@ -1,8 +1,8 @@
 package spd.backend.service.persistence;
 
-import spd.backend.common.exception.EntityWithIdNotFound;
-import spd.backend.common.exception.IncorrectDtoForCreation;
-import spd.backend.common.exception.IncorrectDtoForUpdate;
+import spd.backend.common.exception.EntityWithIdNotFoundExc;
+import spd.backend.common.exception.IncorrectDtoForCreationExc;
+import spd.backend.common.exception.IncorrectDtoForUpdateExc;
 import spd.backend.dataobject.dto.CategoryDto;
 import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
 import spd.backend.dataobject.sqlentity.CategorySqlEntity;
@@ -22,22 +22,22 @@ public class CategoryPersistenceService {
     @Autowired
     ArticleSqlRepository articleSqlRepository;
 
-    public Map<String, Object> createOne(final CategoryDto categoryToCreateInDb) throws IncorrectDtoForCreation {
+    public Map<String, Object> createOne(final CategoryDto categoryToCreateInDb) throws IncorrectDtoForCreationExc {
         if (categoryToCreateInDb.getId() != null) {
-            throw new IncorrectDtoForCreation();
+            throw new IncorrectDtoForCreationExc();
         }
 
         return persistEntity(categoryToCreateInDb);
     }
 
-    public Map<String, Object> updateOne(final CategoryDto categoryToUpdateInDb) throws IncorrectDtoForUpdate, EntityWithIdNotFound {
+    public Map<String, Object> updateOne(final CategoryDto categoryToUpdateInDb) throws IncorrectDtoForUpdateExc, EntityWithIdNotFoundExc {
         if (categoryToUpdateInDb.getId() == null) {
-            throw new IncorrectDtoForUpdate();
+            throw new IncorrectDtoForUpdateExc();
         }
         Optional<CategorySqlEntity> categorySaved = categorySqlRepository.findById(categoryToUpdateInDb.getId());
         if (categorySaved.isEmpty()) {
 
-            throw new EntityWithIdNotFound(categoryToUpdateInDb.getId(), "Category");
+            throw new EntityWithIdNotFoundExc(categoryToUpdateInDb.getId(), "Category");
         }
 
         return persistEntity(categoryToUpdateInDb);

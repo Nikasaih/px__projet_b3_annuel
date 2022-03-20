@@ -1,6 +1,6 @@
 package spd.backend.service.delete;
 
-import spd.backend.common.exception.EntityWithIdNotFound;
+import spd.backend.common.exception.EntityWithIdNotFoundExc;
 import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
 import spd.backend.dataobject.sqlentity.ColorSqlEntity;
 import spd.backend.dataobject.sqlrepository.ArticleSqlRepository;
@@ -18,10 +18,10 @@ public class ColorDeleteService {
     @Autowired
     ColorSqlRepository colorSqlRepository;
 
-    public void deleteById(Long id) throws EntityWithIdNotFound {
+    public void deleteById(Long id) throws EntityWithIdNotFoundExc {
         Optional<ColorSqlEntity> colorSql = colorSqlRepository.findById(id);
         if (colorSql.isEmpty()) {
-            throw new EntityWithIdNotFound(id, "Category");
+            throw new EntityWithIdNotFoundExc(id, "Category");
         }
 
         delete(colorSql.get());

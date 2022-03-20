@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import spd.backend.common.enumerator.AppUserRole;
-import spd.backend.common.exception.EmailAlreadyTaken;
-import spd.backend.common.exception.EmailNotValid;
+import spd.backend.common.exception.EmailAlreadyTakenExc;
+import spd.backend.common.exception.EmailNotValidExc;
 import spd.backend.dataobject.accountrequest.ChangeEmailRequest;
 import spd.backend.dataobject.accountrequest.ChangePasswordRequest;
 import spd.backend.dataobject.sqlentity.AppUser;
@@ -40,9 +40,9 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
 
-    public String signUpUser(AppUser appUser) throws EmailAlreadyTaken {
+    public String signUpUser(AppUser appUser) throws EmailAlreadyTakenExc {
         if (isUserExists(appUser.getEmail())) {
-            throw new EmailAlreadyTaken();
+            throw new EmailAlreadyTakenExc();
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
@@ -86,17 +86,17 @@ public class AppUserService implements UserDetailsService {
             AppUser appUser = (AppUser) loadUserByUsername(changeEmailDto.getCurrentEmail());
 
             if (!emailValidatorService.test(changeEmailDto.getNewEmail())) {
-                throw new EmailNotValid();
+                throw new EmailNotValidExc();
             }
             if (isUserExists(changeEmailDto.getNewEmail())) {
-                throw new EmailAlreadyTaken();
+                throw new EmailAlreadyTakenExc();
             }
 
             appUser.setEmail(changeEmailDto.getNewEmail());
 
             appUserRepository.save(appUser);
             return "email Changes with success";
-        } catch (RuntimeException | EmailAlreadyTaken | EmailNotValid e) {
+        } catch (RuntimeException | EmailAlreadyTakenExc | EmailNotValidExc e) {
             return e.toString();
         }
     }

@@ -1,8 +1,8 @@
 package spd.backend.service.persistence;
 
-import spd.backend.common.exception.EntityWithIdNotFound;
-import spd.backend.common.exception.IncorrectDtoForCreation;
-import spd.backend.common.exception.IncorrectDtoForUpdate;
+import spd.backend.common.exception.EntityWithIdNotFoundExc;
+import spd.backend.common.exception.IncorrectDtoForCreationExc;
+import spd.backend.common.exception.IncorrectDtoForUpdateExc;
 import spd.backend.dataobject.dto.MaterialDto;
 import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
 import spd.backend.dataobject.sqlentity.MaterialSqlEntity;
@@ -23,21 +23,21 @@ public class MaterialPersistenceService {
     @Autowired
     ArticleSqlRepository articleSqlRepository;
 
-    public Map<String, Object> createOne(final MaterialDto materialToCreateInDb) throws IncorrectDtoForCreation {
+    public Map<String, Object> createOne(final MaterialDto materialToCreateInDb) throws IncorrectDtoForCreationExc {
         if (materialToCreateInDb.getId() != null) {
-            throw new IncorrectDtoForCreation();
+            throw new IncorrectDtoForCreationExc();
         }
         return persistEntity(materialToCreateInDb);
     }
 
-    public Map<String, Object> updateOne(final MaterialDto materialToUpdateInDb) throws IncorrectDtoForUpdate, EntityWithIdNotFound {
+    public Map<String, Object> updateOne(final MaterialDto materialToUpdateInDb) throws IncorrectDtoForUpdateExc, EntityWithIdNotFoundExc {
         if (materialToUpdateInDb.getId() == null) {
-            throw new IncorrectDtoForUpdate();
+            throw new IncorrectDtoForUpdateExc();
         }
         Optional<MaterialSqlEntity> materialSaved = materialSqlRepository.findById(materialToUpdateInDb.getId());
         if (materialSaved.isEmpty()) {
 
-            throw new EntityWithIdNotFound(materialToUpdateInDb.getId(), "Material");
+            throw new EntityWithIdNotFoundExc(materialToUpdateInDb.getId(), "Material");
         }
 
         return persistEntity(materialToUpdateInDb);

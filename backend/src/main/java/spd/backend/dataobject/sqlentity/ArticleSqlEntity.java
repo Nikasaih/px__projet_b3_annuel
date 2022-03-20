@@ -45,19 +45,6 @@ public class ArticleSqlEntity extends ArticleAbs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-/*    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = LocalDateTime.now();
-    }/*/
-
 
     //specific
     public ArticleSqlEntity removeCategory(CategorySqlEntity categoryToRemove) {

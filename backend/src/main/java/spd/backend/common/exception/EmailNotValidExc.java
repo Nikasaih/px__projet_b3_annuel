@@ -1,7 +1,7 @@
 package spd.backend.common.exception;
 
-public class EmailNotValid extends Exception {
-    public EmailNotValid() {
+public class EmailNotValidExc extends Exception {
+    public EmailNotValidExc() {
         super("Email not valid");
     }
 }

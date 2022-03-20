@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import spd.backend.common.exception.EntityWithIdNotFound;
+import spd.backend.common.exception.EntityWithIdNotFoundExc;
 import spd.backend.dataobject.dto.ArticleDto;
 import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
 import spd.backend.dataobject.sqlrepository.ArticleSqlRepository;
@@ -67,7 +67,7 @@ public class ArticleController {
             articleDeleteService.deleteById(id);
             return ResponseEntity.ok("delete success");
 
-        } catch (EntityWithIdNotFound e) {
+        } catch (EntityWithIdNotFoundExc e) {
             return ResponseEntity.status(404).body(e.toString());
         }
     }

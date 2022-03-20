@@ -1,6 +1,6 @@
 package spd.backend.service.delete;
 
-import spd.backend.common.exception.EntityWithIdNotFound;
+import spd.backend.common.exception.EntityWithIdNotFoundExc;
 import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
 import spd.backend.dataobject.sqlentity.CategorySqlEntity;
 import spd.backend.dataobject.sqlrepository.ArticleSqlRepository;
@@ -18,10 +18,10 @@ public class CategoryDeleteService {
     @Autowired
     CategorySqlRepository categorySqlRepository;
 
-    public void deleteById(Long id) throws EntityWithIdNotFound {
+    public void deleteById(Long id) throws EntityWithIdNotFoundExc {
         Optional<CategorySqlEntity> categorySql = categorySqlRepository.findById(id);
         if (categorySql.isEmpty()) {
-            throw new EntityWithIdNotFound(id, "Category");
+            throw new EntityWithIdNotFoundExc(id, "Category");
         }
 
         delete(categorySql.get());

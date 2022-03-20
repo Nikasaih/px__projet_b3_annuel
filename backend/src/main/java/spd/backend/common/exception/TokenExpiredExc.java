@@ -1,7 +1,7 @@
 package spd.backend.common.exception;
 
-public class TokenExpired extends Exception {
-    public TokenExpired() {
+public class TokenExpiredExc extends Exception {
+    public TokenExpiredExc() {
         super("token expired");
     }
 }

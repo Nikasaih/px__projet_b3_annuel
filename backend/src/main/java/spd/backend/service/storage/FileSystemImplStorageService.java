@@ -1,7 +1,7 @@
 package spd.backend.service.storage;
 
-import spd.backend.common.exception.StorageException;
-import spd.backend.common.exception.StorageFileNotFoundException;
+import spd.backend.common.exception.StorageExceptionExc;
+import spd.backend.common.exception.StorageFileNotFoundExc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -31,14 +31,14 @@ public class FileSystemImplStorageService implements StorageService {
     public void store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file.");
+                throw new StorageExceptionExc("Failed to store empty file.");
             }
             Path destinationFile = this.rootLocation.resolve(
                             Paths.get(file.getOriginalFilename()))
                     .normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
                 // This is a security check
-                throw new StorageException(
+                throw new StorageExceptionExc(
                         "Cannot store file outside current directory.");
             }
             try (InputStream inputStream = file.getInputStream()) {
@@ -46,7 +46,7 @@ public class FileSystemImplStorageService implements StorageService {
                         StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
-            throw new StorageException("Failed to store file.", e);
+            throw new StorageExceptionExc("Failed to store file.", e);
         }
     }
 
@@ -57,7 +57,7 @@ public class FileSystemImplStorageService implements StorageService {
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(this.rootLocation::relativize);
         } catch (IOException e) {
-            throw new StorageException("Failed to read stored files", e);
+            throw new StorageExceptionExc("Failed to read stored files", e);
         }
 
     }
@@ -75,12 +75,12 @@ public class FileSystemImplStorageService implements StorageService {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new StorageFileNotFoundException(
+                throw new StorageFileNotFoundExc(
                         "Could not read file: " + filename);
 
             }
         } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+            throw new StorageFileNotFoundExc("Could not read file: " + filename, e);
         }
     }
 
@@ -94,7 +94,7 @@ public class FileSystemImplStorageService implements StorageService {
         try {
             Files.createDirectories(rootLocation);
         } catch (IOException e) {
-            throw new StorageException("Could not initialize storage", e);
+            throw new StorageExceptionExc("Could not initialize storage", e);
         }
     }
 }

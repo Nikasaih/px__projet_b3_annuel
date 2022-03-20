@@ -1,6 +1,6 @@
 package spd.backend.service.delete;
 
-import spd.backend.common.exception.EntityWithIdNotFound;
+import spd.backend.common.exception.EntityWithIdNotFoundExc;
 import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
 import spd.backend.dataobject.sqlentity.CommentSqlEntity;
 import spd.backend.dataobject.sqlrepository.ArticleSqlRepository;
@@ -17,10 +17,10 @@ public class CommentDeleteService {
     @Autowired
     CommentSqlRepository commentSqlRepository;
 
-    public void deleteById(Long id) throws EntityWithIdNotFound {
+    public void deleteById(Long id) throws EntityWithIdNotFoundExc {
         Optional<CommentSqlEntity> commentSql = commentSqlRepository.findById(id);
         if (commentSql.isEmpty()) {
-            throw new EntityWithIdNotFound(id, "Category");
+            throw new EntityWithIdNotFoundExc(id, "Category");
         }
 
         delete(commentSql.get());

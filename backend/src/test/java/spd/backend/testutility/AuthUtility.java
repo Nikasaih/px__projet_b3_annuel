@@ -1,17 +1,17 @@
-package spd.backend;
+package spd.backend.testutility;
 
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import spd.backend.common.exception.EmailAlreadyTaken;
+import spd.backend.common.exception.EmailAlreadyTakenExc;
 import spd.backend.dataobject.sqlentity.AppUser;
 import spd.backend.service.AppUserService;
 
-public final class TestUtility {
+public final class AuthUtility {
     final static String ADMIN_EMAIL = "admin@test.com";
     final static String ADMIN_PASSWORD = "adminPassword";
     final static String USER_EMAIL = "user@test.com";
     final static String USER_PASSWORD = "userPassword";
 
-    public static void registerAdmin(AppUserService appUserService) throws EmailAlreadyTaken {
+    public static void registerAdmin(AppUserService appUserService) throws EmailAlreadyTakenExc {
         //admin registration
         AppUser admin = new AppUser();
         admin.setEmail(ADMIN_EMAIL);
@@ -21,7 +21,7 @@ public final class TestUtility {
         appUserService.grantAdminRole(ADMIN_EMAIL);
     }
 
-    public static void registerUser(AppUserService appUserService) throws EmailAlreadyTaken {
+    public static void registerUser(AppUserService appUserService) throws EmailAlreadyTakenExc {
         //admin registration
         AppUser admin = new AppUser();
         admin.setEmail(USER_EMAIL);

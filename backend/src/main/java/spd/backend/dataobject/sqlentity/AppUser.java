@@ -35,7 +35,7 @@ public class AppUser implements UserDetails {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @Cascade(value = org.hibernate.annotations.CascadeType.PERSIST)
     @OneToMany(mappedBy = "user")
-    private Set<CommentSqlEntity> comments;
+    private transient Set<CommentSqlEntity> comments;
     private Boolean locked = false;
     private Boolean enabled = false;
 
