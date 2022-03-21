@@ -2,6 +2,7 @@ package spd.backend.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
@@ -30,14 +31,16 @@ public class ArticleController {
 
     @GetMapping
     public ResponseEntity<Iterable<ArticleSqlEntity>> getAll() {
-        return ResponseEntity.ok(articleSqlRepository.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(articleSqlRepository.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ArticleSqlEntity> getById(@PathVariable("id") Long id) {
         Optional<ArticleSqlEntity> entityFound = articleSqlRepository.findById(id);
-
-        return entityFound.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        if (entityFound.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(entityFound.get());
     }
 
 
@@ -46,16 +49,16 @@ public class ArticleController {
     public ResponseEntity<?> createOne(@RequestBody @Valid final ArticleDto articleToPersist, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
-            return ResponseEntity.status(400).body(errors);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
         }
 
         try {
             if (articleToPersist.getId() == null) {
-                return ResponseEntity.status(201).body(articlePersistenceService.createOne(articleToPersist));
+                return ResponseEntity.status(HttpStatus.CREATED).body(articlePersistenceService.createOne(articleToPersist));
             }
-            return ResponseEntity.status(202).body(articlePersistenceService.updateOne(articleToPersist));
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(articlePersistenceService.updateOne(articleToPersist));
         } catch (Exception e) {
-            return ResponseEntity.status(406).body(e);
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e);
         }
     }
 
@@ -65,10 +68,10 @@ public class ArticleController {
 
         try {
             articleDeleteService.deleteById(id);
-            return ResponseEntity.ok("delete success");
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("delete success");
 
         } catch (EntityWithIdNotFoundExc e) {
-            return ResponseEntity.status(404).body(e.toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.toString());
         }
     }
 }

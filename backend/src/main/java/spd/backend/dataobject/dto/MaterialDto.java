@@ -10,6 +10,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class MaterialDto extends MaterialAbs {
     private Long id;
-    @NotNull
+    @NotNull(message = "articlesId must not be null")
     private Iterable<Long> articlesId;
 }

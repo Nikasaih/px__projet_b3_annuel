@@ -9,8 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import spd.backend.dataobject.dto.ArticleDto;
-import spd.backend.dataobject.sqlentity.ArticleSqlEntity;
+import spd.backend.dataobject.dto.MaterialDto;
+import spd.backend.dataobject.sqlentity.MaterialSqlEntity;
 import spd.backend.service.AppUserService;
 import spd.backend.testutility.AuthUtility;
 import spd.backend.testutility.PersistentUtility;
@@ -18,10 +18,8 @@ import spd.backend.testutility.TestClassAnnotation;
 
 @Slf4j
 @TestClassAnnotation
-public class ArticleControllerTests {
-    final static String ADMIN_EMAIL = "test@test.com";
-    final static String ADMIN_PASSWORD = "testPassword";
-    final Long articleId = 1L;
+public class MaterialControllerTests {
+    final Long materialId = 1L;
 
     //Utility
     @LocalServerPort
@@ -42,11 +40,11 @@ public class ArticleControllerTests {
     @BeforeEach
     public void setup() {
         String baseUrl = "http://localhost:" + port;
-        CREATE_ONE = baseUrl + "/api/articles";
+        CREATE_ONE = baseUrl + "/api/materials";
         UPDATE_ONE = CREATE_ONE;
-        GET_ALL = baseUrl + "/api/articles";
-        GET_ONE = baseUrl + "/api/articles/";
-        DELETE_ONE = baseUrl + "/api/articles/{id}";
+        GET_ALL = baseUrl + "/api/materials";
+        GET_ONE = baseUrl + "/api/materials/";
+        DELETE_ONE = baseUrl + "/api/materials/{id}";
 
         try {
             AuthUtility.registerAdmin(appUserService);
@@ -64,7 +62,7 @@ public class ArticleControllerTests {
     @Test
     public void test_getAll() {
         log.info("test_getAll");
-        ResponseEntity<ArticleSqlEntity[]> response = template.getForEntity(GET_ALL, ArticleSqlEntity[].class);
+        ResponseEntity<MaterialSqlEntity[]> response = template.getForEntity(GET_ALL, MaterialSqlEntity[].class);
         Assertions.assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
 
     }
@@ -74,7 +72,7 @@ public class ArticleControllerTests {
     @Order(3)
     public void test_getOne_Exist() {
         log.info("test_getOne_Exist");
-        ResponseEntity<ArticleSqlEntity> response = template.getForEntity(GET_ONE + articleId, ArticleSqlEntity.class);
+        ResponseEntity<MaterialSqlEntity> response = template.getForEntity(GET_ONE + materialId, MaterialSqlEntity.class);
         Assertions.assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
 
     }
@@ -82,7 +80,7 @@ public class ArticleControllerTests {
     @Test
     public void test_getOne_NotExist() {
         log.info("test_getOne_NotExist");
-        ResponseEntity<ArticleSqlEntity> response = template.getForEntity(GET_ONE + "81515161", ArticleSqlEntity.class);
+        ResponseEntity<MaterialSqlEntity> response = template.getForEntity(GET_ONE + "81515161", MaterialSqlEntity.class);
         Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode().value());
 
     }
@@ -90,7 +88,7 @@ public class ArticleControllerTests {
     @Test
     public void test_createOne_WithoutRole() {
         log.info("test_createOne_WithoutRole");
-        ResponseEntity<?> response = template.postForEntity(CREATE_ONE, new ArticleDto(), ArticleSqlEntity.class);
+        ResponseEntity<?> response = template.postForEntity(CREATE_ONE, new MaterialDto(), MaterialSqlEntity.class);
         Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatusCode().value());
 
     }
@@ -99,7 +97,7 @@ public class ArticleControllerTests {
     public void test_createOne_WithUser() {
         log.info("test_createOne_WithUser");
         //Todo Connect as User
-        ResponseEntity<ArticleSqlEntity> response = template.postForEntity(CREATE_ONE, new ArticleDto(), ArticleSqlEntity.class);
+        ResponseEntity<MaterialSqlEntity> response = template.postForEntity(CREATE_ONE, new MaterialDto(), MaterialSqlEntity.class);
         Assertions.assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatusCode().value());
     }
 
@@ -109,8 +107,8 @@ public class ArticleControllerTests {
         log.info("test_createOne_WithAdmin");
         template = AuthUtility.connectAsAdmin();
 
-        ArticleDto articleDto = PersistentUtility.defaultArticleDto();
-        ResponseEntity<?> response = template.postForEntity(CREATE_ONE, articleDto, ArticleSqlEntity.class);
+        MaterialDto materialDto = PersistentUtility.defaultMaterialDto();
+        ResponseEntity<?> response = template.postForEntity(CREATE_ONE, materialDto, MaterialSqlEntity.class);
         Assertions.assertEquals(HttpStatus.CREATED.value(), response.getStatusCode().value());
 
     }
@@ -120,9 +118,9 @@ public class ArticleControllerTests {
         log.info("test_createOne_WithAdmin");
         template = AuthUtility.connectAsAdmin();
 
-        ArticleDto articleDto = PersistentUtility.defaultArticleDto();
-        articleDto.setMaterialsId(null);
-        ResponseEntity<String> response = template.postForEntity(CREATE_ONE, articleDto, String.class);
+        MaterialDto materialDto = PersistentUtility.defaultMaterialDto();
+        materialDto.setArticlesId(null);
+        ResponseEntity<String> response = template.postForEntity(CREATE_ONE, materialDto, String.class);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode().value());
     }
 
@@ -132,10 +130,10 @@ public class ArticleControllerTests {
         log.info("test_updateOne_WithAdmin");
         template = AuthUtility.connectAsAdmin();
 
-        ArticleDto articleDto = PersistentUtility.defaultArticleDto();
-        articleDto.setId(articleId);
+        MaterialDto materialDto = PersistentUtility.defaultMaterialDto();
+        materialDto.setId(materialId);
 
-        ResponseEntity<ArticleSqlEntity> response = template.postForEntity(UPDATE_ONE, articleDto, ArticleSqlEntity.class);
+        ResponseEntity<MaterialSqlEntity> response = template.postForEntity(UPDATE_ONE, materialDto, MaterialSqlEntity.class);
         Assertions.assertEquals(HttpStatus.ACCEPTED.value(), response.getStatusCode().value());
     }
 
@@ -146,8 +144,8 @@ public class ArticleControllerTests {
     public void test_deleteOneById_Exist() {
         log.info("deleteOneByIdExist");
         template = AuthUtility.connectAsAdmin();
-        ResponseEntity<String> response = template.exchange(DELETE_ONE, HttpMethod.DELETE, null, String.class, articleId);
-        Assertions.assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
+        ResponseEntity<String> response = template.exchange(DELETE_ONE, HttpMethod.DELETE, null, String.class, materialId);
+        Assertions.assertEquals(HttpStatus.ACCEPTED.value(), response.getStatusCode().value());
     }
 
     // delete by id 404
