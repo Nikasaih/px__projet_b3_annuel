@@ -53,8 +53,7 @@ public class ArticlePersistenceService {
 
 
     private Map<String, Object> persistEntity(ArticleDto articleToPersistInDb) {
-        ArticleSqlEntity articleToSaveInSql;
-        articleToSaveInSql = mapper.map(articleToPersistInDb, ArticleSqlEntity.class);
+        ArticleSqlEntity articleToSaveInSql = mapper.map(articleToPersistInDb, ArticleSqlEntity.class);
 
         Iterable<ColorSqlEntity> colors = colorSqlRepository.findAllById(articleToPersistInDb.getColorsId());
         Iterable<CategorySqlEntity> categories = categorySqlRepository.findAllById(articleToPersistInDb.getCategoriesId());
