@@ -1,18 +1,17 @@
-package spd.backend.controller;
+package com.backend.store.controller;
 
+import com.backend.store.common.exception.EntityWithIdNotFoundExc;
+import com.backend.store.dataobject.dto.MaterialDto;
+import com.backend.store.dataobject.sqlentity.MaterialSqlEntity;
+import com.backend.store.dataobject.sqlrepository.MaterialSqlRepository;
+import com.backend.store.service.delete.MaterialDeleteService;
+import com.backend.store.service.persistence.MaterialPersistenceService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import spd.backend.common.exception.EntityWithIdNotFoundExc;
-import spd.backend.dataobject.dto.MaterialDto;
-import spd.backend.dataobject.sqlentity.MaterialSqlEntity;
-import spd.backend.dataobject.sqlrepository.MaterialSqlRepository;
-import spd.backend.service.delete.MaterialDeleteService;
-import spd.backend.service.persistence.MaterialPersistenceService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -45,7 +44,6 @@ public class MaterialController {
 
 
     @PostMapping
-    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> createOne(@RequestBody @Valid final MaterialDto materialToPersist, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
@@ -62,7 +60,6 @@ public class MaterialController {
         }
     }
 
-    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteOneById(@PathVariable("id") Long id) {
 
