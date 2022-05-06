@@ -33,13 +33,13 @@ public class LogController {
     public LoginResponse authenticate(@RequestBody LoginRequest jwtRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    jwtRequest.getUsername(), jwtRequest.getPassword()
+                    jwtRequest.getEmailLogin(), jwtRequest.getPassword()
             ));
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Invalid credential :", e);
         }
 
-        final UserDetails userDetails = appUserService.loadUserByUsername(jwtRequest.getUsername());
+        final UserDetails userDetails = appUserService.loadUserByUsername(jwtRequest.getEmailLogin());
 
         final String token = jwtService.generateToken(userDetails);
 

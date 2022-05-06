@@ -31,13 +31,13 @@ public class RequestBodyUtility {
     public static LoginRequest defaultLoginRequest() {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setPassword(UTIL_PASSWORD);
-        loginRequest.setUsername(UTIL_EMAIL);
+        loginRequest.setEmailLogin(UTIL_EMAIL);
         return loginRequest;
     }
 
     public static LoginRequest faultLoginRequest() {
         LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setUsername(UTIL_EMAIL);
+        loginRequest.setEmailLogin(UTIL_EMAIL);
         return loginRequest;
     }
 
