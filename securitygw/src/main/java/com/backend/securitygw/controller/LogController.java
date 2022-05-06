@@ -1,9 +1,9 @@
 package com.backend.securitygw.controller;
 
-import com.backend.securitygw.dataobject.accountrequest.ChangeEmailRequest;
-import com.backend.securitygw.dataobject.accountrequest.ChangePasswordRequest;
-import com.backend.securitygw.dataobject.jwt.JwtRequest;
-import com.backend.securitygw.dataobject.jwt.JwtResponse;
+import com.backend.securitygw.dataobject.request.ChangeEmailRequest;
+import com.backend.securitygw.dataobject.request.ChangePasswordRequest;
+import com.backend.securitygw.dataobject.request.LoginRequest;
+import com.backend.securitygw.dataobject.response.LoginResponse;
 import com.backend.securitygw.service.securityservices.AppUserService;
 import com.backend.securitygw.service.securityservices.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class LogController {
     }
 
     @PostMapping("/authenticate")
-    public JwtResponse authenticate(@RequestBody JwtRequest jwtRequest) {
+    public LoginResponse authenticate(@RequestBody LoginRequest jwtRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     jwtRequest.getUsername(), jwtRequest.getPassword()
@@ -43,7 +43,7 @@ public class LogController {
 
         final String token = jwtService.generateToken(userDetails);
 
-        return new JwtResponse(token);
+        return new LoginResponse(token);
     }
 
     @GetMapping("/pwd-forgot/{email}")

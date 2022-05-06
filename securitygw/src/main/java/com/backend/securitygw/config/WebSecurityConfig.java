@@ -1,7 +1,7 @@
 package com.backend.securitygw.config;
 
-import com.backend.securitygw.dataobject.jwt.JwtFilter;
 import com.backend.securitygw.service.securityservices.AppUserService;
+import com.backend.securitygw.service.securityservices.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

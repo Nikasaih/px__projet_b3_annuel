@@ -5,7 +5,7 @@ import com.backend.securitygw.common.exception.EmailAlreadyTakenExc;
 import com.backend.securitygw.common.exception.EmailNotValidExc;
 import com.backend.securitygw.common.exception.TokenExpiredExc;
 import com.backend.securitygw.common.exception.TokenNotFoundExc;
-import com.backend.securitygw.dataobject.accountrequest.RegistrationRequest;
+import com.backend.securitygw.dataobject.request.RegistrationRequest;
 import com.backend.securitygw.dataobject.sqlentity.AppUser;
 import com.backend.securitygw.dataobject.sqlentity.ConfirmationToken;
 import com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenRepository;

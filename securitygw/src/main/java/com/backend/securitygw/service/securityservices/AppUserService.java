@@ -3,14 +3,15 @@ package com.backend.securitygw.service.securityservices;
 import com.backend.securitygw.common.enumerator.AppUserRole;
 import com.backend.securitygw.common.exception.EmailAlreadyTakenExc;
 import com.backend.securitygw.common.exception.EmailNotValidExc;
-import com.backend.securitygw.dataobject.accountrequest.ChangeEmailRequest;
-import com.backend.securitygw.dataobject.accountrequest.ChangePasswordRequest;
+import com.backend.securitygw.dataobject.request.ChangeEmailRequest;
+import com.backend.securitygw.dataobject.request.ChangePasswordRequest;
 import com.backend.securitygw.dataobject.sqlentity.AppUser;
 import com.backend.securitygw.dataobject.sqlentity.ConfirmationToken;
 import com.backend.securitygw.dataobject.sqlrepository.AppUserRepository;
 import com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,6 +36,8 @@ public class AppUserService implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
+    @Value("${pepper.secret}")
+    private String pepper;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

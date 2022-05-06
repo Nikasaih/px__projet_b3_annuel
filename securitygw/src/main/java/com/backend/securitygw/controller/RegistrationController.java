@@ -2,7 +2,7 @@ package com.backend.securitygw.controller;
 
 import com.backend.securitygw.common.exception.EmailAlreadyTakenExc;
 import com.backend.securitygw.common.exception.EmailNotValidExc;
-import com.backend.securitygw.dataobject.accountrequest.RegistrationRequest;
+import com.backend.securitygw.dataobject.request.RegistrationRequest;
 import com.backend.securitygw.service.securityservices.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

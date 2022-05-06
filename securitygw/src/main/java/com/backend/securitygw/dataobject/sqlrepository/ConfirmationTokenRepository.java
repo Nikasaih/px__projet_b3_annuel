@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface ConfirmationTokenRepository extends CrudRepository<ConfirmationToken, Long> {
     Optional<ConfirmationToken> findByToken(String token);
 
+    //Todo change this
     @Transactional
     @Modifying
     @Query("UPDATE ConfirmationToken c " +
