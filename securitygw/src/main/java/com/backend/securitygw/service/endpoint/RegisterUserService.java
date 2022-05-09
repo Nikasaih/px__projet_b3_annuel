@@ -1,15 +1,18 @@
 package com.backend.securitygw.service.endpoint;
 
-import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
+import com.backend.securitygw.common.enumerator.ConfirmationTokenType;
 import com.backend.securitygw.common.exception.EmailAlreadyTakenExc;
 import com.backend.securitygw.dataobject.request.RegistrationRequest;
+import com.backend.securitygw.dataobject.sqlentity.ConfirmationToken;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
+import com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenSqlRepository;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +21,7 @@ import java.util.UUID;
 public class RegisterUserService {
     final UserSqlRepository userSqlRepository;
     final PasswordEncoder passwordEncoder;
+    final ConfirmationTokenSqlRepository confirmationTokenSqlRepository;
     ModelMapper mapper = new ModelMapper();
 
     public void registerUser(RegistrationRequest registrationRequest) throws EmailAlreadyTakenExc {
@@ -33,21 +37,28 @@ public class RegisterUserService {
         userSqlEntity.setHashedPassword(hashedPassword);
 
         userSqlRepository.save(userSqlEntity);
-
-        //-------------
-        //Todo Replace the following by send email
-        try {
-            enableAppUserByEmail(userSqlEntity.getEmail());
-        } catch (CredentialNotMatchingAccount e) {
-            return;
-        }
-        //-------------
     }
 
-    public void enableAppUserByEmail(String email) throws CredentialNotMatchingAccount {
+    public boolean enableAppUserByToken(String token, ConfirmationTokenType tokenType) {
+        Optional<ConfirmationToken> confirmationToken = confirmationTokenSqlRepository.findByToken(token);
+        if (confirmationToken.isEmpty()) {
+            return false;
+        }
+
+        if (confirmationToken.get().getConfirmationTokenType() != tokenType) {
+            return false;
+        }
+
+        confirmationToken.get().setConfirmedAt(LocalDateTime.now());
+        confirmationTokenSqlRepository.save(confirmationToken.get());
+        enableAppUserByEmail(confirmationToken.get().getAppUser().getEmail());
+        return true;
+    }
+
+    public void enableAppUserByEmail(String email) {
         Optional<UserSqlEntity> user = userSqlRepository.findByEmail(email);
         if (user.isEmpty()) {
-            throw new CredentialNotMatchingAccount();
+            return;
         }
 
         user.get().setIsEnabled(true);
