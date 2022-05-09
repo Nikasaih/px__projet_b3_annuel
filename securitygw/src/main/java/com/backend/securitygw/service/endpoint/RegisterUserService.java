@@ -37,6 +37,7 @@ public class RegisterUserService {
         userSqlEntity.setHashedPassword(hashedPassword);
 
         userSqlRepository.save(userSqlEntity);
+        //todo generate         registrationConfirmationToken and send by email
     }
 
     public boolean enableAppUserByToken(String token, ConfirmationTokenType tokenType) {

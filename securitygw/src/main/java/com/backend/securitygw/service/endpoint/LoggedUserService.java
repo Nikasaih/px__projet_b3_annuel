@@ -51,6 +51,4 @@ public class LoggedUserService {
         appUser.get().setHashedPassword(newHashedPwd);
         userSqlRepository.save(appUser.get());
     }
-
-
 }

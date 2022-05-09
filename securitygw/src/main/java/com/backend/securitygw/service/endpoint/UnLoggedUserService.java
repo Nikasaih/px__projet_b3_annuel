@@ -22,7 +22,7 @@ public class UnLoggedUserService {
     final UserSqlRepository userSqlRepository;
     final JwtService jwtService;
 
-    private String signIn(UserCurrentCredential userCurrentCredential) throws CredentialNotMatchingAccount, AccountNotEnableExc {
+    public String signIn(UserCurrentCredential userCurrentCredential) throws CredentialNotMatchingAccount, AccountNotEnableExc {
         Optional<UserSqlEntity> user = userSqlRepository.findByEmail(userCurrentCredential.getCurrentEmail());
         if (user.isEmpty()) {
             throw new CredentialNotMatchingAccount();
@@ -37,7 +37,7 @@ public class UnLoggedUserService {
         return jwtService.generateToken(jwtDatagram);
     }
 
-    private void pwdForgot(String email) {
+    public void pwdForgot(String email) {
         //todo generate pwd confirmation token and send by email
     }
 }
