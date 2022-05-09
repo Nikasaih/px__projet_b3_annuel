@@ -7,6 +7,7 @@ import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
 import com.backend.securitygw.service.miniservices.JwtService;
+import com.backend.securitygw.service.miniservices.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +19,14 @@ public class LoggedUserService {
     final UserSqlRepository userSqlRepository;
     final PasswordEncoder passwordEncoder;
     final JwtService jwtService;
+    final UserService userService;
 
     public void changeEmail(ChangeEmailRequest request) throws CredentialNotMatchingAccount {
         Optional<UserSqlEntity> appUser = userSqlRepository.findByEmail(request.getCurrentEmail());
         if (appUser.isEmpty()) {
             throw new CredentialNotMatchingAccount();
         }
-        final boolean validateCredential = passwordEncoder.validatePwd(
-                request.getCurrentPwd(),
-                appUser.get().getHashedPasswordSalt(),
-                appUser.get().getHashedPassword());
-        if (!validateCredential) {
+        if (!userService.validateCredential(appUser.get(), request.getCurrentPwd())) {
             return;
         }
 
@@ -41,18 +39,10 @@ public class LoggedUserService {
         if (appUser.isEmpty()) {
             throw new CredentialNotMatchingAccount();
         }
-        final boolean validateCredential = passwordEncoder.validatePwd(
-                request.getCurrentPwd(),
-                appUser.get().getHashedPasswordSalt(),
-                appUser.get().getHashedPassword());
-        if (!validateCredential) {
+        if (!userService.validateCredential(appUser.get(), request.getCurrentPwd())) {
             return;
         }
 
-        final String newHashedPwd = passwordEncoder.hashPwd(request.getNewPwd(), appUser.get().getHashedPasswordSalt());
-        appUser.get().setHashedPassword(newHashedPwd);
-        userSqlRepository.save(appUser.get());
+        userService.changePwd(appUser.get(), request.getNewPwd());
     }
-
-
 }

@@ -3,37 +3,41 @@ package com.backend.securitygw.service.endpoint;
 import com.backend.securitygw.common.enumerator.ConfirmationTokenType;
 import com.backend.securitygw.common.exception.AccountNotEnableExc;
 import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
+import com.backend.securitygw.dataobject.request.ForgotPasswordRequest;
 import com.backend.securitygw.dataobject.request.UserCurrentCredential;
 import com.backend.securitygw.dataobject.response.JwtDatagram;
 import com.backend.securitygw.dataobject.sqlentity.ConfirmationToken;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
+import com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenSqlRepository;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
-import com.backend.securitygw.service.encryptor.PasswordEncoder;
 import com.backend.securitygw.service.miniservices.ConfirmationTokenGeneratorService;
 import com.backend.securitygw.service.miniservices.EmailSenderService;
 import com.backend.securitygw.service.miniservices.JwtService;
+import com.backend.securitygw.service.miniservices.UserService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UnLoggedUserService {
-    final PasswordEncoder passwordEncoder;
     final ModelMapper mapper = new ModelMapper();
     final UserSqlRepository userSqlRepository;
     final JwtService jwtService;
     final EmailSenderService emailSenderService;
     final ConfirmationTokenGeneratorService confirmationTokenGeneratorService;
+    final ConfirmationTokenSqlRepository confirmationTokenSqlRepository;
+    final UserService userService;
 
     public String signIn(UserCurrentCredential userCurrentCredential) throws CredentialNotMatchingAccount, AccountNotEnableExc {
         Optional<UserSqlEntity> user = userSqlRepository.findByEmail(userCurrentCredential.getCurrentEmail());
         if (user.isEmpty()) {
             throw new CredentialNotMatchingAccount();
         }
-        if (!passwordEncoder.validatePwd(userCurrentCredential.getCurrentPwd(), user.get().getHashedPasswordSalt(), user.get().getHashedPassword())) {
+        if (!userService.validateCredential(user.get(), userCurrentCredential.getCurrentPwd())) {
             throw new CredentialNotMatchingAccount();
         }
         if (!user.get().getIsEnabled()) {
@@ -43,7 +47,7 @@ public class UnLoggedUserService {
         return jwtService.generateToken(jwtDatagram);
     }
 
-    public void pwdForgot(String email) {
+    public void sendPwdForgot(String email) {
         Optional<UserSqlEntity> userSqlEntity = userSqlRepository.findByEmail(email);
         if (userSqlEntity.isEmpty()) {
             return;
@@ -53,5 +57,22 @@ public class UnLoggedUserService {
 
         String registrationConfirmationUrl = String.format("/password-forgot?email=%s", confirmationToken.getToken());
         emailSenderService.sendRegistrationEmail(userSqlEntity.get().getEmail(), registrationConfirmationUrl);
+    }
+
+    public void updatePwdForgot(ForgotPasswordRequest forgotPasswordRequest) {
+        Optional<ConfirmationToken> confirmationToken = confirmationTokenSqlRepository.findByToken(forgotPasswordRequest.getToken());
+        if (confirmationToken.isEmpty()) {
+            return;
+        }
+        if (confirmationToken.get().getConfirmationTokenType() != forgotPasswordRequest.getConfirmationTokenType()) {
+            return;
+        }
+
+        confirmationToken.get().setConfirmedAt(LocalDateTime.now());
+        confirmationTokenSqlRepository.save(confirmationToken.get());
+
+        UserSqlEntity user = confirmationToken.get().getAppUser();
+
+        userService.changePwd(user, forgotPasswordRequest.getNewPwd());
     }
 }

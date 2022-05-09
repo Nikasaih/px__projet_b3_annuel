@@ -2,16 +2,14 @@ package com.backend.securitygw.controller;
 
 import com.backend.securitygw.common.exception.AccountNotEnableExc;
 import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
+import com.backend.securitygw.dataobject.request.ForgotPasswordRequest;
 import com.backend.securitygw.dataobject.request.UserCurrentCredential;
 import com.backend.securitygw.service.endpoint.UnLoggedUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -35,10 +33,21 @@ public class UnLoggedController {
         }
     }
 
-    @PostMapping("/password-forgot")
-    public ResponseEntity<String> pwdForgot(@RequestParam("email") String email) {
-        unLoggedUserService.pwdForgot(email);
+    @PostMapping("/send-password-forgot")
+    public ResponseEntity<String> sendPwdForgot(@RequestParam("email") String email) {
+        unLoggedUserService.sendPwdForgot(email);
         return ResponseEntity.status(HttpStatus.OK)
                 .body("An email has been sent to change your password account. If you don't receive it, maybe it's because no account is link with your mail");
+    }
+
+    @GetMapping("/password-forgot")
+    public ResponseEntity<String> pwdForgot(@RequestBody @Valid ForgotPasswordRequest forgotPasswordRequest, BindingResult result) {
+        if (result.hasErrors()) {
+            String errors = result.getAllErrors().toString();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+        unLoggedUserService.updatePwdForgot(forgotPasswordRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Password updated");
     }
 }
