@@ -2,6 +2,7 @@ package com.backend.securitygw.service.endpoint;
 
 import com.backend.securitygw.common.enumerator.AppUserRole;
 import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
+import com.backend.securitygw.dataobject.response.JwtDatagram;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +29,11 @@ public class UserRoleService {
         userSqlRepository.save(appUser.get());
     }
 
-    public boolean hasAdminAuthority(UserSqlEntity user) {
+    public boolean hasAdminAuthority(JwtDatagram user) {
         return adminAuthority.contains(user.getAppUserRole());
     }
 
-    public boolean hasBasicAuthority(UserSqlEntity user) {
+    public boolean hasBasicAuthority(JwtDatagram user) {
         return basicAuthority.contains(user.getAppUserRole());
     }
 }

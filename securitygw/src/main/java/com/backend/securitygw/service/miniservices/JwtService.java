@@ -4,6 +4,7 @@ import com.backend.securitygw.dataobject.response.JwtDatagram;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ public class JwtService implements Serializable {
     public static final long HOUR_OF_VALIDITY = 1;
     public static final long JWT_TOKEN_VALIDITY = DAY_OF_VALIDITY * HOUR_OF_VALIDITY * 60 * 60; //Day hour minutes second
     private static final long serialVersionUID = 234234523523L;
+    ModelMapper mapper = new ModelMapper();
     @Value("${jwt.secret}")
     private String jwtSecret;
 
@@ -46,7 +48,7 @@ public class JwtService implements Serializable {
 
 
     //check if the token has expired
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
@@ -64,6 +66,10 @@ public class JwtService implements Serializable {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
 
+    public JwtDatagram parseJwt(String jwtRaw) {
+        Map<String, Object> payload = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtRaw).getBody();
+        return mapper.map(payload, JwtDatagram.class);
+    }
 
     //validate token
     /*

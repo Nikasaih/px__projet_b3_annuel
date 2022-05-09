@@ -6,6 +6,7 @@ import com.backend.securitygw.dataobject.request.ChangePasswordRequest;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
+import com.backend.securitygw.service.miniservices.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 public class LoggedUserService {
     final UserSqlRepository userSqlRepository;
     final PasswordEncoder passwordEncoder;
+    final JwtService jwtService;
 
     public void changeEmail(ChangeEmailRequest request) throws CredentialNotMatchingAccount {
         Optional<UserSqlEntity> appUser = userSqlRepository.findByEmail(request.getCurrentEmail());
@@ -51,4 +53,6 @@ public class LoggedUserService {
         appUser.get().setHashedPassword(newHashedPwd);
         userSqlRepository.save(appUser.get());
     }
+
+
 }
