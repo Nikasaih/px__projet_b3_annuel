@@ -1,8 +1,7 @@
-package com.backend.securitygw.config;
+package com.backend.securitygw.service.encryptor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class MyEncryptor {
@@ -10,5 +9,4 @@ public class MyEncryptor {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

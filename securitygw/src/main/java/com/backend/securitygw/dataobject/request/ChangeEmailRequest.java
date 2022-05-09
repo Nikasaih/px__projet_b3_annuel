@@ -1,6 +1,5 @@
 package com.backend.securitygw.dataobject.request;
 
-import com.backend.securitygw.dataobject.aentity.LoggedUserRequest;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class ChangeEmailRequest extends LoggedUserRequest {
+public class ChangeEmailRequest extends UserCurrentCredential {
     @NotNull
     @NotBlank
     @Email

@@ -1,10 +1,10 @@
 package com.backend.securitygw.service.miniservices;
 
+import com.backend.securitygw.dataobject.response.JwtDatagram;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -20,7 +20,7 @@ public class JwtService implements Serializable {
     public static final long JWT_TOKEN_VALIDITY = DAY_OF_VALIDITY * HOUR_OF_VALIDITY * 60 * 60; //Day hour minutes second
     private static final long serialVersionUID = 234234523523L;
     @Value("${jwt.secret}")
-    private String secretKey;
+    private String jwtSecret;
 
     //retrieve username from jwt token
     public String getUsernameFromToken(String token) {
@@ -41,7 +41,7 @@ public class JwtService implements Serializable {
 
     //for retrieving any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
     }
 
 
@@ -53,21 +53,22 @@ public class JwtService implements Serializable {
 
 
     //generate token for user
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(JwtDatagram jwtDatagram) {
         Map<String, Object> claims = new HashMap<>();
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(jwtDatagram.getFirstName())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS512, secretKey).compact();
+                .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
 
 
     //validate token
+    /*
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
+    }*/
 }

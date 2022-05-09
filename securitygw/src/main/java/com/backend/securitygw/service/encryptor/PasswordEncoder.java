@@ -1,7 +1,6 @@
-package com.backend.securitygw.config;
+package com.backend.securitygw.service.encryptor;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,7 +8,6 @@ public class PasswordEncoder {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Value("${pepper.secret}")
     private String pepper;
-
 
     public String hashPwd(String rawUserPwd, String userSalt) {
         String toHash = rawUserPwd + userSalt + pepper;

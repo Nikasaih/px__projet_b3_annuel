@@ -3,18 +3,17 @@ package com.backend.securitygw.dataobject.aentity;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Setter
+@MappedSuperclass
 @Getter
-public abstract class LoggedUserRequest {
+@Setter
+public abstract class PrivateUserDataAbs extends PublicUserDataAbs {
     @NotNull
     @NotBlank
     @Email
-    private String currentEmail;
-    @NotNull
-    @NotBlank
-    private String currentPwd;
+    private String email;
 }
