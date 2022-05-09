@@ -28,4 +28,16 @@ public class EmailSenderService {
 
         log.info("mail sent successfully");
     }
+
+    @Async
+    public void sendRegistrationEmail(String emailReceiver, String confirmationUrl) {
+        final String registrationConfirmationEmailContent = String.format("%s", confirmationUrl);
+        sendEmail(emailReceiver, "Confirm your registration", registrationConfirmationEmailContent);
+    }
+
+    @Async
+    public void sendForgotPasswordUrl(String emailReceiver, String confirmationUrl) {
+        final String forgotPwdContent = String.format("%s", confirmationUrl);
+        sendEmail(emailReceiver, "Confirm your registration", forgotPwdContent);
+    }
 }

@@ -8,6 +8,8 @@ import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenSqlRepository;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
+import com.backend.securitygw.service.miniservices.ConfirmationTokenGeneratorService;
+import com.backend.securitygw.service.miniservices.EmailSenderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class RegisterUserService {
     final UserSqlRepository userSqlRepository;
     final PasswordEncoder passwordEncoder;
     final ConfirmationTokenSqlRepository confirmationTokenSqlRepository;
+    final EmailSenderService emailSenderService;
+    final ConfirmationTokenGeneratorService confirmationTokenGeneratorService;
     ModelMapper mapper = new ModelMapper();
 
     public void registerUser(RegistrationRequest registrationRequest) throws EmailAlreadyTakenExc {
@@ -37,8 +41,14 @@ public class RegisterUserService {
         userSqlEntity.setHashedPassword(hashedPassword);
 
         userSqlRepository.save(userSqlEntity);
-        //todo generate         registrationConfirmationToken and send by email
+
+        ConfirmationToken confirmationToken = confirmationTokenGeneratorService
+                .generateConfirmationToken(userSqlEntity, ConfirmationTokenType.REGISTER);
+
+        String registrationConfirmationUrl = String.format("/confirm-registration?token=%s", confirmationToken.getToken());
+        emailSenderService.sendRegistrationEmail(userSqlEntity.getEmail(), registrationConfirmationUrl);
     }
+
 
     public boolean enableAppUserByToken(String token, ConfirmationTokenType tokenType) {
         Optional<ConfirmationToken> confirmationToken = confirmationTokenSqlRepository.findByToken(token);

@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Slf4j
 public class RegisterUserController {
-    RegisterUserService registerUserService;
+    final RegisterUserService registerUserService;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody @Valid RegistrationRequest registrationRequest, BindingResult result) {

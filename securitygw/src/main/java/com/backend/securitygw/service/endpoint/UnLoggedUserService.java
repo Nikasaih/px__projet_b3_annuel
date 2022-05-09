@@ -1,12 +1,16 @@
 package com.backend.securitygw.service.endpoint;
 
+import com.backend.securitygw.common.enumerator.ConfirmationTokenType;
 import com.backend.securitygw.common.exception.AccountNotEnableExc;
 import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
 import com.backend.securitygw.dataobject.request.UserCurrentCredential;
 import com.backend.securitygw.dataobject.response.JwtDatagram;
+import com.backend.securitygw.dataobject.sqlentity.ConfirmationToken;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
+import com.backend.securitygw.service.miniservices.ConfirmationTokenGeneratorService;
+import com.backend.securitygw.service.miniservices.EmailSenderService;
 import com.backend.securitygw.service.miniservices.JwtService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,6 +25,8 @@ public class UnLoggedUserService {
     final ModelMapper mapper = new ModelMapper();
     final UserSqlRepository userSqlRepository;
     final JwtService jwtService;
+    final EmailSenderService emailSenderService;
+    final ConfirmationTokenGeneratorService confirmationTokenGeneratorService;
 
     public String signIn(UserCurrentCredential userCurrentCredential) throws CredentialNotMatchingAccount, AccountNotEnableExc {
         Optional<UserSqlEntity> user = userSqlRepository.findByEmail(userCurrentCredential.getCurrentEmail());
@@ -38,6 +44,14 @@ public class UnLoggedUserService {
     }
 
     public void pwdForgot(String email) {
-        //todo generate pwd confirmation token and send by email
+        Optional<UserSqlEntity> userSqlEntity = userSqlRepository.findByEmail(email);
+        if (userSqlEntity.isEmpty()) {
+            return;
+        }
+        ConfirmationToken confirmationToken = confirmationTokenGeneratorService
+                .generateConfirmationToken(userSqlEntity.get(), ConfirmationTokenType.PWD_FORGOT);
+
+        String registrationConfirmationUrl = String.format("/password-forgot?email=%s", confirmationToken.getToken());
+        emailSenderService.sendRegistrationEmail(userSqlEntity.get().getEmail(), registrationConfirmationUrl);
     }
 }
