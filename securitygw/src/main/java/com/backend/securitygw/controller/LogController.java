@@ -1,20 +1,9 @@
 package com.backend.securitygw.controller;
 
-import com.backend.securitygw.dataobject.request.ChangeEmailRequest;
-import com.backend.securitygw.dataobject.request.ChangePasswordRequest;
-import com.backend.securitygw.dataobject.request.LoginRequest;
-import com.backend.securitygw.dataobject.response.LoginResponse;
-import com.backend.securitygw.service.securityservices.AppUserService;
-import com.backend.securitygw.service.securityservices.JwtService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LogController {
+public class LogController {/*
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -59,5 +48,5 @@ public class LogController {
     @PostMapping("/change-mail")
     public String changeMail(@RequestBody ChangeEmailRequest changeEmailDto) {
         return appUserService.changeEmail(changeEmailDto);
-    }
+    }*/
 }

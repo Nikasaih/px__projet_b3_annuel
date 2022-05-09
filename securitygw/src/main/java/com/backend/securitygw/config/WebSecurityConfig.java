@@ -1,7 +1,7 @@
 package com.backend.securitygw.config;
 
-import com.backend.securitygw.service.securityservices.AppUserService;
-import com.backend.securitygw.service.securityservices.JwtFilter;
+import com.backend.securitygw.service.miniservices.JwtFilter;
+import com.backend.securitygw.service.refacto.AppUserServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    AppUserService appUserService;
+    AppUserServiceUtils appUserService;
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
     @Autowired

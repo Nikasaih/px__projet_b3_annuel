@@ -1,0 +1,207 @@
+@startuml
+enum com.backend.securitygw.common.enumerator.AppUserRole {
++  USER_ROLE
++  ROLE_ADMIN
+}
+class com.backend.securitygw.service.refacto.RegisterUserService {
+~ AppUserServiceUtils appUserServiceUtils
+~ PasswordEncoder passwordEncoder
+~ AppUserRepository appUserRepository
+~ EmailSenderService emailSenderService
+~ String REGISTRATION_ROOT_ROUTE
+~ ConfirmationTokenManagerService confirmationTokenManager
+- String pepper
++ void registerUser(AppUser)
++ void enableAppUserByEmail(String)
+}
+class com.backend.securitygw.service.miniservices.JwtFilter {
+- JwtService jwtService
+- AppUserServiceUtils appUserService
+# void doFilterInternal(HttpServletRequest,HttpServletResponse,FilterChain)
+~ void test(HttpServletRequest)
+}
+class com.backend.securitygw.common.exception.StorageFileNotFoundExc {
+}
+class com.backend.securitygw.common.exception.IncorrectDtoForUpdateExc {
+}
+class com.backend.securitygw.service.refacto.LoggedUserService {
+~ AppUserRepository appUserRepository
+~ AppUserServiceUtils appUserServiceUtils
+~ PasswordEncoder passwordEncoder
++ void ChangeEmail(ChangeEmailRequest)
++ void ChangePwd(ChangePasswordRequest)
++ void grantAdminRole(String)
+}
+class com.backend.securitygw.dataobject.request.ChangeEmailRequest {
+- String newEmail
+}
+class com.backend.securitygw.dataobject.request.ChangePasswordRequest {
+- String newPwd
+}
+interface com.backend.securitygw.dataobject.sqlrepository.RegistrationConfirmationTokenRepository {
+}
+class com.backend.securitygw.common.exception.StorageExceptionExc {
+}
+class com.backend.securitygw.common.exception.IncorrectDtoForCreationExc {
+}
+class com.backend.securitygw.dataobject.request.LoginRequest {
+- String emailLogin
+- String password
+}
+class com.backend.securitygw.dataobject.request.RegistrationRequest {
+- String firstName
+- String lastName
+- String email
+- String password
+}
+interface com.backend.securitygw.dataobject.sqlrepository.PwdForgotConfirmationTokenRepository {
+}
+class com.backend.securitygw.dataobject.aentity.ConfirmationToken {
+- Long id
+- String token
+- LocalDateTime createdAt
+- LocalDateTime expiredAt
+- LocalDateTime confirmedAt
+- AppUser appUser
+}
+interface com.backend.securitygw.dataobject.sqlrepository.AppUserRepository {
+~ Optional<AppUser> findByEmail(String)
+}
+class com.backend.securitygw.controller.RegistrationController {
+}
+class com.backend.securitygw.config.MyEncryptor {
++ BCryptPasswordEncoder bCryptPasswordEncoder()
+}
+class com.backend.securitygw.service.miniservices.JwtService {
++ {static} long DAY_OF_VALIDITY
++ {static} long HOUR_OF_VALIDITY
++ {static} long JWT_TOKEN_VALIDITY
+- {static} long serialVersionUID
+- String secretKey
++ String getUsernameFromToken(String)
++ Date getExpirationDateFromToken(String)
++ T getClaimFromToken(String,Function<Claims,T>)
+- Claims getAllClaimsFromToken(String)
+- Boolean isTokenExpired(String)
++ String generateToken(UserDetails)
++ Boolean validateToken(String,UserDetails)
+}
+class com.backend.securitygw.service.refacto.ConfirmationTokenManagerService {
+~ Map<ConfirmationTokenType,CrudRepository> repositoryMap
+~ RegistrationConfirmationTokenRepository registrationConfirmationTokenRepository
+~ PwdForgotConfirmationTokenRepository pwdForgotConfirmationTokenRepository
++ String generateConfirmationToken(AppUser,ConfirmationTokenType)
++ RegisterConfirmationToken validateConfirmationToken(AppUser,ConfirmationTokenType,String)
+- void initMap()
+}
+class com.backend.securitygw.common.exception.TokenAlreadyConfirmedExc {
+}
+enum com.backend.securitygw.common.enumerator.ConfirmationTokenType {
++  REGISTER
++  PWD_FORGOT
+}
+class com.backend.securitygw.common.exception.TokenExpiredExc {
+}
+class com.backend.securitygw.dataobject.sqlentity.RegisterConfirmationToken {
+}
+class com.backend.securitygw.controller.LogController {
+}
+abstract class com.backend.securitygw.dataobject.aentity.LoggedUserRequest {
+- String currentEmail
+- String currentPwd
+}
+class com.backend.securitygw.common.exception.TokenNotFoundExc {
+}
+class com.backend.securitygw.dataobject.sqlentity.PwdChangeEmailConfirmationToken {
+}
+class com.backend.securitygw.service.refacto.UnLoggedUserService {
+}
+class com.backend.securitygw.common.exception.EmailAlreadyTakenExc {
+}
+class com.backend.securitygw.config.WebSecurityConfig {
+~ AppUserServiceUtils appUserService
+~ BCryptPasswordEncoder passwordEncoder
+~ JwtFilter jwtFilter
+# void configure(HttpSecurity)
+# void configure(AuthenticationManagerBuilder)
++ AuthenticationManager authenticationManagerBean()
++ DaoAuthenticationProvider daoAuthenticationProvider()
+}
+class com.backend.securitygw.dataobject.sqlentity.AppUser {
+- Long id
+- String firstName
+- String lastName
+- String email
+- String password
+- String salt
+- AppUserRole appUserRole
+- Boolean locked
+- Boolean enabled
++ Collection<? extends GrantedAuthority> getAuthorities()
++ String getPassword()
++ String getUsername()
++ boolean isAccountNonExpired()
++ boolean isAccountNonLocked()
++ boolean isCredentialsNonExpired()
++ boolean isEnabled()
+}
+class com.backend.securitygw.common.exception.EntityWithIdNotFoundExc {
+}
+class com.backend.securitygw.dataobject.response.LoginResponse {
+- String jwtToken
+}
+class com.backend.securitygw.common.exception.EmailNotValidExc {
+}
+class com.backend.securitygw.common.exception.EntityRelatedNotFoundExc {
+}
+interface com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenRepository {
+~ Optional<ConfirmationToken> findByToken(String)
+}
+class com.backend.securitygw.SecuritygwApplication {
++ {static} void main(String[])
+}
+class com.backend.securitygw.service.refacto.AppUserServiceUtils {
+- {static} String USER_NOT_FOUND
+- AppUserRepository appUserRepository
++ UserDetails loadUserByUsername(String)
++ boolean isUserExists(String)
+}
+class com.backend.securitygw.service.miniservices.EmailSenderService {
+~ Logger logger
+- JavaMailSender mailSender
+- String emailSender
++ void sendEmail(String,String,String)
+}
+class com.backend.securitygw.config.PasswordEncoder {
+~ BCryptPasswordEncoder bCryptPasswordEncoder
+- String pepper
++ String hashPwd(String,String)
++ boolean validatePwd(String,String,String)
+}
+
+
+org.springframework.web.filter.OncePerRequestFilter <|-- com.backend.securitygw.service.miniservices.JwtFilter
+com.backend.securitygw.common.exception.StorageExceptionExc <|-- com.backend.securitygw.common.exception.StorageFileNotFoundExc
+com.backend.securitygw.common.exception.Exception <|-- com.backend.securitygw.common.exception.IncorrectDtoForUpdateExc
+com.backend.securitygw.dataobject.aentity.LoggedUserRequest <|-- com.backend.securitygw.dataobject.request.ChangeEmailRequest
+com.backend.securitygw.dataobject.aentity.LoggedUserRequest <|-- com.backend.securitygw.dataobject.request.ChangePasswordRequest
+org.springframework.data.repository.CrudRepository <|-- com.backend.securitygw.dataobject.sqlrepository.RegistrationConfirmationTokenRepository
+com.backend.securitygw.common.exception.RuntimeException <|-- com.backend.securitygw.common.exception.StorageExceptionExc
+com.backend.securitygw.common.exception.Exception <|-- com.backend.securitygw.common.exception.IncorrectDtoForCreationExc
+org.springframework.data.repository.CrudRepository <|-- com.backend.securitygw.dataobject.sqlrepository.PwdForgotConfirmationTokenRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- com.backend.securitygw.dataobject.sqlrepository.AppUserRepository
+java.io.Serializable <|.. com.backend.securitygw.service.miniservices.JwtService
+com.backend.securitygw.common.exception.Exception <|-- com.backend.securitygw.common.exception.TokenAlreadyConfirmedExc
+com.backend.securitygw.common.exception.Exception <|-- com.backend.securitygw.common.exception.TokenExpiredExc
+com.backend.securitygw.dataobject.aentity.ConfirmationToken <|-- com.backend.securitygw.dataobject.sqlentity.RegisterConfirmationToken
+com.backend.securitygw.common.exception.Exception <|-- com.backend.securitygw.common.exception.TokenNotFoundExc
+com.backend.securitygw.dataobject.aentity.ConfirmationToken <|-- com.backend.securitygw.dataobject.sqlentity.PwdChangeEmailConfirmationToken
+com.backend.securitygw.common.exception.Exception <|-- com.backend.securitygw.common.exception.EmailAlreadyTakenExc
+org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter <|-- com.backend.securitygw.config.WebSecurityConfig
+org.springframework.security.core.userdetails.UserDetails <|.. com.backend.securitygw.dataobject.sqlentity.AppUser
+com.backend.securitygw.common.exception.Exception <|-- com.backend.securitygw.common.exception.EntityWithIdNotFoundExc
+com.backend.securitygw.common.exception.Exception <|-- com.backend.securitygw.common.exception.EmailNotValidExc
+com.backend.securitygw.common.exception.Exception <|-- com.backend.securitygw.common.exception.EntityRelatedNotFoundExc
+org.springframework.data.repository.CrudRepository <|-- com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenRepository
+org.springframework.security.core.userdetails.UserDetailsService <|.. com.backend.securitygw.service.refacto.AppUserServiceUtils
+@enduml

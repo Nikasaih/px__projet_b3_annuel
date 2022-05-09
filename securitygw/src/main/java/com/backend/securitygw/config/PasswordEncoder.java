@@ -1,13 +1,22 @@
 package com.backend.securitygw.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-@Configuration
+@Service
 public class PasswordEncoder {
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Value("${pepper.secret}")
+    private String pepper;
+
+
+    public String hashPwd(String rawUserPwd, String userSalt) {
+        String toHash = rawUserPwd + userSalt + pepper;
+        return bCryptPasswordEncoder.encode(toHash);
+    }
+
+    public boolean validatePwd(String rawUserPwd, String userSalt, String savedHashedPwd) {
+        return hashPwd(rawUserPwd, userSalt).equals(savedHashedPwd);
     }
 }

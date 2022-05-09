@@ -24,6 +24,7 @@ public class AppUser implements UserDetails {
     private String lastName;
     private String email;
     private String password;
+    private String salt;
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole = AppUserRole.USER_ROLE;
     private Boolean locked = false;
@@ -42,7 +43,6 @@ public class AppUser implements UserDetails {
         return Collections.singleton(authority);
     }
 
-    @Override
     public String getPassword() {
         return password;
     }

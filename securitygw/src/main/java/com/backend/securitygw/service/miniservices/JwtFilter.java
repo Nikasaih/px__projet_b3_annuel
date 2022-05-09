@@ -1,6 +1,7 @@
-package com.backend.securitygw.service.securityservices;
+package com.backend.securitygw.service.miniservices;
 
 
+import com.backend.securitygw.service.refacto.AppUserServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +21,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtService jwtService;
     @Autowired
-    private AppUserService appUserService;
+    private AppUserServiceUtils appUserService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -33,10 +34,6 @@ public class JwtFilter extends OncePerRequestFilter {
         String autorization = request.getHeader("Authorization");
 
         if (autorization == null) {
-            return;
-        }
-
-        if (!autorization.startsWith("Bearer ")) {
             return;
         }
 

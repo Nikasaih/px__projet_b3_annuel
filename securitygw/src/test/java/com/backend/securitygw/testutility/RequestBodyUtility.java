@@ -43,7 +43,7 @@ public class RequestBodyUtility {
 
     public static ChangePasswordRequest defaultChangePasswordRequest() {
         ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest();
-        changePasswordRequest.setEmail(UTIL_EMAIL);
+        changePasswordRequest.setCurrentEmail(UTIL_EMAIL);
         changePasswordRequest.setCurrentPwd(UTIL_PASSWORD);
         changePasswordRequest.setNewPwd(UTIL_PASSWORD + "new");
         return changePasswordRequest;
@@ -51,7 +51,7 @@ public class RequestBodyUtility {
 
     public static ChangePasswordRequest faultChangePasswordRequest() {
         ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest();
-        changePasswordRequest.setEmail(UTIL_EMAIL);
+        changePasswordRequest.setCurrentEmail(UTIL_EMAIL);
         changePasswordRequest.setCurrentPwd(UTIL_PASSWORD);
         return changePasswordRequest;
     }
@@ -60,14 +60,14 @@ public class RequestBodyUtility {
         ChangeEmailRequest changeEmailRequest = new ChangeEmailRequest();
         changeEmailRequest.setCurrentEmail(UTIL_EMAIL);
         changeEmailRequest.setNewEmail("new" + UTIL_EMAIL);
-        changeEmailRequest.setPassword(UTIL_PASSWORD);
+        changeEmailRequest.setCurrentPwd(UTIL_PASSWORD);
         return changeEmailRequest;
     }
 
     public static ChangeEmailRequest faultChangeEmailRequest() {
         ChangeEmailRequest changeEmailRequest = new ChangeEmailRequest();
         changeEmailRequest.setCurrentEmail(UTIL_EMAIL);
-        changeEmailRequest.setPassword(UTIL_PASSWORD);
+        changeEmailRequest.setCurrentPwd(UTIL_PASSWORD);
         return changeEmailRequest;
     }
 }
