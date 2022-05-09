@@ -6,7 +6,7 @@ import com.backend.securitygw.dataobject.request.RegistrationRequest;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RegisterUserService {
     final UserSqlRepository userSqlRepository;
     final PasswordEncoder passwordEncoder;
-    final ModelMapper mapper = new ModelMapper();
+    ModelMapper mapper = new ModelMapper();
 
     public void registerUser(RegistrationRequest registrationRequest) throws EmailAlreadyTakenExc {
         if (userSqlRepository.findByEmail(registrationRequest.getEmail()).isEmpty()) {

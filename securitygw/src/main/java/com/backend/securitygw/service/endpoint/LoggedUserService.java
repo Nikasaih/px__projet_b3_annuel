@@ -6,18 +6,18 @@ import com.backend.securitygw.dataobject.request.ChangePasswordRequest;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoggedUserService {
     final UserSqlRepository userSqlRepository;
     final PasswordEncoder passwordEncoder;
 
-    public void ChangeEmail(ChangeEmailRequest request) throws CredentialNotMatchingAccount {
+    public void changeEmail(ChangeEmailRequest request) throws CredentialNotMatchingAccount {
         Optional<UserSqlEntity> appUser = userSqlRepository.findByEmail(request.getCurrentEmail());
         if (appUser.isEmpty()) {
             throw new CredentialNotMatchingAccount();
@@ -34,7 +34,7 @@ public class LoggedUserService {
         userSqlRepository.save(appUser.get());
     }
 
-    public void ChangePwd(ChangePasswordRequest request) throws CredentialNotMatchingAccount {
+    public void changePwd(ChangePasswordRequest request) throws CredentialNotMatchingAccount {
         Optional<UserSqlEntity> appUser = userSqlRepository.findByEmail(request.getCurrentEmail());
         if (appUser.isEmpty()) {
             throw new CredentialNotMatchingAccount();

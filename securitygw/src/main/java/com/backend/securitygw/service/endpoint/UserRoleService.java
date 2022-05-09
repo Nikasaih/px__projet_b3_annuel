@@ -4,7 +4,7 @@ import com.backend.securitygw.common.enumerator.AppUserRole;
 import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -13,12 +13,11 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserRoleService {
-    final Set<AppUserRole> adminAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN));
-    final Set<AppUserRole> basicAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN, AppUserRole.USER_ROLE));
-
-    UserSqlRepository userSqlRepository;
+    final UserSqlRepository userSqlRepository;
+    Set<AppUserRole> adminAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN));
+    Set<AppUserRole> basicAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN, AppUserRole.USER_ROLE));
 
     public void grantAdminRole(String email) throws CredentialNotMatchingAccount {
         Optional<UserSqlEntity> appUser = userSqlRepository.findByEmail(email);
