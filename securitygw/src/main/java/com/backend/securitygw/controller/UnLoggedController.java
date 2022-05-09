@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,9 +21,9 @@ public class UnLoggedController {
     UnLoggedUserService unLoggedUserService;
 
     @PostMapping("/sign-in")
-    public ResponseEntity<?> signIn(@RequestBody @Valid UserCurrentCredential userCurrentCredential, BindingResult result) {
+    public ResponseEntity<String> signIn(@RequestBody @Valid UserCurrentCredential userCurrentCredential, BindingResult result) {
         if (result.hasErrors()) {
-            List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+            String errors = result.getAllErrors().toString();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
         }
 
@@ -33,7 +31,7 @@ public class UnLoggedController {
             String jwt = unLoggedUserService.signIn(userCurrentCredential);
             return ResponseEntity.status(HttpStatus.OK).body(jwt);
         } catch (CredentialNotMatchingAccount | AccountNotEnableExc e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
         }
     }
 

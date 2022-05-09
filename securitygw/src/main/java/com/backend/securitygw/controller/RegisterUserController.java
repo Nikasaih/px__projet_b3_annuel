@@ -11,8 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,9 +19,9 @@ public class RegisterUserController {
     RegisterUserService registerUserService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody @Valid RegistrationRequest registrationRequest, BindingResult result) {
+    public ResponseEntity<String> registerUser(@RequestBody @Valid RegistrationRequest registrationRequest, BindingResult result) {
         if (result.hasErrors()) {
-            List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+            String errors = result.getAllErrors().toString();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
         }
         try {
