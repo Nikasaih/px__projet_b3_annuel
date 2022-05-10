@@ -11,9 +11,16 @@ import java.util.HashSet;
 public final class PersistentUtility {
     public static ArticleDto defaultArticleDto() {
         ArticleDto articleDto = new ArticleDto();
-        articleDto.setCategoriesId(new HashSet<>());
-        articleDto.setColorsId(new HashSet<>());
-        articleDto.setMaterialsId(new HashSet<>());
+        articleDto.setDescription("idjnd");
+        articleDto.setImagePath("img");
+        articleDto.setStocks(51L);
+        articleDto.setPrice(5415L);
+        articleDto.setCustomerNumber(1455L);
+        articleDto.setName("ijfi");
+        articleDto.setSize("ifjf");
+        articleDto.setCategoriesId(new HashSet<Long>());
+        articleDto.setColorsId(new HashSet<Long>());
+        articleDto.setMaterialsId(new HashSet<Long>());
         return articleDto;
     }
 
@@ -26,6 +33,8 @@ public final class PersistentUtility {
 
     public static ColorDto defaultColorDto() {
         ColorDto colorDto = new ColorDto();
+        colorDto.setName("name");
+        colorDto.setHexacode("fidji");
         colorDto.setArticlesId(new ArrayList<>());
         return colorDto;
     }
@@ -36,6 +45,7 @@ public final class PersistentUtility {
 
     public static CategoryDto defaultCategoryDto() {
         CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setRoom("room");
         categoryDto.setArticlesId(new ArrayList<>());
         return categoryDto;
     }
@@ -47,6 +57,8 @@ public final class PersistentUtility {
 
     public static MaterialDto defaultMaterialDto() {
         MaterialDto materialDto = new MaterialDto();
+        materialDto.setName("name");
+        materialDto.setType("type");
         materialDto.setArticlesId(new ArrayList<>());
         return materialDto;
     }

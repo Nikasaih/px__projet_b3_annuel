@@ -33,7 +33,7 @@ public class CategoryControllerTests {
     private String DELETE_ONE_ROUTE;
 
     @BeforeEach
-      void setup() {
+    void setup() {
         String baseUrl = "http://localhost:" + port;
         CREATE_ONE_ROUTE = baseUrl + "/api/categories";
         UPDATE_ONE_ROUTE = CREATE_ONE_ROUTE;
@@ -43,7 +43,7 @@ public class CategoryControllerTests {
     }
 
     @Test
-      void test_getAll() {
+    void test_getAll() {
         log.info("test_getAll");
         ResponseEntity<CategorySqlEntity[]> response = template.getForEntity(GET_ALL_ROUTE, CategorySqlEntity[].class);
         Assertions.assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
@@ -53,7 +53,7 @@ public class CategoryControllerTests {
     //getOne
     @Test
     @Order(3)
-      void test_getOne_Exist() {
+    void test_getOne_Exist() {
         log.info("test_getOne_Exist");
         ResponseEntity<CategorySqlEntity> response = template.getForEntity(GET_ONE_ROUTE + categoryId, CategorySqlEntity.class);
         Assertions.assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
@@ -61,7 +61,7 @@ public class CategoryControllerTests {
     }
 
     @Test
-      void test_getOne_NotExist() {
+    void test_getOne_NotExist() {
         log.info("test_getOne_NotExist");
         ResponseEntity<CategorySqlEntity> response = template.getForEntity(GET_ONE_ROUTE + "81515161", CategorySqlEntity.class);
         Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode().value());
@@ -70,15 +70,15 @@ public class CategoryControllerTests {
 
     @Test
     @Order(1)
-      void test_createOne() {
+    void test_createOne() {
         CategoryDto categoryDto = PersistentUtility.defaultCategoryDto();
-        ResponseEntity<?> response = template.postForEntity(CREATE_ONE_ROUTE, categoryDto, CategorySqlEntity.class);
+        ResponseEntity<CategorySqlEntity> response = template.postForEntity(CREATE_ONE_ROUTE, categoryDto, CategorySqlEntity.class);
         Assertions.assertEquals(HttpStatus.CREATED.value(), response.getStatusCode().value());
 
     }
 
     @Test
-      void test_createOne_badBinding() {
+    void test_createOne_badBinding() {
         CategoryDto categoryDto = PersistentUtility.faultCategoryDto();
         ResponseEntity<String> response = template.postForEntity(CREATE_ONE_ROUTE, categoryDto, String.class);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatusCode().value());
@@ -86,7 +86,7 @@ public class CategoryControllerTests {
 
     @Test
     @Order(2)
-      void test_updateOne() {
+    void test_updateOne() {
         CategoryDto categoryDto = PersistentUtility.defaultCategoryDto();
         categoryDto.setId(categoryId);
 
@@ -96,7 +96,7 @@ public class CategoryControllerTests {
 
     @Test
     @Order(2)
-      void test_updateOne_badBinding() {
+    void test_updateOne_badBinding() {
         CategoryDto categoryDto = PersistentUtility.faultCategoryDto();
         categoryDto.setId(categoryId);
 
@@ -108,7 +108,7 @@ public class CategoryControllerTests {
     //deleteOne
     @Test
     @Order(10)
-      void test_deleteOneById_Exist() {
+    void test_deleteOneById_Exist() {
         ResponseEntity<String> response = template.exchange(DELETE_ONE_ROUTE, HttpMethod.DELETE, null, String.class, categoryId);
         Assertions.assertEquals(HttpStatus.ACCEPTED.value(), response.getStatusCode().value());
     }
@@ -116,7 +116,7 @@ public class CategoryControllerTests {
     // delete by id 404
     @Test
     @Order(11)
-      void test_deleteOneById_NotExist() {
+    void test_deleteOneById_NotExist() {
         ResponseEntity<String> response = template.exchange(DELETE_ONE_ROUTE, HttpMethod.DELETE, null, String.class, 81515161L);
         Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCode().value());
     }

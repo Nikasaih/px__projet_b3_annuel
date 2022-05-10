@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -13,18 +12,18 @@ import javax.validation.constraints.NotNull;
 @ToString
 @MappedSuperclass
 public abstract class ArticleAbs {
-    @NotNull @NotBlank
+    @NotNull
     private String name;
-    @NotNull @NotBlank
+    @NotNull
     private Long price;
-    @NotNull @NotBlank
+    @NotNull
     private String description;
-    @NotNull @NotBlank
+    @NotNull
     private String size;
-    @NotNull @NotBlank
+    @NotNull
     private Long stocks;
-    @NotNull @NotBlank
+    @NotNull
     private Long customerNumber;
-    @NotNull @NotBlank
+    @NotNull
     private String imagePath;
 }
