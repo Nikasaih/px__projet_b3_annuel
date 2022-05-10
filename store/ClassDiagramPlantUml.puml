@@ -1,0 +1,208 @@
+@startuml
+abstract class com.backend.store.dataobject.aentity.CategoryAbs {
+- String room
+}
+interface com.backend.store.dataobject.sqlrepository.CategorySqlRepository {
+}
+class com.backend.store.service.persistence.ArticlePersistenceService {
+~ ModelMapper mapper
+~ ArticleSqlRepository articleSqlRepository
+~ ColorSqlRepository colorSqlRepository
+~ CategorySqlRepository categorySqlRepository
+~ MaterialSqlRepository materialSqlRepository
++ Map<String,Object> createOne(ArticleDto)
++ Map<String,Object> updateOne(ArticleDto)
+- Map<String,Object> persistEntity(ArticleDto)
+- ArticleSqlEntity saveInSql(ArticleSqlEntity,Iterable<ColorSqlEntity>,Iterable<CategorySqlEntity>,Iterable<MaterialSqlEntity>)
+}
+class com.backend.store.service.delete.ColorDeleteService {
+~ ArticleSqlRepository articleSqlRepository
+~ ColorSqlRepository colorSqlRepository
++ void deleteById(Long)
++ void delete(ColorSqlEntity)
+}
+class com.backend.store.service.persistence.CategoryPersistenceService {
+~ ModelMapper mapper
+~ CategorySqlRepository categorySqlRepository
+~ ArticleSqlRepository articleSqlRepository
++ Map<String,Object> createOne(CategoryDto)
++ Map<String,Object> updateOne(CategoryDto)
+- Map<String,Object> persistEntity(CategoryDto)
+- CategorySqlEntity saveInSql(CategorySqlEntity,Iterable<ArticleSqlEntity>)
+}
+class com.backend.store.dataobject.sqlentity.ColorSqlEntity {
+- Set<ArticleSqlEntity> articles
+- Long id
++ ColorSqlEntity removeArticle(ArticleSqlEntity)
+}
+class com.backend.store.service.persistence.ColorPersistenceService {
+~ ModelMapper mapper
+~ ColorSqlRepository colorSqlRepository
+~ ArticleSqlRepository articleSqlRepository
++ Map<String,Object> createOne(ColorDto)
++ Map<String,Object> updateOne(ColorDto)
+- Map<String,Object> persistEntity(ColorDto)
+- ColorSqlEntity saveInSql(ColorSqlEntity,Iterable<ArticleSqlEntity>)
+}
+class com.backend.store.common.exception.EntityRelatedNotFoundExc {
+}
+class com.backend.store.dataobject.sqlentity.CategorySqlEntity {
+- Set<ArticleSqlEntity> articles
+- Long id
++ CategorySqlEntity removeArticle(ArticleSqlEntity)
+}
+class com.backend.store.service.delete.ArticleDeleteService {
+~ ArticleSqlRepository articleSqlRepository
+~ CategorySqlRepository categorySqlRepository
+~ ColorSqlRepository colorSqlRepository
+~ MaterialSqlRepository materialSqlRepository
+~ ArticleElkRepository articleElkRepository
++ void deleteById(Long)
++ void delete(ArticleSqlEntity)
+}
+class com.backend.store.service.delete.MaterialDeleteService {
+~ ArticleSqlRepository articleSqlRepository
+~ MaterialSqlRepository materialSqlRepository
++ void deleteById(Long)
++ void delete(MaterialSqlEntity)
+}
+interface com.backend.store.dataobject.sqlrepository.ColorSqlRepository {
+}
+class com.backend.store.controller.ColorController {
+~ ColorPersistenceService colorPersistenceService
+~ ColorSqlRepository colorSqlRepository
+~ ColorDeleteService colorDeleteService
++ ResponseEntity<Iterable<ColorSqlEntity>> getAll()
++ ResponseEntity<ColorSqlEntity> getById(Long)
++ ResponseEntity<?> createOne(ColorDto,BindingResult)
++ ResponseEntity<String> deleteOneById(Long)
+}
+class com.backend.store.common.exception.IncorrectDtoForUpdateExc {
+}
+interface com.backend.store.dataobject.sqlrepository.ArticleSqlRepository {
+}
+class com.backend.store.dataobject.elkentity.ArticleElkEntity {
+- Long id
+}
+class com.backend.store.controller.CategoryController {
+~ CategoryPersistenceService categoryPersistenceService
+~ CategorySqlRepository categorySqlRepository
+~ CategoryDeleteService categoryDeleteService
++ ResponseEntity<Iterable<CategorySqlEntity>> getAll()
++ ResponseEntity<CategorySqlEntity> getById(Long)
++ ResponseEntity<?> createOne(CategoryDto,BindingResult)
++ ResponseEntity<String> deleteOneById(Long)
+}
+class com.backend.store.dataobject.dto.ColorDto {
+- Long id
+- Iterable<Long> articlesId
+}
+class com.backend.store.common.exception.IncorrectDtoForCreationExc {
+}
+class com.backend.store.dataobject.sqlentity.ArticleSqlEntity {
+- Set<MaterialSqlEntity> materials
+- Set<ColorSqlEntity> colors
+- Set<CategorySqlEntity> categories
+- Long id
++ ArticleSqlEntity removeCategory(CategorySqlEntity)
++ ArticleSqlEntity removeColor(ColorSqlEntity)
++ ArticleSqlEntity removeMaterial(MaterialSqlEntity)
+}
+interface com.backend.store.dataobject.elkrepository.ArticleElkRepository {
+}
+interface com.backend.store.dataobject.sqlrepository.MaterialSqlRepository {
+}
+class com.backend.store.common.exception.EntityWithIdNotFoundExc {
+}
+abstract class com.backend.store.dataobject.aentity.ArticleAbs {
+- String name
+- Long price
+- String description
+- String size
+- Long stocks
+- Long customerNumber
+- String imagePath
+}
+class com.backend.store.dataobject.dto.ArticleDto {
+- Long id
+- Set<Long> categoriesId
+- Set<Long> colorsId
+- Set<Long> materialsId
+}
+class com.backend.store.StoreApplication {
++ {static} void main(String[])
+}
+class com.backend.store.dataobject.sqlentity.MaterialSqlEntity {
+- Set<ArticleSqlEntity> articles
+- Long id
++ MaterialSqlEntity removeArticle(ArticleSqlEntity)
+}
+class com.backend.store.dataobject.dto.MaterialDto {
+- Long id
+- Iterable<Long> articlesId
+}
+class com.backend.store.dataobject.dto.CategoryDto {
+- Long id
+- Iterable<Long> articlesId
+}
+class com.backend.store.controller.ArticleController {
+~ ArticlePersistenceService articlePersistenceService
+~ ArticleSqlRepository articleSqlRepository
+~ ArticleDeleteService articleDeleteService
++ ResponseEntity<Iterable<ArticleSqlEntity>> getAll()
++ ResponseEntity<ArticleSqlEntity> getById(Long)
++ ResponseEntity<?> createOne(ArticleDto,BindingResult)
++ ResponseEntity<String> deleteOneById(Long)
+}
+abstract class com.backend.store.dataobject.aentity.ColorAbs {
+- String name
+- String hexacode
+}
+class com.backend.store.service.delete.CategoryDeleteService {
+~ ArticleSqlRepository articleSqlRepository
+~ CategorySqlRepository categorySqlRepository
++ void deleteById(Long)
++ void delete(CategorySqlEntity)
+}
+class com.backend.store.controller.MaterialController {
+~ MaterialPersistenceService materialPersistenceService
+~ MaterialSqlRepository materialSqlRepository
+~ MaterialDeleteService materialDeleteService
++ ResponseEntity<Iterable<MaterialSqlEntity>> getAll()
++ ResponseEntity<MaterialSqlEntity> getById(Long)
++ ResponseEntity<?> createOne(MaterialDto,BindingResult)
++ ResponseEntity<String> deleteOneById(Long)
+}
+class com.backend.store.service.persistence.MaterialPersistenceService {
+~ ModelMapper mapper
+~ MaterialSqlRepository materialSqlRepository
+~ ArticleSqlRepository articleSqlRepository
++ Map<String,Object> createOne(MaterialDto)
++ Map<String,Object> updateOne(MaterialDto)
+- Map<String,Object> persistEntity(MaterialDto)
+- MaterialSqlEntity saveInSql(MaterialSqlEntity,Iterable<ArticleSqlEntity>)
+}
+abstract class com.backend.store.dataobject.aentity.MaterialAbs {
+- String name
+- String type
+}
+
+
+org.springframework.data.repository.CrudRepository <|-- com.backend.store.dataobject.sqlrepository.CategorySqlRepository
+com.backend.store.dataobject.aentity.ColorAbs <|-- com.backend.store.dataobject.sqlentity.ColorSqlEntity
+com.backend.store.common.exception.Exception <|-- com.backend.store.common.exception.EntityRelatedNotFoundExc
+com.backend.store.dataobject.aentity.CategoryAbs <|-- com.backend.store.dataobject.sqlentity.CategorySqlEntity
+org.springframework.data.repository.CrudRepository <|-- com.backend.store.dataobject.sqlrepository.ColorSqlRepository
+com.backend.store.common.exception.Exception <|-- com.backend.store.common.exception.IncorrectDtoForUpdateExc
+org.springframework.data.repository.CrudRepository <|-- com.backend.store.dataobject.sqlrepository.ArticleSqlRepository
+com.backend.store.dataobject.aentity.ColorAbs <|-- com.backend.store.dataobject.dto.ColorDto
+com.backend.store.common.exception.Exception <|-- com.backend.store.common.exception.IncorrectDtoForCreationExc
+com.backend.store.dataobject.aentity.ArticleAbs <|-- com.backend.store.dataobject.sqlentity.ArticleSqlEntity
+org.springframework.data.elasticsearch.repository.ElasticsearchRepository <|-- com.backend.store.dataobject.elkrepository.ArticleElkRepository
+org.springframework.data.repository.CrudRepository <|-- com.backend.store.dataobject.sqlrepository.MaterialSqlRepository
+com.backend.store.common.exception.Exception <|-- com.backend.store.common.exception.EntityWithIdNotFoundExc
+com.backend.store.dataobject.aentity.ArticleAbs <|-- com.backend.store.dataobject.dto.ArticleDto
+com.backend.store.dataobject.aentity.MaterialAbs <|-- com.backend.store.dataobject.sqlentity.MaterialSqlEntity
+com.backend.store.dataobject.aentity.MaterialAbs <|-- com.backend.store.dataobject.dto.MaterialDto
+com.backend.store.dataobject.aentity.CategoryAbs <|-- com.backend.store.dataobject.dto.CategoryDto
+@enduml

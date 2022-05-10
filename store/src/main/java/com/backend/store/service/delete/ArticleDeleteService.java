@@ -1,9 +1,14 @@
 package com.backend.store.service.delete;
 
 import com.backend.store.common.exception.EntityWithIdNotFoundExc;
-import com.backend.store.dataobject.elkrepository.ArticleElkRepository;
-import com.backend.store.dataobject.sqlentity.*;
-import com.backend.store.dataobject.sqlrepository.*;
+import com.backend.store.dataobject.sqlentity.ArticleSqlEntity;
+import com.backend.store.dataobject.sqlentity.CategorySqlEntity;
+import com.backend.store.dataobject.sqlentity.ColorSqlEntity;
+import com.backend.store.dataobject.sqlentity.MaterialSqlEntity;
+import com.backend.store.dataobject.sqlrepository.ArticleSqlRepository;
+import com.backend.store.dataobject.sqlrepository.CategorySqlRepository;
+import com.backend.store.dataobject.sqlrepository.ColorSqlRepository;
+import com.backend.store.dataobject.sqlrepository.MaterialSqlRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +25,7 @@ public class ArticleDeleteService {
     ColorSqlRepository colorSqlRepository;
     @Autowired
     MaterialSqlRepository materialSqlRepository;
-    @Autowired
-    ArticleElkRepository articleElkRepository;
+
 
     public void deleteById(Long id) throws EntityWithIdNotFoundExc {
         Optional<ArticleSqlEntity> articleSql = articleSqlRepository.findById(id);
@@ -42,6 +46,5 @@ public class ArticleDeleteService {
         colors.forEach(e -> colorSqlRepository.save(e.removeArticle(articles)));
         materials.forEach(e -> materialSqlRepository.save(e.removeArticle(articles)));
 
-        articleElkRepository.deleteById(articles.getId());
     }
 }

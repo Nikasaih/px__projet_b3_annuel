@@ -1,0 +1,31 @@
+digraph "." {
+    // Path: .
+
+   "com.backend.store.controller"                     -> "com.backend.store.common.exception (.)";
+   "com.backend.store.controller"                     -> "com.backend.store.dataobject.dto (.)";
+   "com.backend.store.controller"                     -> "com.backend.store.dataobject.sqlentity (.)";
+   "com.backend.store.controller"                     -> "com.backend.store.dataobject.sqlrepository (.)";
+   "com.backend.store.controller"                     -> "com.backend.store.service.delete (.)";
+   "com.backend.store.controller"                     -> "com.backend.store.service.persistence (.)";
+   "com.backend.store.controller"                     -> "com.backend.store.testutility (.)";
+   "com.backend.store.dataobject.dto"                 -> "com.backend.store.dataobject.aentity (.)";
+   "com.backend.store.dataobject.elkrepository"       -> "com.backend.store.dataobject.elkentity (.)";
+   "com.backend.store.dataobject.sqlentity"           -> "com.backend.store.dataobject.aentity (.)";
+   "com.backend.store.dataobject.sqlrepository"       -> "com.backend.store.dataobject.sqlentity (.)";
+   "com.backend.store.service.delete"                 -> "com.backend.store.common.exception (.)";
+   "com.backend.store.service.delete"                 -> "com.backend.store.dataobject.elkrepository (.)";
+   "com.backend.store.service.delete"                 -> "com.backend.store.dataobject.sqlentity (.)";
+   "com.backend.store.service.delete"                 -> "com.backend.store.dataobject.sqlrepository (.)";
+   "com.backend.store.service.peristencedelete"       -> "com.backend.store.common.exception (.)";
+   "com.backend.store.service.peristencedelete"       -> "com.backend.store.dataobject.dto (.)";
+   "com.backend.store.service.peristencedelete"       -> "com.backend.store.dataobject.sqlentity (.)";
+   "com.backend.store.service.peristencedelete"       -> "com.backend.store.dataobject.sqlrepository (.)";
+   "com.backend.store.service.peristencedelete"       -> "com.backend.store.service.delete (.)";
+   "com.backend.store.service.peristencedelete"       -> "com.backend.store.service.persistence (.)";
+   "com.backend.store.service.peristencedelete"       -> "com.backend.store.testutility (.)";
+   "com.backend.store.service.persistence"            -> "com.backend.store.common.exception (.)";
+   "com.backend.store.service.persistence"            -> "com.backend.store.dataobject.dto (.)";
+   "com.backend.store.service.persistence"            -> "com.backend.store.dataobject.sqlentity (.)";
+   "com.backend.store.service.persistence"            -> "com.backend.store.dataobject.sqlrepository (.)";
+   "com.backend.store.testutility"                    -> "com.backend.store.dataobject.dto (.)";
+}

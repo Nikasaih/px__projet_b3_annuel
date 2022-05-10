@@ -16,23 +16,27 @@ import java.util.Set;
 @Getter
 @Entity
 public class ArticleSqlEntity extends ArticleAbs {
+
     @JsonIdentityReference(alwaysAsId = true)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @Cascade(value = org.hibernate.annotations.CascadeType.REFRESH)
     @ManyToMany
     @JoinColumn(name = "material_id", referencedColumnName = "id")
     private Set<MaterialSqlEntity> materials = new HashSet<>();
+
     @JsonIdentityReference(alwaysAsId = true)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @Cascade(value = org.hibernate.annotations.CascadeType.REFRESH)
     @ManyToMany
     @JoinColumn(name = "color_id", referencedColumnName = "id")
     private Set<ColorSqlEntity> colors = new HashSet<>();
+
     @JsonIdentityReference(alwaysAsId = true)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @Cascade(value = org.hibernate.annotations.CascadeType.REFRESH)
     @OneToMany(mappedBy = "articles")
     private Set<CommentSqlEntity> comments = new HashSet<>();
+
     //Specific part
     @JsonIdentityReference(alwaysAsId = true)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")

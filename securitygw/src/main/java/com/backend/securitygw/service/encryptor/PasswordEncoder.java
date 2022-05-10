@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordEncoder {
     BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Value("${pepper.secret}")
+    @Value("${secret.pepper}")
     private String pepper;
 
     public String hashPwd(String rawUserPwd, String userSalt) {

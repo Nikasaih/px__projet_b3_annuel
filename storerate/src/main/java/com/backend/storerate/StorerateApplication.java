@@ -1,4 +1,4 @@
-package com.backend.storeraterate;
+package com.backend.storerate;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

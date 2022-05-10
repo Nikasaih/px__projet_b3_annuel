@@ -1,4 +1,4 @@
-package com.backend.storeraterate;
+package com.backend.storerate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

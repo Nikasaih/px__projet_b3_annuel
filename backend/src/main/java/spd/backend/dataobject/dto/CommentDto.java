@@ -10,6 +10,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class CommentDto extends CommentAbs {
     private Long id;
-    @NotNull
+    @NotNull(message = "need a articleId")
     private Long articlesId;
 }

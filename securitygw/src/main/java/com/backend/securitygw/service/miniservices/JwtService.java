@@ -21,7 +21,7 @@ public class JwtService implements Serializable {
     public static final long JWT_TOKEN_VALIDITY = DAY_OF_VALIDITY * HOUR_OF_VALIDITY * 60 * 60; //Day hour minutes second
     private static final long serialVersionUID = 234234523523L;
     ModelMapper mapper = new ModelMapper();
-    @Value("${jwt.secret}")
+    @Value("${secret.jwt}")
     private String jwtSecret;
 
     //retrieve username from jwt token

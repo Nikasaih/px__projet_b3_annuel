@@ -1,0 +1,183 @@
+@startuml
+class spd.backend.dataobject.accountrequest.ChangeEmailRequest {
+- String currentEmail
+- String newEmail
+}
+class spd.backend.dataobject.jwt.JwtFilter {
+- JwtService jwtService
+- AppUserService appUserService
+# void doFilterInternal(HttpServletRequest,HttpServletResponse,FilterChain)
+~ void test(HttpServletRequest)
+}
+abstract class spd.backend.dataobject.aentity.ColorAbs {
+- String name
+- String hexacode
+}
+interface spd.backend.dataobject.elkrepository.ArticleElkRepository {
+}
+interface spd.backend.dataobject.sqlrepository.CommentSqlRepository {
+}
+class spd.backend.dataobject.sqlentity.MaterialSqlEntity {
+- Set<ArticleSqlEntity> articles
+- Long id
++ MaterialSqlEntity removeArticle(ArticleSqlEntity)
+}
+abstract class spd.backend.dataobject.aentity.CategoryAbs {
+- String room
+}
+abstract class spd.backend.dataobject.aentity.CommentAbs {
+- Float grade
+- String text
+}
+class spd.backend.dataobject.dto.ArticleDto {
+- Long id
+- Set<Long> commentsId
+- Set<Long> categoriesId
+- Set<Long> colorsId
+- Set<Long> materialsId
+}
+abstract class spd.backend.dataobject.aentity.MaterialAbs {
+- String name
+- String type
+}
+class spd.backend.dataobject.sqlentity.ConfirmationToken {
+- Long id
+- String token
+- LocalDateTime createdAt
+- LocalDateTime expiredAt
+- LocalDateTime confirmedAt
+- AppUser appUser
+}
+interface spd.backend.dataobject.sqlrepository.ConfirmationTokenRepository {
+~ Optional<ConfirmationToken> findByToken(String)
+~ int updateConfirmedAt(String,LocalDateTime)
+}
+class spd.backend.dataobject.sqlentity.CommentSqlEntity {
+- ArticleSqlEntity articles
+- AppUser user
+- Long id
+- LocalDateTime createdAt
+- LocalDateTime updatedAt
++ void prePersist()
++ void preUpdate()
+}
+class spd.backend.dataobject.sqlentity.ArticleSqlEntity {
+- Set<MaterialSqlEntity> materials
+- Set<ColorSqlEntity> colors
+- Set<CommentSqlEntity> comments
+- Set<CategorySqlEntity> categories
+- Long id
++ ArticleSqlEntity removeCategory(CategorySqlEntity)
++ ArticleSqlEntity removeColor(ColorSqlEntity)
++ ArticleSqlEntity removeMaterial(MaterialSqlEntity)
++ ArticleSqlEntity removeComment(CommentSqlEntity)
+}
+interface spd.backend.dataobject.sqlrepository.CategorySqlRepository {
+}
+class spd.backend.dataobject.dto.ColorDto {
+- Long id
+- Iterable<Long> articlesId
+}
+class spd.backend.dataobject.sqlentity.ColorSqlEntity {
+- Set<ArticleSqlEntity> articles
+- Long id
++ ColorSqlEntity removeArticle(ArticleSqlEntity)
+}
+class spd.backend.dataobject.dto.MaterialDto {
+- Long id
+- Iterable<Long> articlesId
+}
+class spd.backend.dataobject.elkentity.ArticleElkEntity {
+- Long id
+}
+class spd.backend.dataobject.accountrequest.RegistrationRequest {
+- String firstName
+- String lastName
+- String email
+- String password
+}
+interface spd.backend.dataobject.sqlrepository.ColorSqlRepository {
+}
+class spd.backend.dataobject.dto.CommentDto {
+- Long id
+- Long articlesId
+}
+class spd.backend.dataobject.dto.CategoryDto {
+- Long id
+- Iterable<Long> articlesId
+}
+class spd.backend.dataobject.sqlentity.CategorySqlEntity {
+- Set<ArticleSqlEntity> articles
+- Long id
++ CategorySqlEntity removeArticle(ArticleSqlEntity)
+}
+class spd.backend.dataobject.accountrequest.ChangePasswordRequest {
+- String email
+- String currentPwd
+- String newPwd
+}
+abstract class spd.backend.dataobject.aentity.ArticleAbs {
+- String name
+- Long price
+- String description
+- String size
+- Long stocks
+- Long customerNumber
+- String imagePath
+}
+class spd.backend.dataobject.sqlentity.AppUser {
+- Long id
+- String firstName
+- String lastName
+- String email
+- String password
+- AppUserRole appUserRole
+- Set<CommentSqlEntity> comments
+- Boolean locked
+- Boolean enabled
++ Collection<? extends GrantedAuthority> getAuthorities()
++ String getPassword()
++ String getUsername()
++ boolean isAccountNonExpired()
++ boolean isAccountNonLocked()
++ boolean isCredentialsNonExpired()
++ boolean isEnabled()
+}
+class spd.backend.dataobject.jwt.JwtResponse {
+- String jwtToken
+}
+interface spd.backend.dataobject.sqlrepository.ArticleSqlRepository {
+}
+interface spd.backend.dataobject.sqlrepository.AppUserRepository {
+~ Optional<AppUser> findByEmail(String)
+~ int enableAppUser(String)
+}
+interface spd.backend.dataobject.sqlrepository.MaterialSqlRepository {
+}
+class spd.backend.dataobject.jwt.JwtRequest {
+- String username
+- String password
+}
+
+
+org.springframework.web.filter.OncePerRequestFilter <|-- spd.backend.dataobject.jwt.JwtFilter
+org.springframework.data.elasticsearch.repository.ElasticsearchRepository <|-- spd.backend.dataobject.elkrepository.ArticleElkRepository
+org.springframework.data.repository.CrudRepository <|-- spd.backend.dataobject.sqlrepository.CommentSqlRepository
+spd.backend.dataobject.aentity.MaterialAbs <|-- spd.backend.dataobject.sqlentity.MaterialSqlEntity
+spd.backend.dataobject.aentity.ArticleAbs <|-- spd.backend.dataobject.dto.ArticleDto
+org.springframework.data.repository.CrudRepository <|-- spd.backend.dataobject.sqlrepository.ConfirmationTokenRepository
+spd.backend.dataobject.aentity.CommentAbs <|-- spd.backend.dataobject.sqlentity.CommentSqlEntity
+spd.backend.dataobject.aentity.ArticleAbs <|-- spd.backend.dataobject.sqlentity.ArticleSqlEntity
+org.springframework.data.repository.CrudRepository <|-- spd.backend.dataobject.sqlrepository.CategorySqlRepository
+spd.backend.dataobject.aentity.ColorAbs <|-- spd.backend.dataobject.dto.ColorDto
+spd.backend.dataobject.aentity.ColorAbs <|-- spd.backend.dataobject.sqlentity.ColorSqlEntity
+spd.backend.dataobject.aentity.MaterialAbs <|-- spd.backend.dataobject.dto.MaterialDto
+org.springframework.data.repository.CrudRepository <|-- spd.backend.dataobject.sqlrepository.ColorSqlRepository
+spd.backend.dataobject.aentity.CommentAbs <|-- spd.backend.dataobject.dto.CommentDto
+spd.backend.dataobject.aentity.CategoryAbs <|-- spd.backend.dataobject.dto.CategoryDto
+spd.backend.dataobject.aentity.CategoryAbs <|-- spd.backend.dataobject.sqlentity.CategorySqlEntity
+org.springframework.security.core.userdetails.UserDetails <|.. spd.backend.dataobject.sqlentity.AppUser
+org.springframework.data.repository.CrudRepository <|-- spd.backend.dataobject.sqlrepository.ArticleSqlRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- spd.backend.dataobject.sqlrepository.AppUserRepository
+org.springframework.data.repository.CrudRepository <|-- spd.backend.dataobject.sqlrepository.MaterialSqlRepository
+@enduml

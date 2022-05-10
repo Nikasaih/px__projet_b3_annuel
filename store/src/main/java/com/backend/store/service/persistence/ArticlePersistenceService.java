@@ -1,16 +1,22 @@
 package com.backend.store.service.persistence;
 
+import com.backend.store.common.exception.EntityWithIdNotFoundExc;
+import com.backend.store.common.exception.IncorrectDtoForCreationExc;
+import com.backend.store.common.exception.IncorrectDtoForUpdateExc;
+import com.backend.store.dataobject.dto.ArticleDto;
+import com.backend.store.dataobject.sqlentity.ArticleSqlEntity;
+import com.backend.store.dataobject.sqlentity.CategorySqlEntity;
+import com.backend.store.dataobject.sqlentity.ColorSqlEntity;
+import com.backend.store.dataobject.sqlentity.MaterialSqlEntity;
+import com.backend.store.dataobject.sqlrepository.ArticleSqlRepository;
+import com.backend.store.dataobject.sqlrepository.CategorySqlRepository;
+import com.backend.store.dataobject.sqlrepository.ColorSqlRepository;
+import com.backend.store.dataobject.sqlrepository.MaterialSqlRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.common.util.set.Sets;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.backend.store.common.exception.EntityWithIdNotFoundExc;
-import com.backend.store.common.exception.IncorrectDtoForCreationExc;
-import com.backend.store.common.exception.IncorrectDtoForUpdateExc;
-import com.backend.store.dataobject.dto.ArticleDto;
-import com.backend.store.dataobject.sqlentity.*;
-import com.backend.store.dataobject.sqlrepository.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +25,8 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class ArticlePersistenceService {
+
+    //Todo persist with httprequest elk
     final ModelMapper mapper = new ModelMapper();
     //Bean
     @Autowired
