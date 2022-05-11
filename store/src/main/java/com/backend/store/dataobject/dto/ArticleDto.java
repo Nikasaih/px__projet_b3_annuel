@@ -12,10 +12,10 @@ import java.util.Set;
 public class ArticleDto extends ArticleAbs {
 
     private Long id;
-    @NotNull
+    @NotNull(message="categoriesId Set<Long> name must not be null")
     private Set<Long> categoriesId;
-    @NotNull
+    @NotNull(message="colorsId Set<Long> name must not be null")
     private Set<Long> colorsId;
-    @NotNull
+    @NotNull(message="materialsId Set<Long> name must not be null")
     private Set<Long> materialsId;
 }

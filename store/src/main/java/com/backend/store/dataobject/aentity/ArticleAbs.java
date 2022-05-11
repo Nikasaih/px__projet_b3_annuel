@@ -12,18 +12,18 @@ import javax.validation.constraints.NotNull;
 @ToString
 @MappedSuperclass
 public abstract class ArticleAbs {
-    @NotNull
+    @NotNull(message="article string name must not be null")
     private String name;
-    @NotNull
+    @NotNull(message="price Long name must not be null")
     private Long price;
-    @NotNull
+    @NotNull(message="description string name must not be null")
     private String description;
-    @NotNull
+    @NotNull(message="size string name must not be null")
     private String size;
-    @NotNull
+    @NotNull(message="stocks long name must not be null")
     private Long stocks;
-    @NotNull
+    @NotNull(message="customerNumber long name must not be null")
     private Long customerNumber;
-    @NotNull
+    @NotNull(message="imagePath string name must not be null")
     private String imagePath;
 }
