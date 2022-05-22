@@ -3,8 +3,8 @@ package com.backend.securitygw.controller.redirection;
 import com.backend.securitygw.dataobject.response.JwtDatagram;
 import com.backend.securitygw.service.endpoint.UserRoleService;
 import com.backend.securitygw.service.miniservices.JwtService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +14,13 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/api/materials")
 @Slf4j
-@RequiredArgsConstructor
 public class MaterialRedirectionController {
-    final RestTemplate restTemplate;
-    final JwtService jwtService;
-    final UserRoleService userRoleService;
+    @Autowired
+    RestTemplate restTemplate;
+    @Autowired
+    JwtService jwtService;
+    @Autowired
+    UserRoleService userRoleService;
     @Value("${microservices.store}")
     String storeRootUrl;
     String redirectionControllerUrl = "/api/materials";
@@ -42,7 +44,6 @@ public class MaterialRedirectionController {
         if (!userRoleService.hasAdminAuthority(jwtDatagram)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("you have not the right access");
         }
-
         return restTemplate.postForEntity(storeRootUrl + redirectionControllerUrl, jsonBody, String.class);
     }
 

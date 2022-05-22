@@ -10,8 +10,9 @@ import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
 import com.backend.securitygw.service.miniservices.ConfirmationTokenGeneratorService;
 import com.backend.securitygw.service.miniservices.EmailSenderService;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,17 +20,22 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+@Slf4j
 public class RegisterUserService {
-    final UserSqlRepository userSqlRepository;
-    final PasswordEncoder passwordEncoder;
-    final ConfirmationTokenSqlRepository confirmationTokenSqlRepository;
-    final EmailSenderService emailSenderService;
-    final ConfirmationTokenGeneratorService confirmationTokenGeneratorService;
+    @Autowired
+    UserSqlRepository userSqlRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    ConfirmationTokenSqlRepository confirmationTokenSqlRepository;
+    @Autowired
+    EmailSenderService emailSenderService;
+    @Autowired
+    ConfirmationTokenGeneratorService confirmationTokenGeneratorService;
     ModelMapper mapper = new ModelMapper();
 
     public void registerUser(RegistrationRequest registrationRequest) throws EmailAlreadyTakenExc {
-        if (userSqlRepository.findByEmail(registrationRequest.getEmail()).isEmpty()) {
+        if (userSqlRepository.findByEmail(registrationRequest.getEmail()).isPresent()) {
             throw new EmailAlreadyTakenExc();
         }
         UserSqlEntity userSqlEntity = mapper.map(registrationRequest, UserSqlEntity.class);

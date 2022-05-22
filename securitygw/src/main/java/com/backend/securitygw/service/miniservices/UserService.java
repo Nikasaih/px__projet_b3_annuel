@@ -3,14 +3,15 @@ package com.backend.securitygw.service.miniservices;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
-    final PasswordEncoder passwordEncoder;
-    final UserSqlRepository userSqlRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    UserSqlRepository userSqlRepository;
 
     public void changePwd(UserSqlEntity user, String newPwd) {
         final String newHashedPwd = passwordEncoder.hashPwd(newPwd, user.getHashedPasswordSalt());

@@ -4,16 +4,16 @@ import com.backend.securitygw.common.enumerator.ConfirmationTokenType;
 import com.backend.securitygw.dataobject.sqlentity.ConfirmationToken;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenSqlRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class ConfirmationTokenGeneratorService {
     static Integer ConfirmTokenValidity = 30;
+    @Autowired
     ConfirmationTokenSqlRepository confirmationTokenSqlRepository;
 
     public ConfirmationToken generateConfirmationToken(UserSqlEntity user, ConfirmationTokenType confirmationTokenType) {

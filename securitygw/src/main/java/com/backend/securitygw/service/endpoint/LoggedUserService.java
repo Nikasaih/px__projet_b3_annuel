@@ -8,18 +8,21 @@ import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
 import com.backend.securitygw.service.encryptor.PasswordEncoder;
 import com.backend.securitygw.service.miniservices.JwtService;
 import com.backend.securitygw.service.miniservices.UserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class LoggedUserService {
-    final UserSqlRepository userSqlRepository;
-    final PasswordEncoder passwordEncoder;
-    final JwtService jwtService;
-    final UserService userService;
+    @Autowired
+    UserSqlRepository userSqlRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    JwtService jwtService;
+    @Autowired
+    UserService userService;
 
     public void changeEmail(ChangeEmailRequest request) throws CredentialNotMatchingAccount {
         Optional<UserSqlEntity> appUser = userSqlRepository.findByEmail(request.getCurrentEmail());

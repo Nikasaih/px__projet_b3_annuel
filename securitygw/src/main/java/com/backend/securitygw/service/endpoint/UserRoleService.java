@@ -5,7 +5,7 @@ import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
 import com.backend.securitygw.dataobject.response.JwtDatagram;
 import com.backend.securitygw.dataobject.sqlentity.UserSqlEntity;
 import com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -14,9 +14,9 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
 public class UserRoleService {
-    final UserSqlRepository userSqlRepository;
+    @Autowired
+    UserSqlRepository userSqlRepository;
     Set<AppUserRole> adminAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN));
     Set<AppUserRole> basicAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN, AppUserRole.USER_ROLE));
 

@@ -3,8 +3,8 @@ package com.backend.securitygw.controller;
 import com.backend.securitygw.common.enumerator.ConfirmationTokenType;
 import com.backend.securitygw.dataobject.request.RegistrationRequest;
 import com.backend.securitygw.service.endpoint.RegisterUserService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequiredArgsConstructor
 @Slf4j
 public class RegisterUserController {
-    final RegisterUserService registerUserService;
+    @Autowired
+    RegisterUserService registerUserService;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody @Valid RegistrationRequest registrationRequest, BindingResult result) {

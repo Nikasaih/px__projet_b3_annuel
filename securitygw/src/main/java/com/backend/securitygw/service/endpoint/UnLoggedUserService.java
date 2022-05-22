@@ -14,23 +14,29 @@ import com.backend.securitygw.service.miniservices.ConfirmationTokenGeneratorSer
 import com.backend.securitygw.service.miniservices.EmailSenderService;
 import com.backend.securitygw.service.miniservices.JwtService;
 import com.backend.securitygw.service.miniservices.UserService;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class UnLoggedUserService {
+
     final ModelMapper mapper = new ModelMapper();
-    final UserSqlRepository userSqlRepository;
-    final JwtService jwtService;
-    final EmailSenderService emailSenderService;
-    final ConfirmationTokenGeneratorService confirmationTokenGeneratorService;
-    final ConfirmationTokenSqlRepository confirmationTokenSqlRepository;
-    final UserService userService;
+    @Autowired
+    UserSqlRepository userSqlRepository;
+    @Autowired
+    JwtService jwtService;
+    @Autowired
+    EmailSenderService emailSenderService;
+    @Autowired
+    ConfirmationTokenGeneratorService confirmationTokenGeneratorService;
+    @Autowired
+    ConfirmationTokenSqlRepository confirmationTokenSqlRepository;
+    @Autowired
+    UserService userService;
 
     public String signIn(UserCurrentCredential userCurrentCredential) throws CredentialNotMatchingAccount, AccountNotEnableExc {
         Optional<UserSqlEntity> user = userSqlRepository.findByEmail(userCurrentCredential.getCurrentEmail());

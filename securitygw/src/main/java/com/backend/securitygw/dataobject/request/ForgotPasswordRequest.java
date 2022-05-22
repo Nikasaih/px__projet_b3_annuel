@@ -11,12 +11,11 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ForgotPasswordRequest {
     @NotNull
-    @NotBlank
+    @NotBlank(message = "token should not be blank")
     String token;
     @NotNull
-    @NotBlank
+    @NotBlank(message = "newPwd should not be blank")
     String newPwd;
-    @NotNull
-    @NotBlank
+    @NotNull(message = "confirmationTokenType should not be null")
     ConfirmationTokenType confirmationTokenType;
 }
