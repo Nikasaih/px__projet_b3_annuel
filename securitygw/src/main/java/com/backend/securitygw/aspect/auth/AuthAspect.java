@@ -19,7 +19,7 @@ import java.util.Set;
 @org.aspectj.lang.annotation.Aspect
 @Component
 @Slf4j
-public class Aspect {
+public class AuthAspect {
 
     @Autowired
     HttpServletRequest request;
