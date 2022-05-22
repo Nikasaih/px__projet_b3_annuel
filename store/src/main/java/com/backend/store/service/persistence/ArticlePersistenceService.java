@@ -14,14 +14,11 @@ import com.backend.store.dataobject.sqlrepository.CategorySqlRepository;
 import com.backend.store.dataobject.sqlrepository.ColorSqlRepository;
 import com.backend.store.dataobject.sqlrepository.MaterialSqlRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.common.util.set.Sets;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -77,10 +74,18 @@ public class ArticlePersistenceService {
                                        Iterable<CategorySqlEntity> categorySqlEntityIterable,
                                        Iterable<MaterialSqlEntity> materialSqlEntityIterable
     ) {
+        Set<ColorSqlEntity> colorSet = new HashSet<ColorSqlEntity>();
+        colorSqlEntityIterable.iterator().forEachRemaining((e -> colorSet.add(e)));
 
-        articleToSave.setColors(Sets.newHashSet(colorSqlEntityIterable));
-        articleToSave.setCategories(Sets.newHashSet(categorySqlEntityIterable));
-        articleToSave.setMaterials(Sets.newHashSet(materialSqlEntityIterable));
+        Set<CategorySqlEntity> categorySet = new HashSet<>();
+        colorSqlEntityIterable.iterator().forEachRemaining((e -> colorSet.add(e)));
+
+        Set<MaterialSqlEntity> materialSet = new HashSet<>();
+        colorSqlEntityIterable.iterator().forEachRemaining((e -> colorSet.add(e)));
+
+        articleToSave.setColors(colorSet);
+        articleToSave.setCategories(categorySet);
+        articleToSave.setMaterials(materialSet);
         log.info("in saveInSql");
         return articleSqlRepository.save(articleToSave);
     }
