@@ -3,6 +3,7 @@ package com.backend.store.service;
 import com.backend.store.dataobject.request.elk.ElkTraversalRequest;
 import com.backend.store.dataobject.request.elk.FuzzyRequest;
 import com.backend.store.dataobject.request.elk.search.*;
+import com.backend.store.dataobject.sqlentity.ArticleSqlEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class ElkServices {
     RestTemplate restTemplate = new RestTemplate();
     @Value("${elasticsearch.url}")
     String elkBaseUrl;
+
 
     public ResponseEntity<String> fuzzySearch(ElkTraversalRequest request) {
         Bool shouldHandler = new Bool(new HashSet<>());
@@ -32,6 +34,17 @@ public class ElkServices {
         FuzzyRequest fuzzyRequest = new FuzzyRequest(new Query(shouldHandler));
 
         return restTemplate.postForEntity(elkBaseUrl + "/articles/_search", fuzzyRequest, String.class);
+    }
+
+    public void createFromSql(ArticleSqlEntity articleSql) {
+        ElkTraversalRequest elkTraversalRequest = new ElkTraversalRequest();
+        elkTraversalRequest.setNameToSearch(articleSql.getName());
+        articleSql.getCategories().stream().forEach(e -> elkTraversalRequest.getCategoryToSearchIn().add(e.getRoom()));
+        articleSql.getMaterials().stream().forEach(e -> elkTraversalRequest.getCategoryToSearchIn().add(e.getName()));
+        articleSql.getColors().stream().forEach(e -> elkTraversalRequest.getCategoryToSearchIn().add(e.getName()));
+
+        createDocument(elkTraversalRequest);
+        return;
     }
 
     public ResponseEntity<String> createDocument(ElkTraversalRequest request) {

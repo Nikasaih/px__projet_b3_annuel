@@ -7,8 +7,8 @@ import com.backend.store.dataobject.sqlentity.ArticleSqlEntity;
 import com.backend.store.dataobject.sqlrepository.ArticleSqlRepository;
 import com.backend.store.service.delete.ArticleDeleteService;
 import com.backend.store.service.persistence.ArticlePersistenceService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,11 +22,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/articles")
 @Slf4j
-@AllArgsConstructor
 public class ArticleController {
-
+    @Autowired
     ArticlePersistenceService articlePersistenceService;
+    @Autowired
     ArticleSqlRepository articleSqlRepository;
+    @Autowired
     ArticleDeleteService articleDeleteService;
 
     @GetMapping

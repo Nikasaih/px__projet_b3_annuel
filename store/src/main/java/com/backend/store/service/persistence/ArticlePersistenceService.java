@@ -13,6 +13,7 @@ import com.backend.store.dataobject.sqlrepository.ArticleSqlRepository;
 import com.backend.store.dataobject.sqlrepository.CategorySqlRepository;
 import com.backend.store.dataobject.sqlrepository.ColorSqlRepository;
 import com.backend.store.dataobject.sqlrepository.MaterialSqlRepository;
+import com.backend.store.service.ElkServices;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ import java.util.*;
 @Slf4j
 public class ArticlePersistenceService {
 
-    //Todo persist with httprequest elk
     final ModelMapper mapper = new ModelMapper();
     //Bean
     @Autowired
@@ -35,6 +35,8 @@ public class ArticlePersistenceService {
     CategorySqlRepository categorySqlRepository;
     @Autowired
     MaterialSqlRepository materialSqlRepository;
+    @Autowired
+    ElkServices elkServices;
 
     public Map<String, Object> createOne(final ArticleDto articleToCreateInDb) throws IncorrectDtoForCreationExc {
         if (articleToCreateInDb.getId() != null) {
@@ -76,18 +78,18 @@ public class ArticlePersistenceService {
     ) {
         Set<ColorSqlEntity> colorSet = new HashSet<ColorSqlEntity>();
         colorSqlEntityIterable.iterator().forEachRemaining((e -> colorSet.add(e)));
-
         Set<CategorySqlEntity> categorySet = new HashSet<>();
-        colorSqlEntityIterable.iterator().forEachRemaining((e -> colorSet.add(e)));
-
+        categorySqlEntityIterable.iterator().forEachRemaining((e -> categorySet.add(e)));
         Set<MaterialSqlEntity> materialSet = new HashSet<>();
-        colorSqlEntityIterable.iterator().forEachRemaining((e -> colorSet.add(e)));
+        materialSqlEntityIterable.iterator().forEachRemaining((e -> materialSet.add(e)));
 
         articleToSave.setColors(colorSet);
         articleToSave.setCategories(categorySet);
         articleToSave.setMaterials(materialSet);
-        log.info("in saveInSql");
-        return articleSqlRepository.save(articleToSave);
+
+        ArticleSqlEntity articleSql = articleSqlRepository.save(articleToSave);
+        elkServices.createFromSql(articleSql);
+        return articleSql;
     }
 
     public ArticleSqlEntity changeGradeAndCustomerNumber(ChangeArticleGradeRequest changeArticleGradeRequest) throws EntityWithIdNotFoundExc {

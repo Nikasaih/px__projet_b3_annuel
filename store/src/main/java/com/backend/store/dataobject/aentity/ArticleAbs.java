@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @ToString
 @MappedSuperclass
 public abstract class ArticleAbs {
-    @NotNull(message = "article string name must not be null")
+    @NotNull(message = "name string name must not be null")
     private String name;
     @NotNull(message = "price Long name must not be null")
     private Long price;
