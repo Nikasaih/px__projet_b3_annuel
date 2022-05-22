@@ -4,7 +4,7 @@ import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
 import com.backend.securitygw.dataobject.request.ChangeEmailRequest;
 import com.backend.securitygw.dataobject.request.ChangePasswordRequest;
 import com.backend.securitygw.service.endpoint.LoggedUserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RequiredArgsConstructor
 @RestController
 public class LoggedUserController {
+    @Autowired
     LoggedUserService loggedUserService;
 
     @PostMapping("/change-email")

@@ -33,8 +33,12 @@ public class LoggedUserService {
             return;
         }
 
+        System.out.println("test");
+
         appUser.get().setEmail(request.getNewEmail());
         userSqlRepository.save(appUser.get());
+        //Todo send email to new Email
+        //Todo send email to last Email to revert if needed
     }
 
     public void changePwd(ChangePasswordRequest request) throws CredentialNotMatchingAccount {

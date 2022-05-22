@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class ChangePasswordRequest extends UserCurrentCredential {
-    @NotNull
-    @NotBlank
+    @NotNull(message = "newPwd should not be null")
+    @NotBlank(message = "newPwd should not be blank")
     private String newPwd;
 }
