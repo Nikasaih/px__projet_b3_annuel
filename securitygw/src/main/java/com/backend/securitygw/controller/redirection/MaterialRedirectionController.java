@@ -1,6 +1,6 @@
 package com.backend.securitygw.controller.redirection;
 
-import com.backend.securitygw.dataobject.response.JwtDatagram;
+import com.backend.securitygw.aspect.auth.AdminRequired;
 import com.backend.securitygw.service.endpoint.UserRoleService;
 import com.backend.securitygw.service.miniservices.JwtService;
 import lombok.extern.slf4j.Slf4j;
@@ -36,27 +36,14 @@ public class MaterialRedirectionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createOne(@RequestBody String jsonBody, @RequestHeader("authentication") String authentication) {
-        if (!jwtService.isTokenExpired(authentication)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Jwt not more available");
-        }
-        JwtDatagram jwtDatagram = jwtService.parseJwt(authentication);
-        if (!userRoleService.hasAdminAuthority(jwtDatagram)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("you have not the right access");
-        }
+    @AdminRequired
+    public ResponseEntity<String> createOne(@RequestBody String jsonBody) {
         return restTemplate.postForEntity(storeRootUrl + redirectionControllerUrl, jsonBody, String.class);
     }
 
     @DeleteMapping("/{id}")
+    @AdminRequired
     public ResponseEntity<?> deleteOneById(@PathVariable("id") Long id, @RequestHeader("authentication") String authentication) {
-        if (!jwtService.isTokenExpired(authentication)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Jwt not more available");
-        }
-        JwtDatagram jwtDatagram = jwtService.parseJwt(authentication);
-        if (!userRoleService.hasAdminAuthority(jwtDatagram)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("you have not the right access");
-        }
-
         restTemplate.delete(storeRootUrl + redirectionControllerUrl + "/" + id);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Entity with id : %d deleted", id));
     }

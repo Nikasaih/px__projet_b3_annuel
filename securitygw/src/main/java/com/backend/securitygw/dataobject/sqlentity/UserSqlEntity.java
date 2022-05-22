@@ -21,7 +21,7 @@ public class UserSqlEntity extends PrivateUserDataAbs {
     private String hashedPassword;
     private String hashedPasswordSalt;
     @Enumerated(EnumType.STRING)
-    private AppUserRole appUserRole = AppUserRole.USER_ROLE;
+    private AppUserRole appUserRole = AppUserRole.ROLE_BASIC;
     private Boolean isLocked = false;
     private Boolean isEnabled = false;
 }

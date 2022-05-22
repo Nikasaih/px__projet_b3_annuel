@@ -18,7 +18,7 @@ public class UserRoleService {
     @Autowired
     UserSqlRepository userSqlRepository;
     Set<AppUserRole> adminAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN));
-    Set<AppUserRole> basicAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN, AppUserRole.USER_ROLE));
+    Set<AppUserRole> basicAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN, AppUserRole.ROLE_BASIC));
 
     public void grantAdminRole(String email) throws CredentialNotMatchingAccount {
         Optional<UserSqlEntity> appUser = userSqlRepository.findByEmail(email);
