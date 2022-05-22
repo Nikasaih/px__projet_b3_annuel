@@ -1,12 +1,12 @@
 package com.backend.store.dataobject.sqlentity;
 
+import com.backend.store.dataobject.aentity.ArticleAbs;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
-import com.backend.store.dataobject.aentity.ArticleAbs;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -43,6 +43,8 @@ public class ArticleSqlEntity extends ArticleAbs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long customerNumber = 0L;
+    private Long grade = null;
 
     //specific
     public ArticleSqlEntity removeCategory(CategorySqlEntity categoryToRemove) {

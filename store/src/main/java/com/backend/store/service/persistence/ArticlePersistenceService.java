@@ -4,6 +4,7 @@ import com.backend.store.common.exception.EntityWithIdNotFoundExc;
 import com.backend.store.common.exception.IncorrectDtoForCreationExc;
 import com.backend.store.common.exception.IncorrectDtoForUpdateExc;
 import com.backend.store.dataobject.dto.ArticleDto;
+import com.backend.store.dataobject.request.ChangeArticleGradeRequest;
 import com.backend.store.dataobject.sqlentity.ArticleSqlEntity;
 import com.backend.store.dataobject.sqlentity.CategorySqlEntity;
 import com.backend.store.dataobject.sqlentity.ColorSqlEntity;
@@ -82,5 +83,16 @@ public class ArticlePersistenceService {
         articleToSave.setMaterials(Sets.newHashSet(materialSqlEntityIterable));
         log.info("in saveInSql");
         return articleSqlRepository.save(articleToSave);
+    }
+
+    public ArticleSqlEntity changeGradeAndCustomerNumber(ChangeArticleGradeRequest changeArticleGradeRequest) throws EntityWithIdNotFoundExc {
+        Optional<ArticleSqlEntity> articleSql = articleSqlRepository.findById(changeArticleGradeRequest.getArticleId());
+        if (articleSql.isEmpty()) {
+            throw new EntityWithIdNotFoundExc(changeArticleGradeRequest.getArticleId(), "Article");
+        }
+
+        articleSql.get().setGrade(changeArticleGradeRequest.getNewGrade());
+        articleSql.get().setCustomerNumber(changeArticleGradeRequest.getCustomerNumber());
+        return articleSqlRepository.save(articleSql.get());
     }
 }

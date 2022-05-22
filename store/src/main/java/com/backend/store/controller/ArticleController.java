@@ -1,17 +1,18 @@
 package com.backend.store.controller;
 
+import com.backend.store.common.exception.EntityWithIdNotFoundExc;
+import com.backend.store.dataobject.dto.ArticleDto;
+import com.backend.store.dataobject.request.ChangeArticleGradeRequest;
+import com.backend.store.dataobject.sqlentity.ArticleSqlEntity;
+import com.backend.store.dataobject.sqlrepository.ArticleSqlRepository;
+import com.backend.store.service.delete.ArticleDeleteService;
+import com.backend.store.service.persistence.ArticlePersistenceService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.backend.store.common.exception.EntityWithIdNotFoundExc;
-import com.backend.store.dataobject.dto.ArticleDto;
-import com.backend.store.dataobject.sqlentity.ArticleSqlEntity;
-import com.backend.store.dataobject.sqlrepository.ArticleSqlRepository;
-import com.backend.store.service.delete.ArticleDeleteService;
-import com.backend.store.service.persistence.ArticlePersistenceService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -70,5 +71,22 @@ public class ArticleController {
         } catch (EntityWithIdNotFoundExc e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.toString());
         }
+    }
+
+    //-no CRUD
+    @PostMapping("/update-grade")
+    public ResponseEntity<Object> changeArticleGradeById(@RequestBody @Valid final ChangeArticleGradeRequest changeArticleGradeRequest, BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+
+        try {
+            ArticleSqlEntity articleSql = articlePersistenceService.changeGradeAndCustomerNumber(changeArticleGradeRequest);
+            return ResponseEntity.status(HttpStatus.OK).body(articleSql);
+        } catch (EntityWithIdNotFoundExc entityWithIdNotFoundExc) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(entityWithIdNotFoundExc);
+        }
+
     }
 }

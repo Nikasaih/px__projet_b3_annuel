@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 public abstract class CommentAbs {
     @NotNull
     @NotBlank
-    private Long articlesId;
+    private Long articleId;
     @NotNull
     @NotBlank
     private Long userId;

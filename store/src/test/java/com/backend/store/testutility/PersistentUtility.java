@@ -15,7 +15,6 @@ public final class PersistentUtility {
         articleDto.setImagePath("img");
         articleDto.setStocks(51L);
         articleDto.setPrice(5415L);
-        articleDto.setCustomerNumber(1455L);
         articleDto.setName("ijfi");
         articleDto.setSize("ifjf");
         articleDto.setCategoriesId(new HashSet<Long>());

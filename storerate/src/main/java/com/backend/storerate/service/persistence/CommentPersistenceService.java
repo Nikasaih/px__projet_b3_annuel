@@ -7,12 +7,11 @@ import com.backend.storerate.common.exception.IncorrectDtoForUpdateExc;
 import com.backend.storerate.dataobject.dto.CommentDto;
 import com.backend.storerate.dataobject.sqlentity.CommentSqlEntity;
 import com.backend.storerate.dataobject.sqlrepository.CommentSqlRepository;
+import com.backend.storerate.service.redirection.StoreArticleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -21,6 +20,8 @@ public class CommentPersistenceService {
     //Bean
     @Autowired
     CommentSqlRepository commentSqlRepository;
+    @Autowired
+    StoreArticleService storeArticleService;
 
     public CommentSqlEntity createOne(final CommentDto commentToCreateInDb) throws IncorrectDtoForCreationExc, EntityRelatedNotFoundExc {
         if (commentToCreateInDb.getId() != null) {
@@ -46,12 +47,14 @@ public class CommentPersistenceService {
         CommentSqlEntity commentToSaveInSql;
         commentToSaveInSql = mapper.map(commentToPersistInDb, CommentSqlEntity.class);
 
-        Map<String, Object> map = new HashMap<>();
-        return saveInSql(commentToSaveInSql);
+        CommentSqlEntity commentSqlEntity = saveInSql(commentToSaveInSql);
+        storeArticleService.UpdateArticleGradeAndCustomerNumberByArticleId(commentToPersistInDb.getArticleId());
+        return commentSqlEntity;
     }
 
 
     private CommentSqlEntity saveInSql(CommentSqlEntity commentToSave) {
         return commentSqlRepository.save(commentToSave);
     }
+
 }
