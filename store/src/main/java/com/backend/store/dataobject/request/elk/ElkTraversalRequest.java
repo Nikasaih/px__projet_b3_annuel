@@ -10,12 +10,12 @@ import java.util.Set;
 @Getter
 @Setter
 public class ElkTraversalRequest {
-    @NotNull(message = "nameToSearch should not be null")
-    String nameToSearch;
-    @NotNull(message = "categoryToSearchIn should not be null")
-    Set<String> categoryToSearchIn = new HashSet<>();
-    @NotNull(message = "materialToSearchIn should not be null")
-    Set<String> materialToSearchIn = new HashSet<>();
-    @NotNull(message = "colorToSearchIn should not be null")
-    Set<String> colorToSearchIn = new HashSet<>();
+    @NotNull(message = "name should not be null")
+    String name;
+    @NotNull(message = "category should not be null")
+    Set<String> category = new HashSet<>();
+    @NotNull(message = "material should not be null")
+    Set<String> material = new HashSet<>();
+    @NotNull(message = "color should not be null")
+    Set<String> color = new HashSet<>();
 }

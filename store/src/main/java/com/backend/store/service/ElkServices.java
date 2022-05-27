@@ -23,13 +23,13 @@ public class ElkServices {
 
     public ResponseEntity<String> fuzzySearch(ElkTraversalRequest request) {
         Bool shouldHandler = new Bool(new HashSet<>());
-        request.getCategoryToSearchIn().stream().forEach(category -> {
+        request.getCategory().stream().forEach(category -> {
             MatchCategory matchCategory = new MatchCategory(category);
             MatchHolder matchHolder = new MatchHolder(matchCategory);
             shouldHandler.getShould().add(matchHolder);
         });
         Name nameQuery = new Name();
-        nameQuery.setQuery(request.getNameToSearch());
+        nameQuery.setQuery(request.getName());
         MatchName matchName = new MatchName(nameQuery);
         MatchHolder matchHolder = new MatchHolder(matchName);
 
@@ -41,10 +41,10 @@ public class ElkServices {
 
     public void createFromSql(ArticleSqlEntity articleSql) {
         ElkTraversalRequest elkTraversalRequest = new ElkTraversalRequest();
-        elkTraversalRequest.setNameToSearch(articleSql.getName());
-        articleSql.getCategories().stream().forEach(e -> elkTraversalRequest.getCategoryToSearchIn().add(e.getRoom()));
-        articleSql.getMaterials().stream().forEach(e -> elkTraversalRequest.getCategoryToSearchIn().add(e.getName()));
-        articleSql.getColors().stream().forEach(e -> elkTraversalRequest.getCategoryToSearchIn().add(e.getName()));
+        elkTraversalRequest.setName(articleSql.getName());
+        articleSql.getCategories().stream().forEach(e -> elkTraversalRequest.getCategory().add(e.getRoom()));
+        articleSql.getMaterials().stream().forEach(e -> elkTraversalRequest.getCategory().add(e.getName()));
+        articleSql.getColors().stream().forEach(e -> elkTraversalRequest.getCategory().add(e.getName()));
 
         createDocument(elkTraversalRequest);
         return;
