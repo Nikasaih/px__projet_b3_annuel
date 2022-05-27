@@ -1,9 +1,7 @@
 package com.backend.securitygw.service.miniservices;
 
 import com.backend.securitygw.dataobject.response.JwtDatagram;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +12,6 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Service
 @Slf4j
@@ -27,35 +24,6 @@ public class JwtService implements Serializable {
     @Value("${secret.jwt}")
     private String jwtSecret;
 
-    //retrieve username from jwt token
-    public String getUsernameFromToken(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
-    }
-
-    //retrieve expiration date from jwt token
-    public Date getExpirationDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
-    }
-
-
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims);
-    }
-
-
-    //for retrieving any information from token we will need the secret key
-    private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-    }
-
-
-    //check if the token has expired
-    public Boolean isTokenExpired(String token) {
-        final Date expiration = getExpirationDateFromToken(token);
-        return new Date().before(expiration);
-    }
-
     //generate token for user
     public String generateToken(JwtDatagram jwtDatagram) {
         Map<String, Object> claims = mapDatagramToClaim(jwtDatagram);
@@ -67,7 +35,7 @@ public class JwtService implements Serializable {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
     }
 
-    Map<String, Object> mapDatagramToClaim(JwtDatagram jwtDatagram) {
+    private Map<String, Object> mapDatagramToClaim(JwtDatagram jwtDatagram) {
         Map<String, Object> claims = new HashMap<>();
         for (Field field : jwtDatagram.getClass().getDeclaredFields()) {
             field.setAccessible(true);
@@ -90,14 +58,12 @@ public class JwtService implements Serializable {
     }
 
     public JwtDatagram parseJwt(String jwtRaw) {
-        Map<String, Object> payload = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtRaw).getBody();
-        return mapper.map(payload, JwtDatagram.class);
-    }
+        try {
+            Map<String, Object> payload = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwtRaw).getBody();
+            return mapper.map(payload, JwtDatagram.class);
 
-    //validate token
-    /*
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }*/
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            return null;
+        }
+    }
 }

@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 @MappedSuperclass
 public abstract class ColorAbs {
-    @NotNull
+    @NotNull (message = "name should not be null")
     private String name;
-    @NotNull
+    @NotNull (message = "hexacode should not be null")
     private String hexacode;
 }

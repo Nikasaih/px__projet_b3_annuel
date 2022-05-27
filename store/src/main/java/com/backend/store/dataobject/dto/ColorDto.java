@@ -10,6 +10,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ColorDto extends ColorAbs {
     private Long id;
-    @NotNull
+    @NotNull (message = "articleId should not be null")
     private Iterable<Long> articlesId;
 }

@@ -4,14 +4,8 @@ class com.backend.securitygw.dataobject.request.ForgotPasswordRequest {
 ~ String newPwd
 ~ ConfirmationTokenType confirmationTokenType
 }
-abstract class com.backend.securitygw.dataobject.aentity.PrivateUserDataAbs {
-- String email
-}
-interface com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenSqlRepository {
-~ Optional<ConfirmationToken> findByToken(String)
-}
-class com.backend.securitygw.dataobject.response.JwtDatagram {
-- AppUserRole appUserRole
+class com.backend.securitygw.dataobject.request.RegistrationRequest {
+- String password
 }
 class com.backend.securitygw.dataobject.request.AskEmailPasswordForgotRequest {
 - String emailToSend
@@ -26,41 +20,9 @@ class com.backend.securitygw.dataobject.request.ChangeEmailRequest {
 class com.backend.securitygw.dataobject.request.ChangePasswordRequest {
 - String newPwd
 }
-class com.backend.securitygw.dataobject.sqlentity.UserSqlEntity {
-- Long id
-- String hashedPassword
-- String hashedPasswordSalt
-- AppUserRole appUserRole
-- Boolean isLocked
-- Boolean isEnabled
-}
-class com.backend.securitygw.dataobject.request.RegistrationRequest {
-- String password
-}
-abstract class com.backend.securitygw.dataobject.aentity.PublicUserDataAbs {
-- String firstName
-- String lastName
-}
-interface com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository {
-~ Optional<UserSqlEntity> findByEmail(String)
-}
-class com.backend.securitygw.dataobject.sqlentity.ConfirmationToken {
-- Long id
-- String token
-- LocalDateTime createdAt
-- LocalDateTime expiredAt
-- LocalDateTime confirmedAt
-- ConfirmationTokenType confirmationTokenType
-- UserSqlEntity appUser
-}
 
 
-com.backend.securitygw.dataobject.aentity.PublicUserDataAbs <|-- com.backend.securitygw.dataobject.aentity.PrivateUserDataAbs
-org.springframework.data.repository.CrudRepository <|-- com.backend.securitygw.dataobject.sqlrepository.ConfirmationTokenSqlRepository
-com.backend.securitygw.dataobject.aentity.PublicUserDataAbs <|-- com.backend.securitygw.dataobject.response.JwtDatagram
+com.backend.securitygw.dataobject.aentity.PrivateUserDataAbs <|-- com.backend.securitygw.dataobject.request.RegistrationRequest
 com.backend.securitygw.dataobject.request.UserCurrentCredential <|-- com.backend.securitygw.dataobject.request.ChangeEmailRequest
 com.backend.securitygw.dataobject.request.UserCurrentCredential <|-- com.backend.securitygw.dataobject.request.ChangePasswordRequest
-com.backend.securitygw.dataobject.aentity.PrivateUserDataAbs <|-- com.backend.securitygw.dataobject.sqlentity.UserSqlEntity
-com.backend.securitygw.dataobject.aentity.PrivateUserDataAbs <|-- com.backend.securitygw.dataobject.request.RegistrationRequest
-org.springframework.data.repository.CrudRepository <|-- com.backend.securitygw.dataobject.sqlrepository.UserSqlRepository
 @enduml

@@ -32,7 +32,7 @@ public class ElkController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<?> createDocument(@RequestBody @Valid final ElkTraversalRequest request, BindingResult result) {
+    public ResponseEntity<Object> createDocument(@RequestBody @Valid final ElkTraversalRequest request, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
