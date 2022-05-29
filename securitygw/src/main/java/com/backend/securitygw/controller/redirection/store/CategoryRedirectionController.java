@@ -1,7 +1,6 @@
-package com.backend.securitygw.controller.redirection;
+package com.backend.securitygw.controller.redirection.store;
 
 import com.backend.securitygw.aspect.auth.AdminRequired;
-import com.backend.securitygw.dataobject.response.JwtDatagram;
 import com.backend.securitygw.service.endpoint.RedirectionService;
 import com.backend.securitygw.service.endpoint.UserRoleService;
 import com.backend.securitygw.service.miniservices.JwtService;
@@ -16,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/api/articles")
+@RequestMapping("/api/categories")
 @Slf4j
 @RequiredArgsConstructor
-public class ArticleRedirectionController {
+public class CategoryRedirectionController {
     @Autowired
     RedirectionService redirectionService;
     @Autowired
@@ -30,7 +29,7 @@ public class ArticleRedirectionController {
     UserRoleService userRoleService;
     @Value("${microservices.store}")
     String storeRootUrl;
-    String redirectionControllerUrl = "/api/articles";
+    String redirectionControllerUrl = "/api/categories";
 
     @GetMapping
     public ResponseEntity<String> getAll() {
@@ -39,20 +38,18 @@ public class ArticleRedirectionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<String> getById(@PathVariable("id") Long id) {
-        return restTemplate.getForEntity(storeRootUrl + redirectionControllerUrl + id, String.class);
+        return restTemplate.getForEntity(storeRootUrl + redirectionControllerUrl + "/" + +id, String.class);
     }
 
     @PostMapping
     @AdminRequired
-    public ResponseEntity<Object> createOne(@RequestBody String jsonBody, @RequestHeader("authentication") String authentication, JwtDatagram jwtDatagram) {
-        System.out.println("\n\n" + jwtDatagram + "\n\n");
+    public ResponseEntity<Object> createOne(@RequestBody String jsonBody, @RequestHeader("authentication") String authentication) {
         return redirectionService.redirect(jsonBody, HttpMethod.POST, storeRootUrl + redirectionControllerUrl);
     }
 
     @DeleteMapping("/{id}")
     @AdminRequired
     public ResponseEntity<?> deleteOneById(@PathVariable("id") Long id, @RequestHeader("authentication") String authentication) {
-        restTemplate.delete(storeRootUrl + redirectionControllerUrl + "/" + id);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Entity with id : %d deleted", id));
     }
 }

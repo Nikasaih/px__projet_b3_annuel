@@ -1,4 +1,4 @@
-package com.backend.securitygw.controller.redirection;
+package com.backend.securitygw.controller.redirection.store;
 
 import com.backend.securitygw.aspect.auth.AdminRequired;
 import com.backend.securitygw.service.endpoint.RedirectionService;
@@ -36,7 +36,7 @@ public class ColorRedirectionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<String> getById(@PathVariable("id") Long id) {
-        return restTemplate.getForEntity(storeRootUrl + redirectionControllerUrl + id, String.class);
+        return restTemplate.getForEntity(storeRootUrl + redirectionControllerUrl + "/" + id, String.class);
     }
 
     @PostMapping
