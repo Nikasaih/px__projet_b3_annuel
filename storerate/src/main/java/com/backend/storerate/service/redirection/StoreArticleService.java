@@ -1,11 +1,13 @@
 package com.backend.storerate.service.redirection;
 
+import com.backend.storerate.dataobject.request.ChangeArticleGradeRequest;
 import com.backend.storerate.dataobject.sqlentity.CommentSqlEntity;
 import com.backend.storerate.dataobject.sqlrepository.CommentSqlRepository;
+import com.backend.storerate.service.RedirectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class StoreArticleService {
     @Value("${microservices.store}")
     String storeRootUrl;
     @Autowired
-    RestTemplate restTemplate;
+    RedirectionService redirectionService;
     String redirectionControllerUrl = "/api/articles";
 
     public void UpdateArticleGradeAndCustomerNumberByArticleId(Long articlesId) {
@@ -26,7 +28,11 @@ public class StoreArticleService {
         for (int i = 0; i < commentSqlEntity.size(); i++) {
             grade += commentSqlEntity.get(i).getGrade();
         }
+        ChangeArticleGradeRequest changeArticleGradeRequest = new ChangeArticleGradeRequest();
+        changeArticleGradeRequest.setArticleId(articlesId);
+        changeArticleGradeRequest.setNewGrade(grade);
+        changeArticleGradeRequest.setCustomerNumber(commentSqlEntity.size());
 
-        restTemplate.getForEntity(storeRootUrl + redirectionControllerUrl + "/update-grade", Object.class);
+        redirectionService.redirect(changeArticleGradeRequest, HttpMethod.POST, storeRootUrl + redirectionControllerUrl + "/update-grade");
     }
 }

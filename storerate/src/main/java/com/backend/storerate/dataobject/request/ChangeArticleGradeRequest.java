@@ -10,6 +10,6 @@ import javax.validation.constraints.NotNull;
 public class ChangeArticleGradeRequest {
     @NotNull
     private Long articleId;
-    private Long newGrade;
-    private Long customerNumber;
+    private Float newGrade;
+    private int customerNumber;
 }

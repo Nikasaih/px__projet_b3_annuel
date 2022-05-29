@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class CommentPersistenceService {
     final ModelMapper mapper = new ModelMapper();
-    //Bean
+
     @Autowired
     CommentSqlRepository commentSqlRepository;
     @Autowired

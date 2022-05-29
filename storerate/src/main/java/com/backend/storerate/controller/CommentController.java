@@ -6,8 +6,8 @@ import com.backend.storerate.dataobject.sqlentity.CommentSqlEntity;
 import com.backend.storerate.dataobject.sqlrepository.CommentSqlRepository;
 import com.backend.storerate.service.delete.CommentDeleteService;
 import com.backend.storerate.service.persistence.CommentPersistenceService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -21,11 +21,12 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/comments")
 @Slf4j
-@AllArgsConstructor
 public class CommentController {
-
+    @Autowired
     CommentPersistenceService commentPersistenceService;
+    @Autowired
     CommentSqlRepository commentSqlRepository;
+    @Autowired
     CommentDeleteService commentDeleteService;
 
     @GetMapping
