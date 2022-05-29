@@ -10,6 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class ElkTraversalRequest {
+    Long articleId;
     @NotNull(message = "name should not be null")
     String name;
     @NotNull(message = "category should not be null")

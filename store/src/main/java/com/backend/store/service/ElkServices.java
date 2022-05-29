@@ -45,6 +45,7 @@ public class ElkServices {
         articleSql.getCategories().stream().forEach(e -> elkTraversalRequest.getCategory().add(e.getRoom()));
         articleSql.getMaterials().stream().forEach(e -> elkTraversalRequest.getCategory().add(e.getName()));
         articleSql.getColors().stream().forEach(e -> elkTraversalRequest.getCategory().add(e.getName()));
+        elkTraversalRequest.setArticleId(articleSql.getId());
 
         createDocument(elkTraversalRequest);
         return;
