@@ -44,7 +44,7 @@ public class ArticleSqlEntity extends ArticleAbs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long customerNumber = 0L;
-    private Long grade = null;
+    private Float grade = null;
 
     //specific
     public ArticleSqlEntity removeCategory(CategorySqlEntity categoryToRemove) {
