@@ -1,15 +1,6 @@
 @startuml
-class com.backend.securitygw.dataobject.request.ForgotPasswordRequest {
-~ String token
-~ String newPwd
-~ ConfirmationTokenType confirmationTokenType
-}
-class com.backend.securitygw.dataobject.request.RegistrationRequest {
-- String password
-}
-class com.backend.securitygw.dataobject.request.AskEmailPasswordForgotRequest {
-- String emailToSend
-}
+!include https://raw.githubusercontent.com/ptrkcsk/one-dark-plantuml-theme/v1.0.0/theme.puml
+
 class com.backend.securitygw.dataobject.request.UserCurrentCredential {
 - String currentEmail
 - String currentPwd
@@ -22,7 +13,6 @@ class com.backend.securitygw.dataobject.request.ChangePasswordRequest {
 }
 
 
-com.backend.securitygw.dataobject.aentity.PrivateUserDataAbs <|-- com.backend.securitygw.dataobject.request.RegistrationRequest
 com.backend.securitygw.dataobject.request.UserCurrentCredential <|-- com.backend.securitygw.dataobject.request.ChangeEmailRequest
 com.backend.securitygw.dataobject.request.UserCurrentCredential <|-- com.backend.securitygw.dataobject.request.ChangePasswordRequest
 @enduml

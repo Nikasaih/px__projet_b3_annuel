@@ -1,0 +1,61 @@
+@startuml
+!include https://raw.githubusercontent.com/ptrkcsk/one-dark-plantuml-theme/v1.0.0/theme.puml
+
+participant Actor
+Actor -> ArticleController : createOne
+activate ArticleController
+ArticleController -> ArticleController : λ→
+activate ArticleController
+ArticleController --> ArticleController
+deactivate ArticleController
+ArticleController -> ArticlePersistenceService : createOne
+activate ArticlePersistenceService
+create IncorrectDtoForCreationExc
+ArticlePersistenceService -> IncorrectDtoForCreationExc : new
+activate IncorrectDtoForCreationExc
+IncorrectDtoForCreationExc --> ArticlePersistenceService
+deactivate IncorrectDtoForCreationExc
+ArticlePersistenceService -> ArticlePersistenceService : persistEntity
+activate ArticlePersistenceService
+ArticlePersistenceService -> ArticlePersistenceService : saveInSql
+activate ArticlePersistenceService
+ArticlePersistenceService -> ArticlePersistenceService : λ→
+activate ArticlePersistenceService
+ArticlePersistenceService --> ArticlePersistenceService
+deactivate ArticlePersistenceService
+ArticlePersistenceService -> ArticlePersistenceService : λ→
+activate ArticlePersistenceService
+ArticlePersistenceService --> ArticlePersistenceService
+deactivate ArticlePersistenceService
+ArticlePersistenceService -> ArticlePersistenceService : λ→
+activate ArticlePersistenceService
+ArticlePersistenceService --> ArticlePersistenceService
+deactivate ArticlePersistenceService
+ArticlePersistenceService -> ElkServices : createFromSql
+activate ElkServices
+ElkServices -> ElkServices : λ→
+activate ElkServices
+ElkServices --> ElkServices
+deactivate ElkServices
+ElkServices -> ElkServices : λ→
+activate ElkServices
+ElkServices --> ElkServices
+deactivate ElkServices
+ElkServices -> ElkServices : λ→
+activate ElkServices
+ElkServices --> ElkServices
+deactivate ElkServices
+ElkServices -> ElkServices : createDocument
+activate ElkServices
+ElkServices --> ElkServices
+deactivate ElkServices
+ElkServices --> ArticlePersistenceService
+deactivate ElkServices
+ArticlePersistenceService --> ArticlePersistenceService
+deactivate ArticlePersistenceService
+ArticlePersistenceService --> ArticlePersistenceService
+deactivate ArticlePersistenceService
+ArticlePersistenceService --> ArticleController
+deactivate ArticlePersistenceService
+return
+@enduml

@@ -10,6 +10,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 @MappedSuperclass
 public abstract class CategoryAbs {
-    @NotNull
+    @NotNull(message = "room should not be null")
     private String room;
 }

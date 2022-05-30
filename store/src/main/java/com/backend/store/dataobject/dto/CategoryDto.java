@@ -1,8 +1,8 @@
 package com.backend.store.dataobject.dto;
 
+import com.backend.store.dataobject.aentity.CategoryAbs;
 import lombok.Getter;
 import lombok.Setter;
-import com.backend.store.dataobject.aentity.CategoryAbs;
 
 import javax.validation.constraints.NotNull;
 
@@ -10,6 +10,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class CategoryDto extends CategoryAbs {
     private Long id;
-    @NotNull
+    @NotNull(message = "articleId should not be null")
     private Iterable<Long> articlesId;
 }

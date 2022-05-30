@@ -38,7 +38,7 @@ public class AuthAspect {
     @Around("execution(* *(..)) && @annotation(AdminRequired)")
     public Object adminRequired(ProceedingJoinPoint jp) throws Throwable {
         log.info("admin check method start");
-        return authorizationService.filter(jp, request.getHeader("authentication"), basicAuthority, "basic required");
+        return authorizationService.filter(jp, request.getHeader("authentication"), adminAuthority, "basic required");
     }
 
 
