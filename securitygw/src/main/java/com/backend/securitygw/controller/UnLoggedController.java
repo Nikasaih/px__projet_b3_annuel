@@ -2,6 +2,7 @@ package com.backend.securitygw.controller;
 
 import com.backend.securitygw.common.exception.AccountNotEnableExc;
 import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
+import com.backend.securitygw.common.exception.JwtDurationForRoleNotAvailableExc;
 import com.backend.securitygw.dataobject.request.AskEmailPasswordForgotRequest;
 import com.backend.securitygw.dataobject.request.ForgotPasswordRequest;
 import com.backend.securitygw.dataobject.request.UserCurrentCredential;
@@ -33,6 +34,8 @@ public class UnLoggedController {
             return ResponseEntity.status(HttpStatus.OK).body(jwt);
         } catch (CredentialNotMatchingAccount | AccountNotEnableExc e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
+        } catch (JwtDurationForRoleNotAvailableExc jwtDurationForRoleNotAvailableExc) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(jwtDurationForRoleNotAvailableExc.toString());
         }
     }
 

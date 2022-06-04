@@ -3,6 +3,7 @@ package com.backend.securitygw.service.endpoint;
 import com.backend.securitygw.common.enumerator.ConfirmationTokenType;
 import com.backend.securitygw.common.exception.AccountNotEnableExc;
 import com.backend.securitygw.common.exception.CredentialNotMatchingAccount;
+import com.backend.securitygw.common.exception.JwtDurationForRoleNotAvailableExc;
 import com.backend.securitygw.dataobject.request.ForgotPasswordRequest;
 import com.backend.securitygw.dataobject.request.UserCurrentCredential;
 import com.backend.securitygw.dataobject.response.JwtDatagram;
@@ -38,7 +39,7 @@ public class UnLoggedUserService {
     @Autowired
     UserService userService;
 
-    public String signIn(UserCurrentCredential userCurrentCredential) throws CredentialNotMatchingAccount, AccountNotEnableExc {
+    public String signIn(UserCurrentCredential userCurrentCredential) throws CredentialNotMatchingAccount, AccountNotEnableExc, JwtDurationForRoleNotAvailableExc {
         Optional<UserSqlEntity> user = userSqlRepository.findByEmail(userCurrentCredential.getCurrentEmail());
         if (user.isEmpty()) {
             throw new CredentialNotMatchingAccount();
