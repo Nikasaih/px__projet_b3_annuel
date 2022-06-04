@@ -1,6 +1,6 @@
 package com.backend.securitygw.controller.redirection.store;
 
-import com.backend.securitygw.aspect.auth.AdminRequired;
+import com.backend.securitygw.aspect.auth.StoreManagerRequired;
 import com.backend.securitygw.dataobject.response.JwtDatagram;
 import com.backend.securitygw.service.endpoint.RedirectionService;
 import com.backend.securitygw.service.endpoint.UserRoleService;
@@ -43,13 +43,13 @@ public class ArticleRedirectionController {
     }
 
     @PostMapping
-    @AdminRequired
+    @StoreManagerRequired
     public ResponseEntity<Object> createOne(@RequestBody String jsonBody, @RequestHeader("authentication") String authentication, JwtDatagram jwtDatagram) {
         return redirectionService.redirect(jsonBody, HttpMethod.POST, storeRootUrl + redirectionControllerUrl);
     }
 
     @DeleteMapping("/{id}")
-    @AdminRequired
+    @StoreManagerRequired
     public ResponseEntity<?> deleteOneById(@PathVariable("id") Long id, @RequestHeader("authentication") String authentication) {
         restTemplate.delete(storeRootUrl + redirectionControllerUrl + "/" + id);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Entity with id : %d deleted", id));

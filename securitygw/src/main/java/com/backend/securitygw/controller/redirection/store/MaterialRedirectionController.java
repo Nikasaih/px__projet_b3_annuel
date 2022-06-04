@@ -1,6 +1,6 @@
 package com.backend.securitygw.controller.redirection.store;
 
-import com.backend.securitygw.aspect.auth.AdminRequired;
+import com.backend.securitygw.aspect.auth.StoreManagerRequired;
 import com.backend.securitygw.service.endpoint.RedirectionService;
 import com.backend.securitygw.service.endpoint.UserRoleService;
 import com.backend.securitygw.service.miniservices.JwtService;
@@ -39,13 +39,13 @@ public class MaterialRedirectionController {
     }
 
     @PostMapping
-    @AdminRequired
+    @StoreManagerRequired
     public ResponseEntity<Object> createOne(@RequestBody String jsonBody) {
         return redirectionService.redirect(jsonBody, HttpMethod.POST, storeRootUrl + redirectionControllerUrl);
     }
 
     @DeleteMapping("/{id}")
-    @AdminRequired
+    @StoreManagerRequired
     public ResponseEntity<?> deleteOneById(@PathVariable("id") Long id, @RequestHeader("authentication") String authentication) {
         return redirectionService.redirect(null, HttpMethod.DELETE, storeRootUrl + redirectionControllerUrl + "/" + id);
     }
