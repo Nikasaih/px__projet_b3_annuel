@@ -27,19 +27,29 @@ public class AuthAspect {
     @Autowired
     AuthorizationService authorizationService;
 
+    Set<AppUserRole> basicAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN, AppUserRole.ROLE_CUSTOMER, AppUserRole.ROLE_STORE_MANAGER));
+    Set<AppUserRole> storeManagerAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN, AppUserRole.ROLE_STORE_MANAGER));
     Set<AppUserRole> adminAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN));
-    Set<AppUserRole> basicAuthority = new HashSet<>(List.of(AppUserRole.ROLE_ADMIN, AppUserRole.ROLE_BASIC));
+    Set<AppUserRole> superadminAuthority = new HashSet<>(List.of(AppUserRole.ROLE_SUPERADMIN));
 
-    @Around("execution(* *(..)) && @annotation(BasicRequired)")
+    @Around("execution(* *(..)) && @annotation(CustomerRequired)")
     public Object basicRequired(ProceedingJoinPoint jp) throws Throwable {
         return authorizationService.filter(jp, request.getHeader("authentication"), basicAuthority, "basic required");
     }
 
+    @Around("execution(* *(..)) && @annotation(StoreManagerRequired)")
+    public Object storeManagerRequired(ProceedingJoinPoint jp) throws Throwable {
+        return authorizationService.filter(jp, request.getHeader("authentication"), storeManagerAuthority, "basic required");
+    }
+
     @Around("execution(* *(..)) && @annotation(AdminRequired)")
     public Object adminRequired(ProceedingJoinPoint jp) throws Throwable {
-        log.info("admin check method start");
         return authorizationService.filter(jp, request.getHeader("authentication"), adminAuthority, "basic required");
     }
 
+    @Around("execution(* *(..)) && @annotation(SuperadminRequired)")
+    public Object superadminRequired(ProceedingJoinPoint jp) throws Throwable {
+        return authorizationService.filter(jp, request.getHeader("authentication"), superadminAuthority, "basic required");
+    }
 
 }

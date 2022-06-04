@@ -31,7 +31,7 @@ public class StartupCaller {
         try {
             registerUserService.registerUser(adminRegistrationRequest);
             registerUserService.enableAppUserByEmail(adminRegistrationRequest.getEmail());
-            userRoleService.grantAdminRole(adminRegistrationRequest.getEmail());
+            userRoleService.grantSuperadminRole(adminRegistrationRequest.getEmail());
         } catch (Exception e) {
             System.out.println(e.toString());
         }
