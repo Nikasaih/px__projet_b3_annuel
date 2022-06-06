@@ -11,5 +11,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/favorite")
 @Slf4j
 public class FavoriteController extends BoxController<FavoriteService, AddFavoriteElementRequest, RemoveFavoriteElementRequest> {
-
 }

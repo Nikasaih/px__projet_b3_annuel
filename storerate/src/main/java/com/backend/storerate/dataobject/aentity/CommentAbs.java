@@ -11,16 +11,13 @@ import javax.validation.constraints.NotNull;
 @Setter
 @MappedSuperclass
 public abstract class CommentAbs {
-    @NotNull
-    @NotBlank
+    @NotNull(message = "articleId should not be null")
     private Long articleId;
-    @NotNull
-    @NotBlank
+    @NotNull(message = "userId should not be null")
     private Long userId;
-    @NotNull
-    @NotBlank
+    @NotNull(message = "grade should not be null")
     private Float grade;
-    @NotNull
-    @NotBlank
+    @NotNull(message = "text should not be null")
+    @NotBlank(message = "text should not be blank")
     private String text;
 }
