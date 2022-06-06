@@ -11,6 +11,6 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @ToString
-public class BasketGrpSqlEntity extends BoxGrpAbs<Box> {
+public class BasketGrpSqlEntity extends BoxGrpAbs<BasketElementSqlEntity> {
     private Float totalArticlePrice;
 }

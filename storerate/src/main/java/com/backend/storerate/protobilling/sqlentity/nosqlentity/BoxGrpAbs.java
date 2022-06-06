@@ -36,4 +36,9 @@ public class BoxGrpAbs<ElementEntity extends BoxElementAbs> {
         boxElements.add(toAdd);
         return this;
     }
+
+    public BoxGrpAbs<ElementEntity> removeElement(ElementEntity toRemove) {
+        boxElements.remove(toRemove);
+        return this;
+    }
 }

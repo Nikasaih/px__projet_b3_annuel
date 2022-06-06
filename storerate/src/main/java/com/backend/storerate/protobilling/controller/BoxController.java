@@ -1,7 +1,6 @@
 package com.backend.storerate.protobilling.controller;
 
 import com.backend.storerate.protobilling.request.BoxElementRequest;
-import com.backend.storerate.protobilling.request.RemoveBoxElementRequest;
 import com.backend.storerate.protobilling.service.BoxServiceAbs;
 import com.backend.storerate.protobilling.sqlentity.nosqlentity.BoxGrpAbs;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +22,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class BoxController<
         BoxService extends BoxServiceAbs,
-        AddUpdateRequest extends BoxElementRequest> {
+        AddUpdateRequest extends BoxElementRequest,
+        RemoveBoxRequest extends BoxElementRequest> {
 
     @Autowired
     BoxService boxService;
@@ -34,13 +34,13 @@ public abstract class BoxController<
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<Object> removeElementFromBox(@RequestBody @Valid RemoveBoxElementRequest addBasketElementRequest, BindingResult result) {
+    public ResponseEntity<Object> removeElementFromBox(@RequestBody @Valid RemoveBoxRequest request, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
         }
 
-        BoxGrpAbs currentBox = boxService.removeElement(addBasketElementRequest.getCustomerId(), addBasketElementRequest.getBoxElementId());
+        BoxGrpAbs currentBox = boxService.removeElement(request);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(currentBox);
     }

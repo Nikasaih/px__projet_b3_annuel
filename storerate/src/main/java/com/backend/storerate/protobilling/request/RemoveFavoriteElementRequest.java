@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class RemoveBoxElementRequest extends BoxElementRequest {
-    @NotNull(message = "boxElementId should not be null")
-    private Long boxElementId;
+public class RemoveFavoriteElementRequest extends BoxElementRequest {
+    @NotNull(message = "articleId should not be null")
+    private Long articleId;
 }

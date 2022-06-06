@@ -11,9 +11,7 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @Setter
-public class Box extends BoxElementAbs<BasketGrpSqlEntity> {
+public class BasketElementSqlEntity extends BoxElementAbs<BasketGrpSqlEntity> {
     @Embedded
     private BasketElEmb basketEmb;
-
-
 }

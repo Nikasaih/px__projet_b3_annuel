@@ -1,8 +1,8 @@
 package com.backend.storerate.testutility;
 
 import com.backend.storerate.protobilling.request.AddBasketElementRequest;
-import com.backend.storerate.protobilling.request.RemoveBoxElementRequest;
-import com.backend.storerate.protobilling.sqlentity.Box;
+import com.backend.storerate.protobilling.request.RemoveFavoriteElementRequest;
+import com.backend.storerate.protobilling.sqlentity.BasketElementSqlEntity;
 
 public final class RequestUtility {/*
     public static AddFavoritesElementRequest defaultAddFavoritesElementRequest() {
@@ -16,7 +16,7 @@ public final class RequestUtility {/*
 
     public static AddBasketElementRequest defaultAddBasketsElementRequest() {
         AddBasketElementRequest req = new AddBasketElementRequest();
-        Box element = new Box();
+        BasketElementSqlEntity element = new BasketElementSqlEntity();
         //  element.setArticleId(1L);
         // element.setAmount(1L);
         //req.setCustomerId(1L);
@@ -24,10 +24,9 @@ public final class RequestUtility {/*
         return req;
     }
 
-    public static RemoveBoxElementRequest defaultRemoveBoxElementRequest() {
-        RemoveBoxElementRequest req = new RemoveBoxElementRequest();
+    public static RemoveFavoriteElementRequest defaultRemoveBoxElementRequest() {
+        RemoveFavoriteElementRequest req = new RemoveFavoriteElementRequest();
         req.setCustomerId(1L);
-        req.setBoxElementId(1L);
         return req;
     }
 }
