@@ -31,4 +31,9 @@ public class BoxGrpAbs<ElementEntity extends BoxElementAbs> {
             fetch = FetchType.EAGER
             , mappedBy = "grpEntity")
     private Set<ElementEntity> boxElements = new HashSet<>();
+
+    public BoxGrpAbs<ElementEntity> addElement(ElementEntity toAdd) {
+        boxElements.add(toAdd);
+        return this;
+    }
 }

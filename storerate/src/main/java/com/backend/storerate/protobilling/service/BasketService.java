@@ -3,8 +3,9 @@ package com.backend.storerate.protobilling.service;
 import com.backend.storerate.protobilling.repository.el.BasketElementRepository;
 import com.backend.storerate.protobilling.repository.grp.BasketGrpSqlRepository;
 import com.backend.storerate.protobilling.request.AddBasketElementRequest;
-import com.backend.storerate.protobilling.sqlentity.BasketElementSqlEntity;
 import com.backend.storerate.protobilling.sqlentity.BasketGrpSqlEntity;
+import com.backend.storerate.protobilling.sqlentity.Box;
+import com.backend.storerate.protobilling.sqlentity.nosqlentity.BoxGrpAbs;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class BasketService extends BoxServiceAbs<AddBasketElementRequest, BasketGrpSqlEntity> {
+public class BasketService extends BoxServiceAbs<AddBasketElementRequest, BasketGrpSqlEntity, Box> {
     @Autowired
     BasketGrpSqlRepository grpRepository;
     @Autowired
@@ -42,13 +43,13 @@ public class BasketService extends BoxServiceAbs<AddBasketElementRequest, Basket
     }
 
     @Override
-    public BasketGrpSqlEntity addUpdateElement(AddBasketElementRequest newElReq) {
+    public BoxGrpAbs<Box> addUpdateElement(AddBasketElementRequest newElReq) {
         ModelMapper mapper = new ModelMapper();
-        BasketElementSqlEntity newBasketElement = mapper.map(newElReq, BasketElementSqlEntity.class);
+        Box newElement = mapper.map(newElReq, Box.class);
         BasketGrpSqlEntity allElementOfCustomer = getGrpByCustomerId(newElReq.getCustomerId());
-        newBasketElement.setGrpEntity(allElementOfCustomer);
-        elementRepository.save(newBasketElement);
+        newElement.setGrpEntity(allElementOfCustomer);
+        elementRepository.save(newElement);
 
-        return getGrpByCustomerId(newElReq.getCustomerId());
+        return allElementOfCustomer.addElement(newElement);
     }
 }
