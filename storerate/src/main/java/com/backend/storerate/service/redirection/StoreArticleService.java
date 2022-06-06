@@ -21,7 +21,7 @@ public class StoreArticleService {
     RedirectionService redirectionService;
     String redirectionControllerUrl = "/api/articles";
 
-    public void UpdateArticleGradeAndCustomerNumberByArticleId(Long articlesId) {
+    public void updateArticleGradeAndCustomerNumberByArticleId(Long articlesId) {
         List<CommentSqlEntity> commentSqlEntity = commentSqlRepository.findByArticleId(articlesId);
         Float grade = 0f;
 

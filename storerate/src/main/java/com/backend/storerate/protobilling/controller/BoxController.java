@@ -1,8 +1,9 @@
 package com.backend.storerate.protobilling.controller;
 
-import com.backend.storerate.protobilling.repository.el.BasketElementRepository;
+import com.backend.storerate.protobilling.request.BoxElementRequest;
 import com.backend.storerate.protobilling.request.RemoveBoxElementRequest;
 import com.backend.storerate.protobilling.service.BoxServiceAbs;
+import com.backend.storerate.protobilling.sqlentity.nosqlentity.BoxGrpAbs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,15 +21,16 @@ import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
-public abstract class BoxController<BoxService extends BoxServiceAbs> {
+public abstract class BoxController<
+        BoxService extends BoxServiceAbs,
+        AddUpdateRequest extends BoxElementRequest> {
+
     @Autowired
     BoxService boxService;
-    @Autowired
-    BasketElementRepository basketElementRepository;
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Object> getCustomerBoxById(@PathVariable("customerId") Long customerId) {
-        return ResponseEntity.status(HttpStatus.OK).body(boxService.getAllElement(customerId));
+        return ResponseEntity.status(HttpStatus.OK).body(boxService.getGrpByCustomerId(customerId));
     }
 
     @PostMapping("/remove")
@@ -38,8 +40,20 @@ public abstract class BoxController<BoxService extends BoxServiceAbs> {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
         }
 
-        Object currentBasket = boxService.removeElement(addBasketElementRequest.getCustomerId(), addBasketElementRequest.getBoxElementId());
+        BoxGrpAbs currentBox = boxService.removeElement(addBasketElementRequest.getCustomerId(), addBasketElementRequest.getBoxElementId());
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(currentBasket);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(currentBox);
+    }
+
+
+    @PostMapping
+    public ResponseEntity<Object> addUpdateBox(@RequestBody @Valid AddUpdateRequest request, BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+
+        BoxGrpAbs currentBasket = boxService.addUpdateElement(request);
+        return ResponseEntity.status(HttpStatus.OK).body(currentBasket);
     }
 }

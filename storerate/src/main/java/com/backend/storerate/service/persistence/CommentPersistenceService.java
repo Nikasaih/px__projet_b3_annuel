@@ -1,6 +1,5 @@
 package com.backend.storerate.service.persistence;
 
-import com.backend.storerate.common.exception.EntityRelatedNotFoundExc;
 import com.backend.storerate.common.exception.EntityWithIdNotFoundExc;
 import com.backend.storerate.common.exception.IncorrectDtoForCreationExc;
 import com.backend.storerate.common.exception.IncorrectDtoForUpdateExc;
@@ -23,14 +22,14 @@ public class CommentPersistenceService {
     @Autowired
     StoreArticleService storeArticleService;
 
-    public CommentSqlEntity createOne(final CommentDto commentToCreateInDb) throws IncorrectDtoForCreationExc, EntityRelatedNotFoundExc {
+    public CommentSqlEntity createOne(final CommentDto commentToCreateInDb) throws IncorrectDtoForCreationExc {
         if (commentToCreateInDb.getId() != null) {
             throw new IncorrectDtoForCreationExc();
         }
         return persistEntity(commentToCreateInDb);
     }
 
-    public CommentSqlEntity updateOne(final CommentDto commentToUpdateInDb) throws IncorrectDtoForUpdateExc, EntityWithIdNotFoundExc, EntityRelatedNotFoundExc {
+    public CommentSqlEntity updateOne(final CommentDto commentToUpdateInDb) throws IncorrectDtoForUpdateExc, EntityWithIdNotFoundExc {
         if (commentToUpdateInDb.getId() == null) {
             throw new IncorrectDtoForUpdateExc();
         }
@@ -43,12 +42,12 @@ public class CommentPersistenceService {
         return persistEntity(commentToUpdateInDb);
     }
 
-    private CommentSqlEntity persistEntity(CommentDto commentToPersistInDb) throws EntityRelatedNotFoundExc {
+    private CommentSqlEntity persistEntity(CommentDto commentToPersistInDb) {
         CommentSqlEntity commentToSaveInSql;
         commentToSaveInSql = mapper.map(commentToPersistInDb, CommentSqlEntity.class);
 
         CommentSqlEntity commentSqlEntity = saveInSql(commentToSaveInSql);
-        storeArticleService.UpdateArticleGradeAndCustomerNumberByArticleId(commentToPersistInDb.getArticleId());
+        storeArticleService.updateArticleGradeAndCustomerNumberByArticleId(commentToPersistInDb.getArticleId());
         return commentSqlEntity;
     }
 

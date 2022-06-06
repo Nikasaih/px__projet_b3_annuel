@@ -16,8 +16,7 @@ public class RedirectionService {
 
         HttpEntity<T> entity = new HttpEntity<>(body, headers);
         try {
-            ResponseEntity<Object> successResponse = restTemplate.exchange(url, method, entity, Object.class);
-            return successResponse;
+            return restTemplate.exchange(url, method, entity, Object.class);
         } catch (HttpClientErrorException failureResponse) {
             return ResponseEntity.status(failureResponse.getStatusCode()).body(failureResponse.getResponseBodyAsString());
         }

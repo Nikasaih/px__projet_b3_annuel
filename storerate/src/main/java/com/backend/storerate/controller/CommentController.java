@@ -45,7 +45,7 @@ public class CommentController {
 
 
     @PostMapping
-    public ResponseEntity<?> createOne(@RequestBody @Valid final CommentDto commentToPersist, BindingResult result) {
+    public ResponseEntity<Object> createOne(@RequestBody @Valid final CommentDto commentToPersist, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);

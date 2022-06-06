@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class BasketService extends BoxServiceAbs<AddBasketElementRequest> {
+public class BasketService extends BoxServiceAbs<AddBasketElementRequest, BasketGrpSqlEntity> {
     @Autowired
     BasketGrpSqlRepository grpRepository;
     @Autowired
@@ -25,7 +25,7 @@ public class BasketService extends BoxServiceAbs<AddBasketElementRequest> {
     }
 
     @Override
-    public Object getAllElement(Long customerId) {
+    public BasketGrpSqlEntity getGrpByCustomerId(Long customerId) {
         Optional<BasketGrpSqlEntity> boxSqlEntity = grpRepository.findByCustomerId(customerId);
         if (boxSqlEntity.isEmpty()) {
             return grpRepository.save(generateNewBoxSqlEntity(customerId));
@@ -34,23 +34,21 @@ public class BasketService extends BoxServiceAbs<AddBasketElementRequest> {
     }
 
     @Override
-    public Object removeElement(Long customerId, Long articleId) {
-        BasketGrpSqlEntity allElementOfCustomer = (BasketGrpSqlEntity) getAllElement(customerId);
-        //     allElementOfCustomer.removeContentByArticleId(articleId);
+    public BasketGrpSqlEntity removeElement(Long customerId, Long articleId) {
+        BasketGrpSqlEntity allElementOfCustomer = getGrpByCustomerId(customerId);
         grpRepository.save(allElementOfCustomer);
 
         return allElementOfCustomer;
     }
 
     @Override
-    public Object addUpdateElement(AddBasketElementRequest newElReq) {
+    public BasketGrpSqlEntity addUpdateElement(AddBasketElementRequest newElReq) {
         ModelMapper mapper = new ModelMapper();
         BasketElementSqlEntity newBasketElement = mapper.map(newElReq, BasketElementSqlEntity.class);
-        BasketGrpSqlEntity allElementOfCustomer = (BasketGrpSqlEntity) getAllElement(newElReq.getCustomerId());
+        BasketGrpSqlEntity allElementOfCustomer = getGrpByCustomerId(newElReq.getCustomerId());
         newBasketElement.setGrpEntity(allElementOfCustomer);
         elementRepository.save(newBasketElement);
-        // allElementOfCustomer.getBoxElements().add(newBasketEl);
-        grpRepository.save(allElementOfCustomer);
-        return grpRepository.findAll();
+
+        return getGrpByCustomerId(newElReq.getCustomerId());
     }
 }
