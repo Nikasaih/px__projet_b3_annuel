@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public abstract class BoxElementRequest {
+public abstract class CustomerIdRequest {
     @NotNull(message = "customerId should not be null")
     private Long customerId;
 }

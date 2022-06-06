@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class AddBasketElementRequest extends BoxElementRequest {
+public class AddBasketElementRequest extends CustomerIdRequest {
     @NotNull(message = "boxEmb should not be null")
     private BoxElEmb boxEmb;
     @NotNull(message = "basketEmb should not be null")

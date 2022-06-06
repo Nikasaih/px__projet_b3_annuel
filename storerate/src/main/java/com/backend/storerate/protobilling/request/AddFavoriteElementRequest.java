@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class AddFavoriteElementRequest extends BoxElementRequest {
+public class AddFavoriteElementRequest extends CustomerIdRequest {
     @NotNull(message = "boxEmb should not be null")
     private BoxElEmb boxEmb;
 }

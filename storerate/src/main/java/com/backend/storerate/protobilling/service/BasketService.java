@@ -68,4 +68,8 @@ public class BasketService extends BoxServiceAbs<AddBasketElementRequest, Basket
 
         return allElementOfCustomer.addElement(newElement);
     }
+
+    public void clearBasket(Long customerId) {
+        grpRepository.delete(getGrpByCustomerId(customerId));
+    }
 }

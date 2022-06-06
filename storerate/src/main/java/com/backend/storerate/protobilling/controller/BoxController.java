@@ -1,6 +1,6 @@
 package com.backend.storerate.protobilling.controller;
 
-import com.backend.storerate.protobilling.request.BoxElementRequest;
+import com.backend.storerate.protobilling.request.CustomerIdRequest;
 import com.backend.storerate.protobilling.service.BoxServiceAbs;
 import com.backend.storerate.protobilling.sqlentity.nosqlentity.BoxGrpAbs;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class BoxController<
         BoxService extends BoxServiceAbs,
-        AddUpdateRequest extends BoxElementRequest,
-        RemoveBoxRequest extends BoxElementRequest> {
+        AddUpdateRequest extends CustomerIdRequest,
+        RemoveBoxRequest extends CustomerIdRequest> {
 
     @Autowired
     BoxService boxService;
