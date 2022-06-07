@@ -38,14 +38,32 @@ Solution de e-commerce backend réalisé lors de ma 3e année d'informatique
 
 **API:** Spring boot
 
-## Lien
+## Useful intellij plugin
+
+### Diagramme de classe
+
+[Plantuml intégrateur](https://plugins.jetbrains.com/plugin/7017-plantuml-integration)
+
+[Parser](https://plugins.jetbrains.com/plugin/15524-plantuml-parser)
+
+### Diagramme de sequence
+
+[Parser](https://plugins.jetbrains.com/plugin/8286-sequencediagram)
+
+### Autres
+
+[Lombok](https://plugins.jetbrains.com/plugin/6317-lombok)
+
+## Lien du projet
 
 - [API backend](https://github.com/Nikasaih/px__projet_b3_annuel)
 - [IHM mobile](https://github.com/Sroyart/project_kotlin)
 
 ## Deployment
 
-Pour lancer l'entièreté des microservices
+Pour lancer l'entièreté des microservices :
+
+- Lancer votre démon docker puis
 
 ```bat
   dockerInit.bat
