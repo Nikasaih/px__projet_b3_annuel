@@ -8,5 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class JwtDatagram extends PublicUserDataAbs {
+    private Long id;
     private AppUserRole appUserRole;
 }
