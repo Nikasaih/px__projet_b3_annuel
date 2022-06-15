@@ -4,6 +4,7 @@ import com.backend.storerate.aspect.TestBiding;
 import com.backend.storerate.protobilling.request.PaymentRequest;
 import com.backend.storerate.protobilling.service.PayementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,6 @@ public class PayController {
     public ResponseEntity<Object> pay(@RequestBody @Valid PaymentRequest request, BindingResult result) {
         payementService.pay(request);
 
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body("payment success");
     }
 }

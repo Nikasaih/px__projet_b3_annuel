@@ -3,3 +3,4 @@ docker rm -f elasticsearch3
 docker rm -f store
 docker rm -f gateway
 docker rm -f storerate
+docker rm -f imgmc
