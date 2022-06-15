@@ -9,28 +9,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/basket")
+@RequestMapping("/favorite")
 @Slf4j
-public class BasketController {
-    @Value("${microservices.imgmc}")
-    String imgmcRootUrl;
+public class FavoriteController {
+    @Value("${microservices.storerate}")
+    String storerateRootUrl;
     @Autowired
     RedirectionService redirectionService;
-    String redirectionControllerUrl = "/basket";
+    String redirectionControllerUrl = "/favorite";
 
 
     @GetMapping("/{customerId}")
     public ResponseEntity<Object> getCustomerBoxById(@PathVariable("customerId") Long customerId) {
-        return redirectionService.redirect(null, HttpMethod.GET, imgmcRootUrl + redirectionService + "/" + customerId);
+        return redirectionService.redirect(null, HttpMethod.GET, storerateRootUrl + redirectionService + "/" + customerId);
     }
 
     @PostMapping("/remove")
     public ResponseEntity<Object> removeElementFromBox(@RequestBody String jsonBody) {
-        return redirectionService.redirect(jsonBody, HttpMethod.POST, imgmcRootUrl + redirectionService + "/remove");
+        return redirectionService.redirect(jsonBody, HttpMethod.POST, storerateRootUrl + redirectionService + "/remove");
     }
 
     @PostMapping
     public ResponseEntity<Object> addUpdateBox(@RequestBody String jsonBody) {
-        return redirectionService.redirect(jsonBody, HttpMethod.POST, imgmcRootUrl + redirectionService);
+        return redirectionService.redirect(jsonBody, HttpMethod.POST, storerateRootUrl + redirectionService);
     }
 }

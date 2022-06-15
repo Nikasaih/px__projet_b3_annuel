@@ -5,22 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/pay")
-public class PayController {
+@RequestMapping("/bill")
+public class BillController {
     @Value("${microservices.storerate}")
     String storerateRootUrl;
     @Autowired
     RedirectionService redirectionService;
-    String redirectionControllerUrl = "/pay";
+    String redirectionControllerUrl = "/bill";
 
-    @PostMapping
-    public ResponseEntity<Object> pay(@RequestBody String jsonBody) {
-        return redirectionService.redirect(jsonBody, HttpMethod.POST, storerateRootUrl + redirectionControllerUrl);
+    @GetMapping
+    public ResponseEntity<Object> pay() {
+        return redirectionService.redirect(null, HttpMethod.GET, storerateRootUrl + redirectionControllerUrl);
     }
 }
