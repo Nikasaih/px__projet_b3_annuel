@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class RoleManagerController {
     UserRoleService userRoleService;
 
     @SuperadminRequired
+    @PostMapping("/grant/admin")
     public ResponseEntity<Object> grantAdmin(@RequestBody @Valid GrantRoleRequest grantRoleRequest, BindingResult result) {
         if (result.hasErrors()) {
             String errors = result.getAllErrors().toString();
@@ -36,6 +38,7 @@ public class RoleManagerController {
     }
 
     @AdminRequired
+    @PostMapping("/grant/store-manager")
     public ResponseEntity<Object> grantStoreManager(@RequestBody @Valid GrantRoleRequest grantRoleRequest, BindingResult result) {
         if (result.hasErrors()) {
             String errors = result.getAllErrors().toString();

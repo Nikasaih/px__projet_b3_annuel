@@ -35,11 +35,11 @@ public class ColorControllerTests {
     @BeforeEach
       void setup() {
         String baseUrl = "http://localhost:" + port;
-        CREATE_ONE_ROUTE = baseUrl + "/api/colors";
+        CREATE_ONE_ROUTE = baseUrl + "/colors";
         UPDATE_ONE_ROUTE = CREATE_ONE_ROUTE;
-        GET_ALL_ROUTE = baseUrl + "/api/colors";
-        GET_ONE_ROUTE = baseUrl + "/api/colors/";
-        DELETE_ONE_ROUTE = baseUrl + "/api/colors/{id}";
+        GET_ALL_ROUTE = baseUrl + "/colors";
+        GET_ONE_ROUTE = baseUrl + "/colors/";
+        DELETE_ONE_ROUTE = baseUrl + "/colors/{id}";
     }
 
     @Test

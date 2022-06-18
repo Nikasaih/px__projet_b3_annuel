@@ -11,14 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/comments")
 @Slf4j
 public class CommentRedirectionController {
     @Autowired
     RedirectionService redirectionService;
     @Value("${microservices.storerate}")
     String storerateRootUrl;
-    String redirectionControllerUrl = "/api/comments";
+    String redirectionControllerUrl = "/comments";
 
     @GetMapping
     public ResponseEntity<Object> getAll() {

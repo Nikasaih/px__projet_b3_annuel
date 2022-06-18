@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/elk")
+@RequestMapping("/elk")
 public class ElkRedirectionController {
     @Autowired
     RedirectionService redirectionService;
 
     @Value("${microservices.store}")
     String storeRootUrl;
-    String redirectionControllerUrl = "/api/elk";
+    String redirectionControllerUrl = "/elk";
 
     @PostMapping("/fuzzy")
     public ResponseEntity<Object> fuzzy(@RequestBody String jsonBody) {

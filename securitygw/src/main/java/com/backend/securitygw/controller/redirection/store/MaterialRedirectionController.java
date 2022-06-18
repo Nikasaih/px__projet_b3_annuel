@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/api/materials")
+@RequestMapping("/materials")
 @Slf4j
 public class MaterialRedirectionController {
     @Autowired
@@ -26,7 +26,7 @@ public class MaterialRedirectionController {
     UserRoleService userRoleService;
     @Value("${microservices.store}")
     String storeRootUrl;
-    String redirectionControllerUrl = "/api/materials";
+    String redirectionControllerUrl = "/materials";
 
     @GetMapping
     public ResponseEntity<String> getAll() {

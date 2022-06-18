@@ -35,11 +35,11 @@ public class ArticleControllerTests {
     @BeforeEach
     void setup() {
         String baseUrl = "http://localhost:" + port;
-        CREATE_ONE_ROUTE = baseUrl + "/api/articles";
+        CREATE_ONE_ROUTE = baseUrl + "/articles";
         UPDATE_ONE_ROUTE = CREATE_ONE_ROUTE;
-        GET_ALL_ROUTE = baseUrl + "/api/articles";
-        GET_ONE_ROUTE = baseUrl + "/api/articles/";
-        DELETE_ONE_ROUTE = baseUrl + "/api/articles/{id}";
+        GET_ALL_ROUTE = baseUrl + "/articles";
+        GET_ONE_ROUTE = baseUrl + "/articles/";
+        DELETE_ONE_ROUTE = baseUrl + "/articles/{id}";
     }
 
     @Test

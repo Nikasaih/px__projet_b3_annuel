@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/articles")
+@RequestMapping("/articles")
 @Slf4j
 public class ArticleController {
     @Autowired

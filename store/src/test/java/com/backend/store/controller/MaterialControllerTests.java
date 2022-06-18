@@ -35,11 +35,11 @@ public class MaterialControllerTests {
     @BeforeEach
       void setup() {
         String baseUrl = "http://localhost:" + port;
-        CREATE_ONE_ROUTE = baseUrl + "/api/materials";
+        CREATE_ONE_ROUTE = baseUrl + "/materials";
         UPDATE_ONE_ROUTE = CREATE_ONE_ROUTE;
-        GET_ALL_ROUTE = baseUrl + "/api/materials";
-        GET_ONE_ROUTE = baseUrl + "/api/materials/";
-        DELETE_ONE_ROUTE = baseUrl + "/api/materials/{id}";
+        GET_ALL_ROUTE = baseUrl + "/materials";
+        GET_ONE_ROUTE = baseUrl + "/materials/";
+        DELETE_ONE_ROUTE = baseUrl + "/materials/{id}";
     }
 
     @Test

@@ -35,11 +35,11 @@ public class CategoryControllerTests {
     @BeforeEach
     void setup() {
         String baseUrl = "http://localhost:" + port;
-        CREATE_ONE_ROUTE = baseUrl + "/api/categories";
+        CREATE_ONE_ROUTE = baseUrl + "/categories";
         UPDATE_ONE_ROUTE = CREATE_ONE_ROUTE;
-        GET_ALL_ROUTE = baseUrl + "/api/categories";
-        GET_ONE_ROUTE = baseUrl + "/api/categories/";
-        DELETE_ONE_ROUTE = baseUrl + "/api/categories/{id}";
+        GET_ALL_ROUTE = baseUrl + "/categories";
+        GET_ONE_ROUTE = baseUrl + "/categories/";
+        DELETE_ONE_ROUTE = baseUrl + "/categories/{id}";
     }
 
     @Test

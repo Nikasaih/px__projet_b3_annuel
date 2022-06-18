@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/colors")
+@RequestMapping("/colors")
 @Slf4j
 @AllArgsConstructor
 public class ColorController {

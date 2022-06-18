@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/api/colors")
+@RequestMapping("/colors")
 @Slf4j
 public class ColorRedirectionController {
     @Autowired
@@ -27,7 +27,7 @@ public class ColorRedirectionController {
     UserRoleService userRoleService;
     @Value("${microservices.store}")
     String storeRootUrl;
-    String redirectionControllerUrl = "/api/colors";
+    String redirectionControllerUrl = "/colors";
 
     @GetMapping
     public ResponseEntity<String> getAll() {

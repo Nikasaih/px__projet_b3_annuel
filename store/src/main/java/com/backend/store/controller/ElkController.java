@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/elk")
+@RequestMapping("/elk")
 public class ElkController {
     @Autowired
     ElkServices elkServices;
