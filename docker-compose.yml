@@ -32,8 +32,17 @@ services:
     container_name: storerate
     build: ./storerate
     expose: ["8083"]
+    ports:
+      - 8083:8083
     depends_on:
       - mysql_db
+
+  imgmc:
+    container_name: imgmc
+    build: ./imgmc
+    volumes:
+      - ./database/img:/usr/share/img
+    expose: ["8084"]
 
   #Securitygw microservice
   securitygw:
@@ -46,6 +55,8 @@ services:
       - mysql_db
       - storerate
       - store
+      - imgmc
+
   #---------------------------
   #DATABASES
   #---------------------------
@@ -69,10 +80,10 @@ services:
     volumes:
       - ./database/sql:/usr/share/elasticsearch/data
     expose: ["9300"]
+
   #---------------------------
   #MONITORING
   #---------------------------
-
   #CADVISOR
   cadvisor:
     container_name: cadvisor

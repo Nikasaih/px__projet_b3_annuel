@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class ImgService {
     Pattern pattern = Pattern.compile(".(png|jpg)$");
-    private String imgDirPath = "C:\\Users\\dchad\\code\\sup-de-vinci\\b3projet\\px__projet_b3_annuel\\imgmc\\imgDir";
+    private String imgDirPath = "/usr/share/img";
 
     public Object saveImg(MultipartFile file) throws IOException, ImgExtensionNotAllowedExc {
         String filename = file.getResource().getFilename();
