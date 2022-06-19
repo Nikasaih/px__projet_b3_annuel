@@ -3,6 +3,7 @@ package com.backend.store.controller;
 import com.backend.store.common.exception.EntityWithIdNotFoundExc;
 import com.backend.store.dataobject.dto.ArticleDto;
 import com.backend.store.dataobject.request.ChangeArticleGradeRequest;
+import com.backend.store.dataobject.request.GetArticlesByIdsRequest;
 import com.backend.store.dataobject.sqlentity.ArticleSqlEntity;
 import com.backend.store.dataobject.sqlrepository.ArticleSqlRepository;
 import com.backend.store.service.delete.ArticleDeleteService;
@@ -44,6 +45,14 @@ public class ArticleController {
         return ResponseEntity.status(HttpStatus.OK).body(entityFound.get());
     }
 
+    @PostMapping("/grp")
+    public ResponseEntity<?> getByIds(@RequestBody @Valid final GetArticlesByIdsRequest getArticlesByIds, BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errors = result.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(articleSqlRepository.findAllById(getArticlesByIds.getArticleIds()));
+    }
 
     @PostMapping
     public ResponseEntity<?> createOne(@RequestBody @Valid final ArticleDto articleToPersist, BindingResult result) {
