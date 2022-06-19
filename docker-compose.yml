@@ -14,6 +14,7 @@ services:
       - 443:443
     depends_on:
       - securitygw
+      - grafana
 
   #---------------------------
   #MICROSERVICES (API)
@@ -69,6 +70,54 @@ services:
     volumes:
       - ./database/sql:/usr/share/elasticsearch/data
     expose: ["9300"]
-#---------------------------
-#MONITORING
-#---------------------------
+  #---------------------------
+  #MONITORING
+  #---------------------------
+
+  #CADVISOR
+  cadvisor:
+    container_name: cadvisor
+    image: gcr.io/cadvisor/cadvisor:latest
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:rw
+      - /var/lib/docker:/var/lib/docker:ro
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    depends_on:
+      - nginx
+
+  #PROMETHEUS
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+
+  #GRAFANA
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./monitoring/grafana/grafana.ini:/etc/grafana.ini
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/data:/var/lib/grafana
+    user: "1000"
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
