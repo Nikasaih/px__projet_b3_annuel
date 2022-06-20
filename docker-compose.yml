@@ -37,6 +37,7 @@ services:
     depends_on:
       - mysql_db
 
+  #imgmc microservice
   imgmc:
     container_name: imgmc
     build: ./imgmc

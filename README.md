@@ -4,7 +4,7 @@ Solution de e-commerce backend réalisé lors de ma 3e année d'informatique
 
 ## Features
 
-### Security
+### Securité
 
 - Inscription (avec validation d'email)
 - Connection
@@ -23,22 +23,24 @@ Solution de e-commerce backend réalisé lors de ma 3e année d'informatique
 - Panier
 - Facture
 
-## Lessons Learned
+### Gestion d'images
+
+## Ce que j'ai appris
 
 - Spring boot
-- Aspect oriented programming
 - Elastic search
-- Docker
+- Docker - Docker-compose
 - Postman
-- Object oriented programming
+- Programmation orientée objet
+- Programmation orientée aspect
 
-## Tech Stack
+## Stack technique
 
 **Mobile:** Kotlin
 
 **API:** Spring boot
 
-## Useful intellij plugin
+## Plugin intellij utilisés
 
 ### Diagramme de classe
 
@@ -59,16 +61,16 @@ Solution de e-commerce backend réalisé lors de ma 3e année d'informatique
 - [API backend](https://github.com/Nikasaih/px__projet_b3_annuel)
 - [IHM mobile](https://github.com/Sroyart/project_kotlin)
 
-## Deployment
+## Déploiement
 
 Pour lancer l'entièreté des microservices :
 
 - Lancer votre démon docker puis
 
 ```bat
-  dockerInit.bat
+  docker compose up -d
 ```
 
-## Authors
+## Auteur
 
 - [@Guillaume C](https://www.github.com/Nikasaih)
