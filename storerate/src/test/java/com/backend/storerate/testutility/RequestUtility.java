@@ -1,8 +1,8 @@
 package com.backend.storerate.testutility;
 
-import com.backend.storerate.protobilling.request.AddBasketElementRequest;
-import com.backend.storerate.protobilling.request.RemoveFavoriteElementRequest;
-import com.backend.storerate.protobilling.sqlentity.BasketElementSqlEntity;
+import com.backend.storerate.dataobject.request.AddBasketElementRequest;
+import com.backend.storerate.dataobject.request.RemoveFavoriteElementRequest;
+import com.backend.storerate.dataobject.sqlentity.BasketElementSqlEntity;
 
 public final class RequestUtility {/*
     public static AddFavoritesElementRequest defaultAddFavoritesElementRequest() {
